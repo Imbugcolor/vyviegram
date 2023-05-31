@@ -1,7 +1,6 @@
 const Users = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const passport = require('passport') 
 const { OAuth2Client } = require("google-auth-library")
 
 const client = new OAuth2Client(
@@ -9,6 +8,10 @@ const client = new OAuth2Client(
     `${process.env.GOOGLE_CLIENT_SECRET}`,
     'postmessage',
 )
+
+const clientID = `${process.env.GITHUB_CLIENT_ID}`
+
+const clientSecret = `${process.env.GITHUB_CLIENT_SECRET}`
 
 const authCtrl = {
     register: async(req, res) => {
@@ -97,7 +100,7 @@ const authCtrl = {
                 } else {
                     const user = {
                         fullname: name,
-                        username: email, 
+                        username: email.slice(0, -10), 
                         email, 
                         password: passwordHash,
                         avatar: picture, 
@@ -111,46 +114,57 @@ const authCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
-    githubAuth: async (req, res) => {
+    githubLogin: async (req, res) => {
         try {
+     
+            const { code } = req.body;
 
-           const { username, displayName, photos } = req.user
+            const URL = `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${code}`
+         
+            const data = await fetch(URL, {
+                method: 'POST',
+                body: JSON.stringify(code),
+                headers: { 'accept': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(res => { return res })
 
-           const newEmail = `${username.toLowerCase()}@github.com`
+            const { access_token } = data;
 
-           const password = newEmail + 'your google secret password'
+            if(!access_token) return res.status(400).json({msg: 'Github Authentication failed.'})
 
-           const passwordHash = await bcrypt.hash(password, 12)
+            
+            const result = await fetch(`https://api.github.com/user`, {
+                headers: {
+                    'Authorization': `token ${access_token}`
+                }
+            })
+            .then(res => res.json())
+            .then(res => { return res })
 
-           const user = await Users.findOne({email: newEmail})
+            const { avatar_url, name, login } = result
+
+            const newEmail = `${login.toLowerCase()}@github.com`
+
+            const password = newEmail + 'your google secret password'
+
+            const passwordHash = await bcrypt.hash(password, 12)
+
+            const user = await Users.findOne({email: newEmail})
 
                 if (user) {
                     loginUser(user, password, res)
                 } else {
                     const user = {
-                        fullname: displayName,
-                        username: username, 
+                        fullname: name,
+                        username: login, 
                         email: newEmail, 
                         password: passwordHash,
-                        avatar: photos[0].value, 
+                        avatar: avatar_url, 
                         typeRegister: 'github'
                     }
                     registerUser(user, res)
                 }
-
-        } catch (err) {
-            return res.status(500).json({msg: err.message})
-        }
-    },
-    githubCallback: async (req, res) => {
-        try {
-           
-            passport.authenticate('auth-github', {
-                scope: ['user:email'],
-                session: false
-            })
-
-            res.json(req.user)
 
         } catch (err) {
             return res.status(500).json({msg: err.message})
@@ -247,7 +261,7 @@ const registerUser = async (user, res) => {
     await newUser.save()
 
     res.json({
-        msg: 'Register Success!',
+        msg: 'Login Success!',
         access_token, 
         user: {
             ...newUser._doc,
