@@ -3,16 +3,22 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const passport = require('passport')
+require('./middleware/github')
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
+app.use(passport.initialize())
 
 app.get('/', (req, res) => {
     res.json({msg: 'Hello'})
 })
+
+//Routes
+app.use('/api', require('./routes/authRouter'))
 
 // Connect MongoDB
 const URI = process.env.MONGODB_URL
