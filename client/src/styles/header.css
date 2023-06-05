@@ -1,3 +1,4 @@
+@import url(./variables.css);
 .header{
     width: 100%;
     min-height: 70px;
@@ -37,7 +38,7 @@
     position: relative;
 }
 .header .search_form #search{
-    background: #fafafa;
+    background: var(--background);
     border: 1px solid #ddd;
     min-width: 250px;
     width:100%;
@@ -69,7 +70,7 @@
     position: absolute;
     width: 100%;
     min-width: 250px;
-    background: #fafafa;
+    background: var(--background);
     max-height: calc(100vh - 150px);
     overflow: auto;
     margin-top: 3px;
@@ -81,4 +82,45 @@
     width: 15px;
     height: 15px;
     transform: translateY(-50%);
+}
+.header .search_form .user{
+    position: absolute;
+    width: 100%;
+    min-width: 250px;
+    background: var(--background);
+    max-height: auto;
+    overflow: auto;
+    margin-top: 3px;
+}
+/* Responsive */
+
+@media (max-width: 768px) {
+    .header .menu{
+        
+        position:fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: 0 0 10px #ddd;
+    }
+    .header .menu .navbar-nav{
+        display:flex;
+        justify-content:space-around;
+        align-items:center
+    }
+    .header .menu .dropdown-menu{
+        bottom: 100%;
+        top: auto;
+    }
+    .header .search_form{
+        width: 100%;
+    }
+    .header .logo{
+        margin: auto;
+        font-size: 1rem;
+    }
+    .header .logo h1{
+        font-size: 1.5rem;
+        /* color: var(--red); */
+    }
 }
