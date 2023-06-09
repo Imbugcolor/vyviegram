@@ -3,10 +3,13 @@ import {useParams} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Avatar from "../Avatar"
 import { getProfileUsers } from '../../redux/actions/profileAction'
+import EditProfile from './EditProfile'
+import FollowBtn from '../FollowBtn'
 const Info = () => {
   const {id} = useParams()
   const {auth, profile} = useSelector(state => state)
   const dispatch = useDispatch()
+  const [onEdit, setOnEdit] = useState(false);
 
   const [userData, setUserData] = useState([]);
   console.log(userData)
@@ -19,6 +22,7 @@ const Info = () => {
       setUserData(newData)
     }
   }, [id, auth, dispatch, profile.users]);
+
   return (
     <div className="info">
       {
@@ -27,10 +31,20 @@ const Info = () => {
               <Avatar src={user.avatar} size="supper-avatar" />
               <div className="info_content">
                 <div className="info_content_title">
+                  
                   <h2>{user.username}</h2>
-                  <button className="btn btn-outline-info">
-                      Edit Profile
-                  </button>
+                  {
+                   
+                    user._id === auth.user._id
+                    ?
+                    <button className="btn btn-outline-info"
+                    onClick={() => setOnEdit(true)}
+                    >
+                        Edit Profile
+                    </button>
+                    : <FollowBtn/>
+                  }
+                 
                 </div>
                 <div className="follow_btn">
                   <span className="mr-4">
@@ -50,6 +64,13 @@ const Info = () => {
                 </a>
                 <p>{user.story}</p>
               </div>
+
+              {
+                onEdit && <EditProfile 
+               
+                setOnEdit={setOnEdit}
+                />
+              }
           </div>
         ))
       }
