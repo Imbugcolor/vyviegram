@@ -56,9 +56,9 @@ const Info = () => {
                   </span>
                   
                 </div>
-                <h6>{user.fullname} {user.mobile}</h6>
+                <h6>{user.fullname} <span className='text-danger'>{user.mobile}</span></h6>
                 <p className="m-0">{user.address}</p>
-                <h6>{user.email}</h6>
+                <h6 className="m-0">{user.email}</h6>
                 <a href={user.website} target="_blank" rel="noreferrer">
                   {user.website}
                 </a>
