@@ -3,3 +3,17 @@ export const GLOBALTYPES = {
     ALERT: "ALERT",
     THEME: "THEME"
 }
+export const EditData = (data, id, post) => {
+    const newData = data.map(item => 
+        (item._id === id ? post : item)
+    )
+    return newData;
+}
+// export const DeleteDAta = (data, id) => {
+//     const newDAta = data.filter(item => item._id !== id)
+//     return newDAta;
+// }
+export const DeleteData = (data, id) => {
+    const newData = data.filter(item => item._id !== id)
+    return newData;
+}
