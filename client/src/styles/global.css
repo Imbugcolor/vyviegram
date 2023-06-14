@@ -1,47 +1,56 @@
 * {
-    padding:0;
-    box-sizing: border-box;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  padding:0;
+  box-sizing: border-box;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-  #theme{
-    display: none;
-  }
-  #theme:checked ~ .App{
-    filter: invert(1)
-  }
-  .App{
-    min-height: 100vh;
-    width: 100%;
-    background: #fff;
-  }
-  .main{
-    max-width: 1000px;
-    width:  100%;
-    margin: auto;
-  }
-  img{
-    object-fit: cover;
-  }
- 
-  /* AUTH */
-  @import url("./auth.css");
-  /* LOADING */
-  @import url("./loading.css");
-  /* Header */
-  @import url("./loading.css");
-  /* AVATAR */
-  @import url("./avatar.css");
-  /* HEADER */
-  @import url("./header.css");
-  /* PROFILE */
-  @import url("./profile.css");
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#theme{
+  display: none;
+}
+
+#theme:checked ~ .App{
+  filter: invert(1)
+}
+
+.App{
+  min-height: 100vh;
+  width: 100%;
+  background: #fff;
+}
+
+.main{
+  max-width: 1000px;
+  width:  100%;
+  margin: auto;
+}
+
+img{
+  object-fit: cover;
+}
+
+/* AUTH */
+@import url("./auth.css");
+/* LOADING */
+@import url("./loading.css");
+/* Header */
+@import url("./loading.css");
+/* AVATAR */
+@import url("./avatar.css");
+/* HEADER */
+@import url("./header.css");
+/* PROFILE */
+@import url("./profile.css");
+/* HOME */
+@import url("./home.css");
+/* STATUS MODAL */
+@import url("./status_modal.css");
