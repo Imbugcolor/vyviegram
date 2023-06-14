@@ -5,7 +5,7 @@ import { follow, unfollow } from '../redux/actions/profileAction'
 const FollowBtn = ({user}) => {
     const [followed, setFollowed] = useState(false)
 
-    const { auth, profile} = useSelector(state => state)
+    const { auth, profile, theme } = useSelector(state => state)
     const dispatch = useDispatch()
 
     const [load, setLoad] = useState(false)
@@ -41,17 +41,20 @@ const FollowBtn = ({user}) => {
 
     return (
         <>
-        {
-            followed
-            ? <button className="btn btn-outline-danger"
-            onClick={handleUnFollow}>
-                UnFollow
-            </button>
-            : <button className="btn btn-outline-info"
-            onClick={handleFollow}>
-                Follow
-            </button>
-        }
+            {
+                followed ? 
+                <button className='btn_user btn__unfollow'
+                onClick={handleUnFollow}
+                style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
+                >
+                    Following
+                </button> :
+                <button className='btn_user btn__follow'
+                onClick={handleFollow}
+                style={{filter: theme ? 'invert(1)' : 'invert(0)'}}>
+                    Follow
+                </button>
+            }
         </>
     )
 }

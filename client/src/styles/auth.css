@@ -30,3 +30,24 @@
     cursor: pointer;
     opacity: 0.5;
 }
+
+.auth_page .auth_btn {
+    box-shadow: 0 0 10px rgb(0 0 0 / 5%);
+    border: 1px solid #e3e3e3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 7px 0;
+}
+
+.auth_page .github_auth_btn {
+    background: #000;
+    color: #fff;
+}
+
+.auth_page .auth_btn svg {
+    font-size: 32px;
+}
+

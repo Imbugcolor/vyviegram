@@ -68,8 +68,10 @@ const authCtrl = {
 
             if(!user) return res.status(400).json({msg: "This email does not exists."})
 
-           //if user exists
-           loginUser(user, password, res)
+            if(user.typeRegister !== 'normal') return res.status(400).json({msg: `This account login with ${user.typeRegister}`})
+
+            //if user exists
+            loginUser(user, password, res)
             
         } catch (err) {
             return res.status(500).json({msg: err.message})

@@ -1,0 +1,16 @@
+.carousel .carousel-indicators li {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.carousel .image__display {
+    max-height: 700px;
+}
+
+.carousel .image__display video,
+.carousel .image__display img {
+    height: 100%;
+    object-fit: cover;
+}
+

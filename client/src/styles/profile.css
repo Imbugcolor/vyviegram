@@ -1,45 +1,98 @@
 @import url(variables.css);
 /* info */
-.info{
-    width:100%;
-    min-width: 800px;
+
+.profile {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ------------ INFO ------------- */
+
+.info {
+    width: 100%;
+    max-width: 800px;
     margin: auto;
     padding: 20px 10px;
 }
-.info_container{
+
+.info_container {
     display: flex;
-    justify-content:center;
+    justify-content: space-around;
     flex-wrap: wrap;
 }
-.info_content{
-    min-width:250px;
+
+.info_content {
+    min-width: 250px;
     max-width: 550px;
     width: 100%;
-    flex:1;
-    opacity: 0.7;
+    flex: 1;
     margin: 0 15px;
 }
-.info_content_title{
+
+.info_content_title {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    margin-bottom: 25px;
+}
 
-}
-.info_content_title h2{
+.info_content_title h2 {
     font-size: 2rem;
-    font-weight: 400;
     transform: translateY(4px);
-    flex: 3;
+    flex: 3 1;
+    font-size: 20px;
 }
-.info_content_title button{
-    flex:2;
+
+.btn_user {
+    border: none;
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 500;
 }
-.info_container .follow_btn{
-    color: teal;
+
+.info_content h6, .info_content p {
+    font-size: 15px;
+}
+
+.bio__profile {
+    font-size: 15px;
+    padding: 15px 0;
+}
+
+.follow_btn {
+    margin: 15px 0;
+}
+
+.btn__follow {
+    color: #fff;
+    background-color: #0095F6;
     cursor: pointer;
 }
-.info_container .follow_btn span:hover{
-    text-decoration: underline;
+
+.btn__unfollow:hover {
+    background-color: #dbdbdb;
+}
+
+.btn__follow:hover {
+    background-color: #1877f2;
+}
+
+.info_content .follow_btn span {
+    cursor: pointer;
+}
+
+.edit__profile_btn {
+    background: #efefef;
+    border: none;
+    color: #000;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    height: 29px;
+    padding: 17px 25px;
+    display: flex;
+    align-items: center;
 }
 
 /* PROFILE EDIT */
@@ -142,3 +195,4 @@
     font-size: 3rem;
     cursor: pointer;
 }
+

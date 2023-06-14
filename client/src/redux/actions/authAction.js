@@ -35,6 +35,73 @@ export const login = (data) => async (dispatch) => {
     }
 }
 
+export const googleLogin = (code) => async(dispatch) => {
+    try {
+        dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}})
+        
+        const res = await postDataAPI('google_login', { code })
+
+        dispatch({
+            type: GLOBALTYPES.AUTH, 
+            payload: {
+                token: res.data.access_token,
+                user: res.data.user
+            }
+        })
+
+        localStorage.setItem('firstLogin', true)
+
+        dispatch({
+            type: GLOBALTYPES.ALERT, 
+            payload: {
+                success: res.data.msg
+            }
+        })
+
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.ALERT, 
+            payload: {
+                error: err.response.data.msg
+            }
+        })
+    }
+}
+
+export const githubLogin = (code) => async(dispatch) => {
+    try {
+        dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}})
+        
+        const res = await postDataAPI('github_login', { code })
+       
+
+        dispatch({
+            type: GLOBALTYPES.AUTH, 
+            payload: {
+                token: res.data.access_token,
+                user: res.data.user
+            }
+        })
+
+        localStorage.setItem('firstLogin', true)
+
+        dispatch({
+            type: GLOBALTYPES.ALERT, 
+            payload: {
+                success: res.data.msg
+            }
+        })
+
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.ALERT, 
+            payload: {
+                error: err.response.data.msg
+            }
+        })
+    }
+}
+
 
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")

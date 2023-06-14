@@ -39,7 +39,7 @@ const Info = () => {
                       <h2>{user.username}</h2>
                       {
                         user._id === auth.user._id
-                        ?  <button className="btn btn-outline-info"
+                        ?  <button className="edit__profile_btn"
                         onClick={() => setOnEdit(true)}>
                             Edit Profile
                         </button>

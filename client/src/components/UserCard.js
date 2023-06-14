@@ -11,9 +11,9 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
   return (
     <div className={`d-flex p-2 align-items-center justify-content-between ${border}`}>
         <div>
-          <Link to={`/profile/${user._id}`} className="d-flex align-items-center"  onClick={handleCloseAll}>
+          <Link to={`/profile/${user._id}`} className="d-flex align-items-center"  onClick={handleCloseAll} style={{textDecoration: 'none'}}>
             <Avatar src={user.avatar} size="big-avatar"/>
-            <div className="ml-1" style={{transform: 'translate(-2px)'}}>
+            <div className="ml-2" style={{transform: 'translate(-2px)'}}>
                 <span className="d-block">{user.username}</span>
                 <small style={{opacity:0.7}}>{user.fullname}</small>
             </div>
