@@ -12,7 +12,11 @@ const Header = () => {
         <div className="header bg light" >
             <nav className="navbar navbar-expand-lg navbar-light bg-light justify-content-between align-middle">
                 <Link to="/" className="logo">
-                    <img src={TextBrand} alt="vyviegram_logo" style={{width: '100%', height: '30px', filter: theme ? 'invert(1)' : 'invert(0)'}}/>
+                    {/* <img src={TextBrand} alt="vyviegram_logo" style={{width: '100%', height: '30px', filter: theme ? 'invert(1)' : 'invert(0)'}}/> */}
+                    <h1 className="navbar-brand text-uppercase p-0 m-0"
+                    onClick={() => window.scrollTo({top: 0})}>
+                        <img src={TextBrand} alt="vyviegram_logo" style={{width: '100%', height: '30px', filter: theme ? 'invert(1)' : 'invert(0)'}}/>
+                    </h1>
                 </Link>
                 <Search/>
                 <Menu/>   
