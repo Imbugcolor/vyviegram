@@ -54,6 +54,8 @@ img{
 @import url("./home.css");
 /* STATUS MODAL */
 @import url("./status_modal.css");
+/* Comments */
+@import url("./comments.css");
 /* CAROUSEL */
 @import url("./carousel.css");
 
