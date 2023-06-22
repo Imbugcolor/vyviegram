@@ -1,9 +1,14 @@
 import React from 'react'
+import CommentDisplay from './comments/CommentDisplay'
 
-const Comments = () => {
+const Comments = ({post}) => {
   return (
-    <div>
-      <h2>Commnents</h2>
+    <div className="comments">
+      {
+        post.comments.map(comment => (
+          <CommentDisplay key={comment._id} comment={comment} post={post}/>
+        ))
+      }
     </div>
   )
 }
