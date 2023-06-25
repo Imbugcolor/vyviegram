@@ -15,7 +15,7 @@ const InputComment = ({children, post}) => {
       user: auth.user,
       createdAt: new Date().toISOString()
     }
-    dispatch(createComment(post, newComment, auth))
+    dispatch(createComment({post, newComment, auth}))
     }
   return (
     <form className="card-footer comment_input" onSubmit={handleSubmit}> 
