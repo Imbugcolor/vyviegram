@@ -3,10 +3,10 @@ const Posts = require('../models/postModel')
 const commentCtrl = {
     createComment: async (req, res) => {
         try {
-            const { postId, content, tag, reply } = req.body
+            const { postId, content, tag, reply, postUserId } = req.body
 
             const newComment = new Comments({
-                user: req.user._id, content, tag, reply
+                user: req.user._id, content, tag, reply, postUserId, postId
             })
 
             await Posts.findOneAndUpdate({_id: postId}, {
@@ -66,6 +66,27 @@ const commentCtrl = {
             return res.status(500).json({ msg: err.message })
         }
     },
+    deleteComment: async (req, res) => {
+        try {
+            // Delete comment of comment model
+            const comment = await Comments.findOneAndDelete({
+                _id: req.params.id,
+                $or: [
+                    {user: req.user._id},
+                    {postUserId: req.user_id}
+                ]
+            })
+
+            // Delete comment in comments field of post model
+            await Posts.findOneAndUpdate({_id: comment.postId}, {
+                $pull: { comments: req.params.id }
+            })
+
+            res.json({msg: 'Deleted Comment.'})
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })          
+        }
+    }
 }
 
 module.exports = commentCtrl
