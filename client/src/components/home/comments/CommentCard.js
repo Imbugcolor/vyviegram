@@ -6,7 +6,8 @@ import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
 import CommentMenu from './CommentMenu'
 import { likeComment, unLikeComment, updateComment } from '../../../redux/actions/commentAction'
-const CommentCard = ({comment, post}) => {
+import InputComment from '../InputComment'
+const CommentCard = ({children, comment, post, commentId}) => {
   const dispatch = useDispatch()
   const {auth} = useSelector(state => state)
   const [content, setContent] = useState('')
@@ -14,9 +15,11 @@ const CommentCard = ({comment, post}) => {
   const [isLike, setIsLike] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
   const [loadLike, setLoadLike] = useState(false)
+  const [onReply, setOnReply] = useState(false)
   useEffect(() => {
       setContent(comment.content)
       setIsLike(false)
+      setOnReply(false)
       if(comment.likes.find(like => like._id === auth.user._id)){
         setIsLike(true)
       }
@@ -47,6 +50,11 @@ const CommentCard = ({comment, post}) => {
     await dispatch(unLikeComment({comment, post, auth}))
     setLoadLike(false)
   }
+  const handleReply = () => {
+    if(onReply) return setOnReply(false)
+    setOnReply({...comment, commentId})
+    //  setOnReply(true)
+}
   const styleCard = {
     opacity: comment._id ? 1 : 0.5,
     pointerEvents: comment._id ? 'inherit' : 'none'
@@ -66,21 +74,27 @@ const CommentCard = ({comment, post}) => {
               />
               :
               <div>
-              <span>
                 {
-                  content.length < 100 ? content :
-                  readMore ? content + '' : content.slice(0,100) + '...'
+                  comment.tag && comment.tag._id !== comment.user._id &&
+                  <Link to={`/profile/${comment.tag._id}`} className="mr-1">
+                      @{comment.tag.username}
+                  </Link>
                 }
-              </span>
-              {
-                content.length > 100 && 
-                <span className="readMore" onClick={() => setReadMore(!readMore)}>
+                <span>
                   {
-                    readMore ? ' Hide content' : 'Read more'
+                    content.length < 100 ? content :
+                    readMore ? content + '' : content.slice(0,100) + '...'
                   }
                 </span>
-              }
-            </div>
+                {
+                  content.length > 100 && 
+                  <span className="readMore" onClick={() => setReadMore(!readMore)}>
+                    {
+                      readMore ? ' Hide content' : 'Read more'
+                    }
+                  </span>
+                }
+              </div>
             }
             
             <div style={{cursor:'pointer'}}>
@@ -108,9 +122,10 @@ const CommentCard = ({comment, post}) => {
                         cancel
                      </small>
                     </>
-                  :  <small className='font-weight-bold mr-3'>
-                        reply
-                     </small>
+                  :  <small className="font-weight-bold mr-3"
+                         onClick={handleReply}>
+                      {onReply ? 'cancel' :'reply'}
+                  </small>
                 }
 
                
@@ -118,10 +133,20 @@ const CommentCard = ({comment, post}) => {
           
           </div>
           <div className='d-flex align-items-center mr-2' style={{cursor: 'pointer'}}>
-            <CommentMenu post={post} comment={comment} auth = {auth} setOnEdit={setOnEdit}/>
+            <CommentMenu post={post} comment={comment} setOnEdit={setOnEdit}/>
             <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike}/>
           </div>
         </div>
+        {
+                onReply &&
+                <InputComment post={post} onReply={onReply} setOnReply={setOnReply} >
+                    <Link to={`/profile/${onReply.user._id}`} className="mr-1">
+                        @{onReply.user.username}:
+                    </Link>
+                </InputComment>
+            }
+
+            {children}
    </div>
   )
 }

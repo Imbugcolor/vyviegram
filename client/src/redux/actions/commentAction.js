@@ -1,4 +1,4 @@
-import { patchDataAPI, postDataAPI } from "../../utils/fetchData"
+import { deleteDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData"
 import { DeleteData, EditData, GLOBALTYPES } from "./globalTypes"
 import { POST_TYPES } from "./postAction"
 
@@ -7,7 +7,7 @@ export const createComment = ({post, newComment, auth}) => async (dispatch) => {
     
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
    try {
-        const data = {...newComment, postId: post._id}
+        const data = {...newComment, postId: post._id, postUserId: post.user._id}
         const res = await postDataAPI('comment', data, auth.token)
         const newData = {...res.data.newComment, user: auth.user}
         const newPost = {...post, comments: [...post.comments, newData]}
@@ -62,3 +62,33 @@ export const unLikeComment = ({comment, post, auth}) => async (dispatch) => {
          dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
      }
  }
+ export const deleteComment = ({post, comment, auth}) => async (dispatch) => {
+    const deleteArr = [...post.comments.filter(cm => cm.reply === comment._id), comment]
+    
+    const newPost = {
+        ...post,
+        comments: post.comments.filter(cm => !deleteArr.find(da => cm._id === da._id))
+    }
+
+    dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
+
+    // socket.emit('deleteComment', newPost)
+    try {
+       deleteArr.forEach(item => {
+            deleteDataAPI(`comment/${item._id}`, auth.token)
+
+            // const msg = {
+            //     id: item._id,
+            //     text: comment.reply ? 'mentioned you in a comment.' : 'has commented on your post.',
+            //     recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+            //     url: `/post/${post._id}`,
+            // }
+    
+            // dispatch(removeNotify({msg, auth}))
+       })
+    } catch (err) {
+        dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
+    }
+
+}
+
