@@ -58,6 +58,8 @@ img{
 @import url("./comments.css");
 /* CAROUSEL */
 @import url("./carousel.css");
+/* POSTTHUMB */
+@import url("./post_thumb.css");
 
 .mode{
   width: 100%;
