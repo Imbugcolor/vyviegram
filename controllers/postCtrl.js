@@ -1,5 +1,21 @@
 const Posts = require('../models/postModel')
 
+class APIfeatures {
+    constructor(query, queryString) {
+        this.query = query; //query mongoose
+        this.queryString = queryString //query params (req.params)
+    }
+
+    // pagination
+    paginating() {
+        const page = this.queryString.page * 1 || 1 // if not exist req.query.page default page = 1
+        const limit = this.queryString.limit * 1 || 9 // if not exist req.query.limit default limit 9 posts on page
+        const skip = (page - 1) * limit //skip (page - 1)*limit document 
+        this.query = this.query.skip(skip).limit(limit)
+        return this;
+    }
+}
+
 const postCtrl = {
     createPost: async (req, res) => {
         try {
@@ -25,10 +41,11 @@ const postCtrl = {
     },
     getPosts: async (req, res) => {
         try {
-            
-            const posts = await Posts.find({
+            const features = new APIfeatures(Posts.find({
                 user: [...req.user.following, req.user._id]
-            }).sort('-createdAt')
+            }), req.query).paginating()
+
+            const posts = await features.query.sort('-createdAt')
             .populate('user likes', 'avatar username fullname followers')
             .populate({
                 path: 'comments',
@@ -107,7 +124,11 @@ const postCtrl = {
     },
     getUserPosts: async (req, res) => {
         try {
-            const posts = await Posts.find({user: req.params.id}).sort('-createdAt')
+            const features = new APIfeatures(Posts.find({
+                user: req.params.id
+            }), req.query).paginating()
+
+            const posts = await features.query.sort('-createdAt')
 
             res.json({
                 posts,
@@ -135,6 +156,33 @@ const postCtrl = {
 
         } catch (err) {
             return res.status(500).json({ msg: err.message })
+        }
+    },
+    getPostsDiscover: async (req, res) => {
+        try {
+            const features = new APIfeatures(Posts.find({
+                user: { $nin: [...req.user.following, req.user._id] }
+            }), req.query).paginating()
+
+            const posts = await features.query.sort('-createdAt')
+           
+            // const newArr= [...req.user.following, req.user._id]
+            
+            // const num = req.query.num || 9
+
+            // const posts = await Posts.aggregate([
+            //     { $match: {user: {$nin: newArr}}},
+            //     { $sample: { size: Number(num) }}, 
+            // ]).sort('-createdAt')
+
+            return res.json({
+                msg: 'Success!',
+                result: posts.length,
+                posts
+            })
+            
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
         }
     }
 }

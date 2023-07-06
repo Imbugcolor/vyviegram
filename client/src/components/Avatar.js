@@ -6,7 +6,7 @@ const Avatar = ({src, size}) => {
   return (
    
       <img src={src} alt="avatar" className={size} 
-    style={{filter: `${theme ? 'invert(1)' : 'invert(0)'}`}} />
+    style={{filter: `${theme ? 'invert(1)' : 'invert(0)'}`}} referrerPolicy="no-referrer"/>
   )
 }
 

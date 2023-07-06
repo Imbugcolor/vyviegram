@@ -25,6 +25,7 @@
 /* --------------- POSTS ------------- */
 .posts {
     margin-bottom: 25px;
+    max-width: 700px;
 }
 
 .posts .card {
