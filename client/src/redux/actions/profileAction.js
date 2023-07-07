@@ -10,7 +10,8 @@ export const PROFILE_TYPES = {
     UNFOLLOW: 'UNFOLLOW',
     GET_ID: 'GET_PROFILE_ID',
     GET_POSTS: 'GET_PROFILE_POSTS',
-}
+    UPDATE_POST: 'UPDATE_PROFILE_POST',
+} 
 export const getProfileUsers = ({id, auth})=> async (dispatch) =>{
         dispatch({type: PROFILE_TYPES.GET_ID, payload: id})
        
