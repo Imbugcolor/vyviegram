@@ -1,4 +1,5 @@
 const Posts = require('../models/postModel')
+const Comments = require('../models/commentModel')
 
 class APIfeatures {
     constructor(query, queryString) {
@@ -99,9 +100,11 @@ const postCtrl = {
 
             if(post.length > 0) return res.status(400).json({ msg: 'You liked this post.' })
 
-            await Posts.findOneAndUpdate({_id: req.params.id}, {
+            const like = await Posts.findOneAndUpdate({_id: req.params.id}, {
                 $push: {likes: req.user._id}
             }, { new: true })
+
+            if(!like) return res.status(400).json({msg: 'This post does not exist.'})
 
             res.json({msg: 'Liked Post.'})
 
@@ -112,9 +115,11 @@ const postCtrl = {
     unLikePost: async (req, res) => {
         try {
            
-            await Posts.findOneAndUpdate({_id: req.params.id}, {
+            const unlike = await Posts.findOneAndUpdate({_id: req.params.id}, {
                 $pull: {likes: req.user._id}
             }, { new: true })
+
+            if(!unlike) return res.status(400).json({msg: 'This post does not exist.'})
 
             res.json({msg: 'Unliked Post.'})
 
@@ -160,25 +165,36 @@ const postCtrl = {
     },
     getPostsDiscover: async (req, res) => {
         try {
-            const features = new APIfeatures(Posts.find({
-                user: { $nin: [...req.user.following, req.user._id] }
-            }), req.query).paginating()
-
-            const posts = await features.query.sort('-createdAt')
-           
-            // const newArr= [...req.user.following, req.user._id]
+            const newArr= [...req.user.following, req.user._id]
             
-            // const num = req.query.num || 9
+            const num = req.query.num || 9
 
-            // const posts = await Posts.aggregate([
-            //     { $match: {user: {$nin: newArr}}},
-            //     { $sample: { size: Number(num) }}, 
-            // ]).sort('-createdAt')
+            const posts = await Posts.aggregate([
+                { $match: {user: {$nin: newArr}}},
+                { $sample: { size: Number(num) }}, 
+            ]).sort('-createdAt')
 
             return res.json({
                 msg: 'Success!',
                 result: posts.length,
                 posts
+            })
+            
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    deletePost: async (req, res) => {
+        try {
+            const post = await Posts.findOneAndDelete({_id: req.params.id, user: req.user._id})
+            await Comments.deleteMany({_id: {$in: post.comments}})
+
+            res.json({
+                msg: 'Delete Post!',
+                newPost: {
+                    ...post,
+                    user: req.user
+                }
             })
             
         } catch (err) {
