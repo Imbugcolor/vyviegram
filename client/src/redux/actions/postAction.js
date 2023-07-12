@@ -1,4 +1,4 @@
-import { getDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData"
+import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData"
 import { imageUpload } from "../../utils/imageUpload"
 import { GLOBALTYPES } from "./globalTypes"
 
@@ -110,7 +110,7 @@ export const deletePost = ({post, auth, socket}) => async (dispatch) => {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
     try {
-        // const res = await deleteDataAPI(`post/${post._id}`, auth.token)
+        deleteDataAPI(`post/${post._id}`, auth.token)
 
         // // Notify
         // const msg = {

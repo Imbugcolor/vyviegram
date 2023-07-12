@@ -11,6 +11,7 @@ import Header from './components/header/Header';
 import PrivateRouter from './customRouter/PrivateRouter';
 import StatusModal from './components/StatusModal';
 import { getPosts } from './redux/actions/postAction';
+import { getSuggestions } from './redux/actions/suggestionsAcion';
 // import Notify from './components/notify/Notify';
 
 
@@ -24,7 +25,10 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if(auth.token) dispatch(getPosts(auth.token))
+    if(auth.token){ 
+      dispatch(getPosts(auth.token))
+      dispatch(getSuggestions(auth.token))
+    }
 
   }, [dispatch, auth.token]);
 
@@ -37,7 +41,7 @@ function App() {
           { auth.token && <Header/> }
           { status && <StatusModal /> }
           <Routes>
-          <Route exact path="/" Component= {auth.token ? Home : Login} />
+            <Route exact path="/" Component= {auth.token ? Home : Login} />
             <Route exact path="/register" Component= {Register} />
             <Route exact path="/:page" element= {<PrivateRouter component={PageRender}/>} />
             <Route exact path="/:page/:id" element={<PrivateRouter component={PageRender}/>}/>
