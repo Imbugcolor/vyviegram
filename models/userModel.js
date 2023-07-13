@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema({
             ref: 'user'
         }
     ],
-    saved: [{type: mongoose.Types.ObjectId, ref: 'user'}],
+    saved: [{type: mongoose.Types.ObjectId, ref: 'post'}],
     typeRegister: {
         type: 'String',
         default: 'normal' // github, google
