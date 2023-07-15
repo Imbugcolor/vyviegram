@@ -44,7 +44,7 @@ function App() {
             <Route exact path="/" Component= {auth.token ? Home : Login} />
             <Route exact path="/register" Component= {Register} />
             <Route exact path="/:page" element= {<PrivateRouter component={PageRender}/>} />
-            <Route exact path="/:page/:id" element={<PrivateRouter component={PageRender}/>}/>
+            <Route exact path="/:page/:id" element={<PrivateRouter component={PageRender}/>}/>   
           </Routes>
         </div>
       </div>

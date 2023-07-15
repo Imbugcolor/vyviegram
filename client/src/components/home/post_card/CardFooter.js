@@ -3,7 +3,7 @@ import Send from '../../../images/send.svg'
 import { Link } from 'react-router-dom'
 import LikeButton from '../../LikeButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { likePost, unlikePost } from '../../../redux/actions/postAction'
+import { likePost, savePost, unSavePost, unlikePost } from '../../../redux/actions/postAction'
 import ShareModal from '../../ShareModal'
 import { BASE_URL } from '../../../utils/config'
 const CardFooter = ({post}) => {
@@ -11,18 +11,22 @@ const CardFooter = ({post}) => {
     const [loadLike, setLoadLike] = useState(false)
     const [isShare, setIsShare] = useState(false)
     const {auth, theme} = useSelector(state => state)
-    const dispatch = useDispatch()
+    const [saved, setSaved] = useState(false)
+    const [saveLoad, setSaveLoad] = useState(false)
 
+    const dispatch = useDispatch()
+     //Likes
     useEffect(() => {
         if(post.likes.find(like => like._id === auth.user._id)){
             setIsLike(true)
+        }else{
+            setIsLike(false)
         }
-    }, [post.likes, auth.user._id]);
+    }, [post.likes, auth.user._id])
 
     const handleLike = async () => {
         if(loadLike) return;
-
-        setIsLike(true)
+        
         setLoadLike(true)
         await dispatch(likePost({post, auth}))
         setLoadLike(false)
@@ -30,10 +34,32 @@ const CardFooter = ({post}) => {
     const handleUnLike = async() => {
         if(loadLike) return;
 
-        setIsLike(false)
         setLoadLike(true)
         await dispatch(unlikePost({post, auth}))
         setLoadLike(false)
+    }
+    //save
+    useEffect(() => {
+        if(auth.user.saved.find(id => id === post._id)){
+            setSaved(true)
+        }else{
+            setSaved(false)
+        }
+    },[auth.user.saved, post._id])
+    const handleSavePost = async () => {
+        if(saveLoad) return;
+        
+        setSaveLoad(true)
+        await dispatch(savePost({post, auth}))
+        setSaveLoad(false)
+    }
+
+    const handleUnSavePost = async () => {
+        if(saveLoad) return;
+
+        setSaveLoad(true)
+        await dispatch(unSavePost({post, auth}))
+        setSaveLoad(false)
     }
     return (
         <div className='card_footer'>
@@ -51,7 +77,14 @@ const CardFooter = ({post}) => {
                     <img src={Send} alt="Send" onClick={() => setIsShare(!isShare)} />
                 </div>
 
-                <i className='far fa-bookmark' />
+                {
+                    saved 
+                    ?  <i className="fas fa-bookmark text-info"
+                    onClick={handleUnSavePost} />
+
+                    :  <i className="far fa-bookmark"
+                    onClick={handleSavePost} />
+                }
             </div>
 
             <div className='d-flex justify-content-between'>
