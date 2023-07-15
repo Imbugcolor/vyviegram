@@ -43,6 +43,7 @@
     font-size: 20px;
 }
 
+
 .btn_user {
     border: none;
     border-radius: 8px;
@@ -95,85 +96,92 @@
     align-items: center;
 }
 
-/* PROFILE EDIT */
-.edit_profile{
-    position:fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height:100vh;
-    background: #0008;
-    z-index: 9;
-    overflow: auto;
+
+/* ---------- Profile Edit ------------- */
+.edit_profile {
+    background: #fff;
+    padding: 15px;
+    border-left: 1px solid #d5d2d3;
+    border-right: 1px solid #d5d2d3;
+    height: 100vh;
 }
-.edit_profile form{
-    max-width: 450px;
-    width: 100%;
-    background: var(--white);
-    padding: 20px;
-    border-radius: 5px;
-    margin: 20px auto;
+
+.edit_profile form {
+    padding: 100px;
 }
-.edit_profile .btn_close{
-    position: absolute;
-    top: 1rem;
-    right:1rem;
-}
-.edit_profile .info_avatar{
-    width:150px;
-    height:150px;
-    overflow: hidden;
+
+.edit_profile .photo_profile .photo_review{
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
     border-radius: 50%;
-    position: relative;
-    margin: 15px auto;
-    border: 1px solid #ddd;
-    cursor: pointer;
+    overflow: hidden;
+    margin-bottom: 20px;
+    margin-right: 62px;
 }
-.edit_profile .info_avatar img{
+
+.edit_profile .photo_profile img {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
 }
-.edit_profile .info_avatar span{
-    position: absolute;
-    bottom: -100%;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    text-align: center;
-    color: orange;
-    transition: 0.3s ease-in-out;
-    background:#fff5;
-}
-.edit_profile .info_avatar:hover span{
-    bottom:-15%;
 
-}
-.edit_profile .info_avatar #file_up{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height:100%;
+.edit_profile .change_select p {
+    color:#1877f2;
+    font-weight: 500;
+    font-size: 16px;
     cursor: pointer;
+}
+
+.edit_profile .photo_profile #file_up {
     opacity: 0;
 }
-::-webkit-file-upload-button{
+
+::-webkit-file-upload-button {
     cursor: pointer;
 }
-/* Follow */
-.follow{
+
+.edit_profile form label {
+    font-weight: 500;
+    width: 100px;
+}
+
+.edit_profile .form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.edit_profile .form-control {
+    max-width: 500px;
+}
+
+.edit_profile .save_btn {
+    background: #0095F6;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    height: 35px;
+    width: 80px;
+    font-weight: 500;
+}
+
+/*----------- FOLLOW -----------*/
+
+.follow {
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
     background: #0008;
     width: 100%;
     height: 100vh;
     z-index: 4;
 }
-.follow_box{
+
+.follow_box {
     width: 350px;
+    height: 400px;
     border: 1px solid #222;
     border-radius: 5px;
     background: white;
@@ -182,42 +190,47 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-.follow_content{
-    width: 100%;
-    height: 350px;
     overflow: auto;
 }
-.follow_box .close{
+
+.follow_box .close {
     position: absolute;
     top: 0;
     right: 3px;
     font-size: 3rem;
     cursor: pointer;
 }
-/* save tab */
-.profile_tab{
+
+.follower__by {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.folower__by_view {
+    cursor: pointer;
+}
+
+/* ---------------SAVE TAB ----------------*/
+.profile_tab {
     width: 100%;
     display: flex;
-    justify-content:center;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-
+    justify-content: center;
+    border-top: 1px solid #ddd;
 }
-.profile_tab button{
+
+.profile_tab button {
     outline: none;
     border: none;
     background: white;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 15px;
     padding: 5px 20px;
     margin: 0 25px;
     opacity: 0.5;
 }
-.profile_tab button.active{
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    opacity: 0.8;
 
+.profile_tab button.active {
+    border-top: 1px solid #000;
+    opacity: 0.8;
 }

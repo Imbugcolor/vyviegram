@@ -32,9 +32,9 @@ const InputComment = ({children, post, onReply, setOnReply}) => {
       <input type="text" placeholder="Add your comments..."
       value={content} onChange={e => setContent(e.target.value)}
       />
-    <button type="submit" className="postBtn">
-      Post
-    </button>
+      <button type='submit' className='postBtn' style={{ opacity: content.length > 0 ? '1' : '0.5'}}>
+        Post
+      </button>
     </form>
 
   )

@@ -14,8 +14,8 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
           <Link to={`/profile/${user._id}`} className="d-flex align-items-center"  onClick={handleCloseAll} style={{textDecoration: 'none'}}>
             <Avatar src={user.avatar} size="big-avatar"/>
             <div className="ml-2" style={{transform: 'translate(-2px)'}}>
-                <span className="d-block">{user.username}</span>
-                <small style={{opacity:0.7}}>{user.fullname}</small>
+                <span className="d-block" style={{color: '#262626', fontWeight: '500'}} >{user.username}</span>
+                <small style={{ color: '#666666'}} >{user.fullname}</small>
             </div>
           </Link>
         </div>
