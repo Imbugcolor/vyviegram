@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const SocketServer = require('./socketServer')
 
 const app = express()
 
@@ -13,6 +14,14 @@ app.use(cookieParser())
 
 app.get('/', (req, res) => {
     res.json({msg: 'Hello'})
+})
+
+//Socket
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
+
+io.on('connection', socket => {
+    SocketServer(socket)
 })
 
 //Routes
