@@ -20,7 +20,10 @@ app.get('/', (req, res) => {
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 
+// const users = []
+
 io.on('connection', socket => {
+    // console.log(socket.id)
     SocketServer(socket)
 })
 
@@ -43,7 +46,7 @@ mongoose.connect(URI, {
 })
 
 const port = process.env.PORT || 5000
-app.listen(port, () => {
+http.listen(port, () => {
     console.log('Server is running on port', port)
 })
 
