@@ -33,8 +33,11 @@ const postCtrl = {
             await newPost.save()
 
             res.json({
-                msg: 'Create Post',
-                newPost
+                msg: 'Create Post!',
+                newPost: {
+                    ...newPost._doc,
+                    user: req.user
+                }
             })
 
         } catch (err) {
