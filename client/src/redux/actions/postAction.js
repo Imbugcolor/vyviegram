@@ -1,5 +1,6 @@
 import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from "../../utils/fetchData"
 import { imageUpload } from "../../utils/imageUpload"
+import { createNotify, removeNotify } from "./notifyAction"
 import { GLOBALTYPES } from "./globalTypes"
 
 export const POST_TYPES = {
@@ -11,7 +12,7 @@ export const POST_TYPES = {
     DELETE_POST: 'DELETE_POST'
 }
 
-export const createPost = ({content, images, auth}) => async (dispatch) => {
+export const createPost = ({content, images, auth, socket}) => async (dispatch) => {
     let media = []
 
     try {
@@ -27,6 +28,17 @@ export const createPost = ({content, images, auth}) => async (dispatch) => {
         })
         
         dispatch({type: GLOBALTYPES.ALERT, payload: { loading: false }})
+         // Notify
+        const msg = {
+            id: res.data.newPost._id,
+            text: 'added a new post.',
+            recipients: res.data.newPost.user.followers,
+            url: `/post/${res.data.newPost._id}`,
+            content, 
+            image: media[0].url
+        }
+        dispatch(createNotify({msg, auth, socket}))
+
 
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})
@@ -114,16 +126,16 @@ export const deletePost = ({post, auth, socket}) => async (dispatch) => {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
     try {
-        await deleteDataAPI(`post/${post._id}`, auth.token)
+        const res = await deleteDataAPI(`post/${post._id}`, auth.token)
 
-        // // Notify
-        // const msg = {
-        //     id: post._id,
-        //     text: 'added a new post.',
-        //     recipients: res.data.newPost.user.followers,
-        //     url: `/post/${post._id}`,
-        // }
-        // dispatch(removeNotify({msg, auth, socket}))
+        // Notify
+        const msg = {
+            id: post._id,
+            text: 'added a new post.',
+            recipients: res.data.newPost.user.followers,
+            url: `/post/${post._id}`,
+        }
+        dispatch(removeNotify({msg, auth, socket}))
         
     } catch (err) {
         dispatch({
