@@ -23,8 +23,6 @@ const notifyCtrl = {
                 id: req.params.id, url: req.query.url
             })
 
-            if(!notify) return res.status(400).json({msg: 'Notify not found.'})
-
             return res.json({notify})
         } catch (err) {
             return res.status(500).json({msg: err.message})

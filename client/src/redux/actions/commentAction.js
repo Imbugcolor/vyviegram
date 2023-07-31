@@ -117,8 +117,7 @@ export const deleteComment = ({post, comment, auth, socket}) => async (dispatch)
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
 
     socket.emit('deleteComment', newPost)
-    console.log(deleteArr);
-    console.log("auth", auth)
+
     try {
         deleteArr.forEach(item => {
             deleteDataAPI(`comment/${item._id}`, auth.token)
