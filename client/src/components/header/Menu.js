@@ -12,7 +12,7 @@ const Menu = () => {
         { label: 'Discover', icon: 'explore', path:'/discover'},
     ]
     const {auth, theme, notify} = useSelector(state => state)
-    console.log(notify, "notify")
+    // console.log(notify, "notify")
     const dispatch = useDispatch();
     const {pathname} = useLocation();
 

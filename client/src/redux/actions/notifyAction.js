@@ -8,6 +8,7 @@ export const NOTIFY_TYPES = {
 export const createNotify = ({msg, auth, socket}) => async (dispatch) => {
     try {
         const res = await postDataAPI('notify', msg, auth.token)
+
         socket.emit('createNotify', {
             ...res.data.notify,
             user: {
@@ -21,10 +22,9 @@ export const createNotify = ({msg, auth, socket}) => async (dispatch) => {
 }
 export const removeNotify = ({msg, auth, socket}) => async (dispatch) => {
     try {
-       const res = deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)
-        // await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)
+        await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)
         
-        // socket.emit('removeNotify', msg)
+        socket.emit('removeNotify', msg)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }
