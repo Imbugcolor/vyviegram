@@ -1,12 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { POST_TYPES } from './redux/actions/postAction'
 import { GLOBALTYPES } from './redux/actions/globalTypes'
 import { NOTIFY_TYPES } from './redux/actions/notifyAction'
-
+import audiobell from "./audio/Anh Yêu Em_Anh Khang_-1074080922.mp3"
+const spawnNotifications =(body, icon, url, title) => {
+    let options = {
+        body, icon
+    }
+    let n = new Notification(title, options)
+    n.onclick = e => {
+        e.preventDefault()
+        window.open(url, '_blank')
+    }
+}
 const SocketClient = () => {
-    const {auth, socket} = useSelector(state => state)
+    const {auth, socket, notify} = useSelector(state => state)
     const dispatch = useDispatch()
+    const audioRef = useRef()
 
     //joinUser
     useEffect(() => {
@@ -71,6 +82,13 @@ const SocketClient = () => {
     useEffect(() => {
         socket.on('createNotifyToClient', msg =>{
             dispatch({type: NOTIFY_TYPES.CREATE_NOTIFY, payload: msg})
+            if(notify.sound) audioRef.current.play()
+            spawnNotifications(
+                msg.user.username + ' ' + msg.text,
+                msg.user.avatar,
+                msg.url,
+                'V-NETWORK'
+            )
         })
 
         return () => socket.off('createNotifyToClient')
@@ -85,9 +103,11 @@ const SocketClient = () => {
     },[socket, dispatch])
 
   return (  
-    <div>
-      
-    </div>
+    <>
+        <audio controls ref={audioRef} style={{display: 'none'}}>
+            <source src={audiobell} type="audio/mp3"/>    
+        </audio>
+    </>
   )
 }
 
