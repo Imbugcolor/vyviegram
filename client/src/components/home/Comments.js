@@ -2,20 +2,24 @@ import React, { useEffect, useState } from 'react'
 import CommentDisplay from './comments/CommentDisplay'
 
 const Comments = ({post}) => {
-  const [comments, setComments] = useState([]);
-  const [showComments, setShowComments] = useState([]);
-  const [next, setNext] = useState(2);
-  const [replyComments, setReplyComments] = useState([]);
+  const [comments, setComments] = useState([])
+  const [showComments, setShowComments] = useState([])
+  const [next, setNext] = useState(2)
+
+  const [replyComments, setReplyComments] = useState([])
 
   useEffect(() => {
-    const newCm = post.comments.filter(cm => !cm.reply)
-    setComments(newCm)
-    setShowComments(newCm.slice(newCm.length - next))
+      const newCm = post.comments.filter(cm => !cm.reply)
+      setComments(newCm)
+      console.log(newCm.length);
+      setShowComments(newCm.length - next > 0 ? newCm.slice(newCm.length - next) : newCm)
   },[post.comments, next])
-  useEffect(() => {
-    const newrep = post.comments.filter(cm => cm.reply)
-    setReplyComments(newrep)
-  }, [post.comments]);
+
+  useEffect(()=> {
+      const newRep = post.comments.filter(cm => cm.reply)
+      setReplyComments(newRep)
+  }, [post.comments])
+
   return (
     <div className="comments">
       {

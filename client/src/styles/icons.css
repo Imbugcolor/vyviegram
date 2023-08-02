@@ -1,0 +1,28 @@
+.reactions {
+    text-align: center;
+    cursor: pointer;
+    height: 200px;
+    overflow-y: scroll;
+    font-size: 23px;
+}
+
+.reactions .icon_display {
+    display: grid;
+    grid-template-columns: repeat(6, 40px);
+}
+
+.reactions .icon_label {
+    text-align: left;
+    margin: 0 8px;
+    font-size: 20px;
+}
+
+.reactions span {
+    margin: 3px 0;
+}
+
+.dropdown-menu.show {
+    background: #fff !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgb(0 0 0 / 20%) !important;
+}

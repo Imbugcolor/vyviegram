@@ -22,20 +22,29 @@ code {
   filter: invert(1);
 }
 
-.App{
-  min-height: 100vh;
-  width: 100%;
-  background: #fff;
+.App {
+    width: 100%;
+    min-height: 100vh;
+    background: #fafafa;
+    overflow-x: clip;
 }
 
-.main{
-  max-width: 1000px;
-  width:  100%;
-  margin: auto;
+.main {
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
 }
 
-img{
-  object-fit: cover;
+.content_app {
+    margin-left: 33%;
+}
+
+img {
+    object-fit: cover;
+}
+
+button:focus {
+    outline: 0 !important;
 }
 
 /* AUTH */
@@ -54,52 +63,139 @@ img{
 @import url("./home.css");
 /* STATUS MODAL */
 @import url("./status_modal.css");
-/* Comments */
+/* COMMENTS */
 @import url("./comments.css");
 /* CAROUSEL */
 @import url("./carousel.css");
 /* POSTTHUMB */
 @import url("./post_thumb.css");
+/* MESSAGE */
+@import url("./message.css");
+/* SIDEBAR */
+@import url('./sidebar.css');
+/* NOTIFICATIONS */
+@import url('./notifications.css');
+/* SEARCHBAR */
+@import url('./searchbar.css');
+/* ICONS */
+@import url('./icons.css');
 
-.mode{
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+/*------------- RESPONSIVE ------------*/
+@media (max-width: 1499px) {
+  .content_app {
+      margin-left: 25%;
+  }
+
+  .menu__side_bar .title__menu {
+      display: none;
+  }
+
+  .left__sidebar {
+      width: 100px;
+  }
+
+  .menu__side_bar ul li {
+      width: 50px;
+      height: 70px;
+  }
+
+  .text__brand {
+      display: none;
+  }
+  
+  .logo__brand {
+      display: block;
+  }
+
+  .notifications__container {
+      border-left: none;
+      border-right: 1px solid #d5d2d3;
+  }
+
+  .new__messenger_box {
+      margin: 25%;
+  }
 }
-/* Responsive */
+
+@media (max-width: 999px) {
+  .right__side_bar {
+      display: none;
+  }
+
+  .center__side {
+      flex: 1;
+      max-width: none;
+  }
+
+  .new__messenger_box {
+      margin: 15%;
+  }
+
+  .content_app {
+      margin-left: auto;
+  }
+  
+}
 
 @media (max-width: 768px) {
-  .header .menu{
-    position: absolute;
-    top: calc(100vh - 50px);
-    left: 0;
-    width: 100%;
-    height: 50px;
-    box-shadow: 0 0 10px #ddd;
-    z-index: 2;
-    background: #f8f9fa;
+  .header {
+      display: block;
   }
-  .header .menu .navbar-nav{
-      display:flex;
-      justify-content:space-around;
-      align-items:center
+  
+  .header .menu {
+      position: absolute;
+      top: calc(100vh - 50px);
+      left: 0;
+      width: 100%;
+      height: 50px;
+      box-shadow: 0 0 10px #ddd;
+      z-index: 2;
+      background: #f8f9fa;
   }
-  .header .menu .dropdown-menu{
+  .header .menu .navbar-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+  }
+  .header .menu .dropdown-menu {
       bottom: 100%;
       top: auto;
   }
-  .header .search_form{
+  .header .search_form {
       width: 100%;
   }
-  .header .logo{
+  .header .logo {
       margin: auto;
       font-size: 1rem;
   }
-  .header .logo h1{
+  .header .logo h1 {
       font-size: 1.5rem;
-      /* color: var(--red); */
   }
-  .wrap_page{
-    margin-bottom: 60px;
+  .message {
+      height: calc(100vh - 150px);
   }
+  .right_mess, .left_mess {
+      display: none;
+  }
+  .left__sidebar {
+      display: none;
+  }
+  .content_app {
+      margin-left: 0;
+  }
+
+  .new__messenger_box {
+      margin: 5%;
+  }
+
+  .left_mess, .right_mess {
+      display: none;
+  }
+}
+
+.mode {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }

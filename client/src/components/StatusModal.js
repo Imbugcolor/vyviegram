@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { GLOBALTYPES } from '../redux/actions/globalTypes'
 import { imageShow, videoShow } from '../utils/mediaShow'
 import { createPost, updatePost } from '../redux/actions/postAction'
+import Icons from './Icons'
 
 const StatusModal = () => {
     const { auth, theme, status, socket } = useSelector(state => state)
@@ -129,6 +130,11 @@ const StatusModal = () => {
                         background: theme ? 'rgba(0,0,0,.03)' : ''
                     }}
                     />
+
+                    <div className='d-flex'>
+                        <div className='flex-fill'></div>
+                        <Icons setContent={setContent} content={content} theme={theme}/>
+                    </div>
 
                     <div className='show_images'>
                         {

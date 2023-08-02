@@ -1,0 +1,36 @@
+.search__bar_input {
+    width: 100%;
+    border: 0;
+    border-radius: 8px;
+    background: #efefef;
+    padding: 3px 16px;
+    height: 40px;
+    outline: none;
+}
+
+.search__bar_result {
+    margin-bottom: 18px;
+}
+
+.load__search {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.load__search img {
+    width: 25px;
+}
+
+.load__search_input img {
+    width: 20px;
+}
+
+.search__bar_close {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 20px;
+    color: #c8c8c8;
+}

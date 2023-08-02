@@ -65,7 +65,7 @@ const SocketServer = (socket) => {
     // console.log(newUser)
 
     const user = users.find((user) => user.id === newUser._id);
-    console.log(user);
+
     user && socket.to(`${user.socketId}`).emit("followToClient", newUser);
   });
 
@@ -73,7 +73,7 @@ const SocketServer = (socket) => {
     // console.log(newUser)
 
     const user = users.find((user) => user.id === newUser._id);
-    console.log(user);
+  
     user && socket.to(`${user.socketId}`).emit("unFollowToClient", newUser);
   });
   //...

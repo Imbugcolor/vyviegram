@@ -1,0 +1,78 @@
+.left__sidebar {
+    background-color: #fff;
+    border-right: 1px solid #d5d2d3;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+}
+
+.side_bar_container {
+    margin: 25px;
+    margin-top: 35px;
+}
+
+.header__side_bar {
+    padding-bottom: 35px;
+    font-size: 25px;
+    font-weight: 500;
+    text-transform: capitalize;
+    color: #000
+}
+
+.text__brand {
+    width: 150px;
+}
+
+.text__brand img {
+    width: 100%;
+}
+
+.logo__brand {
+    display: none;
+    margin-left: -17px;
+}
+
+.logo__brand img{
+    width: 70px;
+}
+
+.menu__side_bar ul li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    padding: 22px 0;
+    cursor: pointer;
+}
+
+.menu__side_bar .menu__li .menu__icon {
+    position: relative;
+    margin-right: 15px;
+}
+
+.menu__li .menu__icon .numNotifications {
+    position: absolute;
+    top: -3px;
+    right: -4px;
+    background: crimson;
+    color: #fff;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.menu__footer {
+    position: absolute;
+    bottom: 25px;
+    font-size: 30px;
+    cursor: pointer;
+}

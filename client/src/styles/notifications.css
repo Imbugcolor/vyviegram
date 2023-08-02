@@ -1,0 +1,23 @@
+.notifications__container {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    height: 100vh;
+    background-color: #fff;
+    border-left: 1px solid #d5d2d3;
+    padding: 25px 20px;
+    overflow-y: auto;
+    min-width: 350px;
+    animation: fadeInLeft 0.2s;
+}
+
+@keyframes fadeInLeft {
+    0% {
+       opacity: 0;
+       transform: translateX(-20px);
+    }
+    100% {
+       opacity: 1;
+       transform: translateX(0);
+    }
+ }   

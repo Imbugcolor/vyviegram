@@ -17,6 +17,7 @@ import io from 'socket.io-client'
 import { GLOBALTYPES } from './redux/actions/globalTypes';
 import SocketClient from './SocketClient';
 import { getNotifies } from './redux/actions/notifyAction';
+import LeftSidebar from './components/sidebar/LeftSidebar';
 
 function App() {
   const { auth, status, modal } = useSelector(state => state)
@@ -58,19 +59,27 @@ function App() {
 
   return (
     <Router>
-      <Alert/>
-      <input type ="checkbox" id="theme"/>
+      <Alert />
+      <input type='checkbox' id='theme'/>
       <div className={`App ${(status || modal) && 'mode'}`}>
-        <div className="main">
-          { auth.token && <Header/> }
-          { status && <StatusModal /> }
-          {auth.token && <SocketClient />}
-          <Routes>
-            <Route exact path="/" Component= {auth.token ? Home : Login} />
-            <Route exact path="/register" Component= {Register} />
-            <Route exact path="/:page" element= {<PrivateRouter component={PageRender}/>} />
-            <Route exact path="/:page/:id" element={<PrivateRouter component={PageRender}/>}/>   
-          </Routes>
+        <div className='row'> 
+          {
+            auth.token &&
+            <div className='left__sidebar col-md-3'>
+                <LeftSidebar />
+            </div> 
+          }
+          <div className={`main ${auth.token ? 'col-md-9 content_app' : ''}`}>
+            { auth.token && <Header /> }
+            { status && <StatusModal /> }
+            { auth.token && <SocketClient />}
+            <Routes>
+                <Route exact path='/' Component={auth.token ? Home : Login}/>
+                <Route exact path='/register' Component={Register} />
+                <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
+                <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
+            </Routes>
+          </div> 
         </div>
       </div>
     </Router>

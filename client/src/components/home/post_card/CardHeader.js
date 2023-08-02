@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Avatar from '../../Avatar'
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment'
@@ -16,7 +16,7 @@ const CardHeader = ({post}) => {
     }
     const handleDeletePost = () => {
         if(window.confirm("Are you sure you want to delete this post?")){
-            dispatch(deletePost({post, auth}))
+            dispatch(deletePost({post, auth, socket}))
             return navigate("/");
         }
         

@@ -24,17 +24,17 @@ const CommentDisplay = ({comment, post, replyCm}) => {
           ))
         }
         {
-          replyCm.length - next > 0
-          ? <div style={{cursor: 'pointer', color: 'crimson'}}
-          onClick={() => setNext(next + 10)}>
-              See more comments...
-          </div>
-
-          : replyCm.length > 1 &&
-          <div style={{cursor: 'pointer', color: 'crimson'}}
-          onClick={() => setNext(1)}>
-              Hide comments...
-          </div>
+            replyCm.length - next > 0 ?
+              <div className='p-2 border-top' style={{cursor: 'pointer', color: '#666666', fontSize: '14px', fontWeight: '500'}}
+                    onClick={() => setNext(next + 10)}
+              > 
+                  See more comments...
+              </div> : replyCm.length > 1
+              &&  <div className='p-2 border-top' style={{cursor: 'pointer', color: '#666666', fontSize: '14px', fontWeight: '500'}}
+                        onClick={() => setNext(1)}
+                  > 
+                    Hide comments...
+                  </div>
         }
       </div>
     </CommentCard>
