@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import UserCard from '../UserCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataAPI } from '../../utils/fetchData'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addUser } from '../../redux/actions/messageAction'
+import { addUser, getConversations } from '../../redux/actions/messageAction'
 
 const LeftSide = () => {
     const { auth, message } = useSelector(state => state)
@@ -40,6 +40,11 @@ const LeftSide = () => {
         return ''
     }
 
+    useEffect(() => {
+        if(message.firstLoad) return;
+        dispatch(getConversations({auth}))
+    },[message.firstLoad, auth, dispatch])
+
     return (
     <>
       <form className='message_header' onSubmit={handleSearch}>
@@ -67,7 +72,7 @@ const LeftSide = () => {
                     message.users.map(user => (
                         <div key={user._id} className={`message_user ${isActive(user)}`}
                         onClick={() => handleAddUser(user)}>
-                            <UserCard user={user}> 
+                            <UserCard user={user} msg={true}> 
                                 <i className='fas fa-circle' />
                             </UserCard>
                         </div>
@@ -75,9 +80,6 @@ const LeftSide = () => {
                 }
             </>
         }
-        <div>
-            <UserCard user={auth.user}/>
-        </div>
       </div>
     </>
   )

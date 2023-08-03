@@ -11,7 +11,6 @@ const Comments = ({post}) => {
   useEffect(() => {
       const newCm = post.comments.filter(cm => !cm.reply)
       setComments(newCm)
-      console.log(newCm.length);
       setShowComments(newCm.length - next > 0 ? newCm.slice(newCm.length - next) : newCm)
   },[post.comments, next])
 
