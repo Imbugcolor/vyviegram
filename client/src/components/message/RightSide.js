@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import UserCard from '../UserCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -7,7 +7,7 @@ import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { videoShow, imageShow } from '../../utils/mediaShow'
 import Icons from '../Icons'
 import { imageUpload } from '../../utils/imageUpload'
-import { addMessage, getMessages } from '../../redux/actions/messageAction'
+import { addMessage, getMessages, loadMoreMessages } from '../../redux/actions/messageAction'
 import LoadIcon from '../../images/loading.gif'
 import { TbPhoto } from 'react-icons/tb'
 
@@ -21,10 +21,34 @@ const RightSide = () => {
     const [media, setMedia] = useState([])
     const [loadMedia, setLoadMedia] = useState(false)
 
+    const refDisplay = useRef()
+    const pageEnd = useRef()
+
+    const [data, setData] = useState([])
+    const [result, setResult] = useState(9)
+    const [page, setPage] = useState(0)
+    const [isLoadMore, setIsLoadMore] = useState(0)
+
     useEffect(() => {
-        const newUser = message.users.find(user => user._id === id)
-        if(newUser) {
-            setUser(newUser)
+        const newData = message.data.find(item => item._id === id)
+        if(newData) {
+            setData(newData.messages)
+            setResult(newData.result)
+            setPage(newData.page)
+        }
+        
+    },[message.data, id])
+
+    useEffect(() => {
+        if(id && message.users.length > 0) {
+            // auto scroll down to newest message when open a box chat
+            setTimeout(() => {
+                refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+            }, 50)
+
+            // get user in redux base on id param
+            const newUser = message.users.find(user => user._id === id)
+            if(newUser) setUser(newUser)
         }
     }, [message.users, id])
 
@@ -81,18 +105,47 @@ const RightSide = () => {
 
         setLoadMedia(false)
 
-        dispatch(addMessage({msg, auth, socket}))
+        await dispatch(addMessage({msg, auth, socket}))
+        if(refDisplay.current) {
+            refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+        }
     }
 
     useEffect(() => {
-        if(id) {
-            const getMessagesData = async () => {
+        // get messages data each conversation
+        const getMessagesData = async () => {
+            // if data id is not exist, get messages data, if exist then skip.
+            if(message.data.every(item => item._id !== id)) {
                 await dispatch(getMessages({auth, id}))
+                setTimeout(() => {
+                    refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
+                }, 50)
             }
-
-            getMessagesData()
         }
-    },[id, auth, dispatch])
+
+        getMessagesData()
+    },[id, auth, dispatch, message.data])
+
+    // Load more
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting) {
+                setIsLoadMore(p => p + 1)
+            }
+        }, { threshold: 0.1 })
+
+        observer.observe(pageEnd.current)
+    },[setIsLoadMore])
+
+    useEffect(() => {
+        if(isLoadMore > 1) {
+            if(result >= page * 9) {
+                dispatch(loadMoreMessages({auth, id, page: page + 1}))
+                setIsLoadMore(1);
+            }
+        }
+    // eslint-disable-next-line 
+    },[isLoadMore])
 
     return (
         <>
@@ -106,9 +159,10 @@ const RightSide = () => {
             </div>
 
             <div className='chat_container'>
-                <div className='chat_display'>
+                <div className='chat_display' ref={refDisplay}>
+                    <button style={{marginTop: '-25px', opacity: 0}} ref={pageEnd}>Load more</button>
                     {
-                        message.data.map((msg, index) => (
+                        data.map((msg, index) => (
                             <div key={index}>
                                 {
                                     msg.sender !== auth.user._id &&
@@ -120,7 +174,7 @@ const RightSide = () => {
                                 {
                                     msg.sender === auth.user._id &&
                                     <div className='chat_row you_message'>
-                                        <MsgDisplay user={auth.user} msg={msg} theme={theme} />
+                                        <MsgDisplay user={auth.user} msg={msg} theme={theme} data={data}/>
                                     </div>
                                 }
                             </div>

@@ -1,0 +1,25 @@
+.btn-ok {
+    background: #000;
+    color: #fff;
+    width: 100px;
+    border: none;
+    height: 30px;
+    margin: 0 25px;
+    border-radius: 0px;
+    outline: none;
+}
+  
+.btn-cancel-swal {
+    background: #ddd;
+    color: #fff;
+    width: 100px;
+    border: none;
+    height: 30px;
+    margin: 0 25px;
+    border-radius: 0px;
+    outline: none;
+}
+
+.styleTitle{
+    font-size: 25px;
+}

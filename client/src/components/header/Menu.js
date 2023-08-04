@@ -5,6 +5,7 @@ import { logout } from '../../redux/actions/authAction'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import Avatar from '../Avatar'
 import NotifyModal from '../NotifyModal'
+
 const Menu = () => {
     const navLinks = [
         { label: 'Home', icon: 'home', path:'/'},
@@ -39,12 +40,14 @@ const Menu = () => {
                 <span className="nav-link position-relative" id="navbarDropdown" 
                     role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                    <span className="material-icons" 
-                            style={{color: notify.data.length > 0 ? 'crimson' : ''}}>
-                                favorite
+                    <span className="material-icons notify_icon">
+                        favorite_border
+                        {
+                            notify.data.length > 0 &&
+                            <span className="notify_dot"></span>
+                        }
                     </span>
-                    <span className="notify_length">{notify.data.length}</span>
-                    </span>
+                </span>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown"
                         style={{transform: 'translateX(75px)'}}>
                             <NotifyModal/>

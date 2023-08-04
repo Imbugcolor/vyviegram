@@ -79,6 +79,8 @@ button:focus {
 @import url('./searchbar.css');
 /* ICONS */
 @import url('./icons.css');
+/* POPUP CONFIRM */
+@import url('./popup.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {

@@ -103,3 +103,17 @@
     height: 15px;
     transform: translateY(-50%);
 }
+
+.notify_icon {
+    position: relative;
+}
+
+.notify_dot {
+    border-radius: 50%;
+    background: red;
+    font-size: 5px;
+    padding: 4px;
+    top: 0;
+    right: 0;
+    position: absolute;
+}

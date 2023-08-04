@@ -1,10 +1,27 @@
 import React from 'react'
 import Avatar from '../Avatar'
 import { imageShow, videoShow } from '../../utils/mediaShow'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import stylePopUpConfirm from '../alert/Confirm'
+import { deleteMessages } from '../../redux/actions/messageAction'
 
-const MsgDisplay = ({user, msg, theme}) => {
-  const { auth } = useSelector(state => state)
+const MsgDisplay = ({user, msg, theme, data}) => {
+  const { auth, socket } = useSelector(state => state)
+  const dispatch = useDispatch()
+
+  const handleDeleteMessages = () => {
+    if(!data) return;
+    stylePopUpConfirm.fire({
+        text: "Delete message?",
+        showCancelButton: true,
+        confirmButtonText: "OK",
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(deleteMessages({msg, data, auth, socket}))
+        } 
+    })
+  }
   return (
     <>
         <div className={`chat_title ${user._id === auth.user._id && 'flex-row-reverse'}`}>
@@ -12,6 +29,10 @@ const MsgDisplay = ({user, msg, theme}) => {
 
           <div style={{margin: '0 7px'}}>
               <div className='you_content' style={{float: `${user._id === auth.user._id ? 'right' : 'left'}`}}>
+                  { 
+                    user._id === auth.user._id && 
+                    <span className='unsend_msg' onClick={handleDeleteMessages}> Unsend </span>
+                  }
                 <div>
                   { 
                     msg.text && 

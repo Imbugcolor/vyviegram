@@ -26,16 +26,15 @@ const Notifications = ({setOpenNoti}) => {
         if(newArr.length === 0) return dispatch(deleteAllNotifies(auth.token))
 
         stylePopUpConfirm.fire({
-            title: "Are you sure?",
             text: `You have ${newArr.length} unread notices. Are you sure you want to delete all? `,
             showCancelButton: true,
             confirmButtonText: "OK",
             cancelButtonText: 'Cancel',
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 return dispatch(deleteAllNotifies(auth.token))
             } 
-          })
+        })
     }
 
     return (

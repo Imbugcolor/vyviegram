@@ -4,6 +4,7 @@ import { POST_TYPES } from './redux/actions/postAction'
 import { GLOBALTYPES } from './redux/actions/globalTypes'
 import { NOTIFY_TYPES } from './redux/actions/notifyAction'
 import audiobell from "./audio/Anh Yêu Em_Anh Khang_-1074080922.mp3"
+import { MESS_TYPES } from './redux/actions/messageAction'
 const spawnNotifications =(body, icon, url, title) => {
     let options = {
         body, icon
@@ -23,6 +24,7 @@ const SocketClient = () => {
     useEffect(() => {
         socket.emit('joinUser', auth.user)// gửi user tới server
     }, [socket, auth.user]);
+    
     //likes
     useEffect(() => {
         socket.on('likeToClient', newPost =>{
@@ -78,6 +80,7 @@ const SocketClient = () => {
 
         return () => socket.off('unFollowToClient')
     },[socket, dispatch, auth])
+    
     //Notifications
     useEffect(() => {
         socket.on('createNotifyToClient', msg =>{
@@ -92,7 +95,7 @@ const SocketClient = () => {
         })
 
         return () => socket.off('createNotifyToClient')
-    },[socket, dispatch])
+    },[socket, dispatch, notify.sound])
 
     useEffect(() => {
         socket.on('removeNotifyToClient', msg =>{
@@ -100,6 +103,15 @@ const SocketClient = () => {
         })
 
         return () => socket.off('removeNotifyToClient')
+    },[socket, dispatch])
+
+    //Message
+    useEffect(() => {
+        socket.on('addMessageToClient', msg => {
+            dispatch({type: MESS_TYPES.ADD_MESSAGE, payload: msg})
+        })
+
+        return () => socket.off('addMessageToClient')
     },[socket, dispatch])
 
   return (  

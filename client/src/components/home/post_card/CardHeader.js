@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { deletePost } from '../../../redux/actions/postAction'
 import {BASE_URL} from "../../../utils/config"
+import stylePopUpConfirm from '../../alert/Confirm'
 const CardHeader = ({post}) => {
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
@@ -15,11 +16,17 @@ const CardHeader = ({post}) => {
         dispatch({ type: GLOBALTYPES.STATUS, payload: {...post, onEdit: true} })
     }
     const handleDeletePost = () => {
-        if(window.confirm("Are you sure you want to delete this post?")){
-            dispatch(deletePost({post, auth, socket}))
-            return navigate("/");
-        }
-        
+        stylePopUpConfirm.fire({
+            text: "Are you sure you want to delete this post?",
+            showCancelButton: true,
+            confirmButtonText: "OK",
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deletePost({post, auth, socket}))
+                return navigate("/");
+            } 
+        })
     }
     const handleCopyLink = () => {
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
