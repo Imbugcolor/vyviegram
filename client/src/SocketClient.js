@@ -16,7 +16,7 @@ const spawnNotifications =(body, icon, url, title) => {
     }
 }
 const SocketClient = () => {
-    const {auth, socket, notify} = useSelector(state => state)
+    const { auth, socket, notify, online } = useSelector(state => state)
     const dispatch = useDispatch()
     const audioRef = useRef()
 
@@ -108,11 +108,68 @@ const SocketClient = () => {
     //Message
     useEffect(() => {
         socket.on('addMessageToClient', msg => {
+            dispatch({type: MESS_TYPES.UPDATE_TYPING, payload: { _id: msg.sender, typing: false }})
             dispatch({type: MESS_TYPES.ADD_MESSAGE, payload: msg})
+            dispatch({
+                type: MESS_TYPES.ADD_USER, 
+                payload: {
+                    ...msg.user,
+                    text: msg.text,
+                    media: msg.media
+                }
+            })
         })
 
         return () => socket.off('addMessageToClient')
     },[socket, dispatch])
+
+    //Typing Message 
+    useEffect(() => {
+        socket.on('typingToClient', data => {
+            dispatch({type: MESS_TYPES.UPDATE_TYPING, payload: { _id: data.sender._id, typing: true }})
+
+            setTimeout(() => {
+                dispatch({type: MESS_TYPES.UPDATE_TYPING, payload: { _id: data.sender._id, typing: false }})
+            }, 3000)
+        })
+
+        return () => socket.off('typingToClient')
+    },[socket, dispatch])
+
+    // Check User Online / Offline
+    useEffect(() => {
+        socket.emit('checkUserOnline', auth.user)
+    },[socket, auth.user])
+
+    useEffect(() => {
+        socket.on('checkUserOnlineToMe', data => {
+            data.forEach(item => {
+                if(!online.includes(item.id)) {
+                    dispatch({type: GLOBALTYPES.ONLINE, payload: item.id})    
+                }
+            })
+        })
+
+        return () => socket.off('checkUserOnlineToMe')
+    },[socket, dispatch, online])
+
+    useEffect(() => {
+        socket.on('checkUserOnlineToClient', id => {
+            if(!online.includes(id)) {
+                dispatch({type: GLOBALTYPES.ONLINE, payload: id})    
+            }
+        })
+
+        return () => socket.off('checkUserOnlineToClient')
+    },[socket, dispatch, online])
+
+    useEffect(() => {
+        socket.on('checkUserOffline', id => {
+            dispatch({type: GLOBALTYPES.OFFLINE, payload: id})
+        })
+
+        return () => socket.off('checkUserOffline')
+    },[socket, dispatch, online])
 
   return (  
     <>

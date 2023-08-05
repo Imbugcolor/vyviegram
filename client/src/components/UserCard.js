@@ -22,11 +22,12 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
                 <span className="d-block" style={{color: '#262626', fontWeight: '500'}} >{user.username}</span>
                 <small style={{ color: '#666666'}} >
                   {
+                    user.typing ? <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.fullname} is typing...</div> :
                     msg ?  
                     <>
                       <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.text}</div>
                       { 
-                        user.media && user.media.length > 0 && 
+                        user.media.length > 0 && 
                         <div>
                           {user.media.length} <i className='fas fa-image'/>
                         </div>

@@ -7,18 +7,16 @@ export const MESS_TYPES = {
     GET_CONVERSATIONS: 'GET_CONVERSATIONS',
     GET_MESSAGES: 'GET_MESSAGES',
     UPDATE_MESSAGES: 'UPDATE_MESSAGES',
-    DELETE_MESSAGES: 'DELETE_MESSAGES'
-}
-
-export const addUser = ({user, message}) => dispatch => {
-    if(message.users.every(item => item._id !== user._id)) {
-        dispatch({type: MESS_TYPES.ADD_USER, payload: user})
-    }
+    DELETE_MESSAGES: 'DELETE_MESSAGES',
+    UPDATE_TYPING: 'UPDATE_TYPING',
+    DELETE_CONVERSATION: 'DELETE_CONVERSATION',
+    CHECK_ONLINE_OFFLINE: 'CHECK_ONLINE_OFFLINE'
 }
 
 export const addMessage = ({msg, auth, socket}) => async(dispatch) => {
     dispatch({type: MESS_TYPES.ADD_MESSAGE, payload: msg})
-    socket.emit('addMessage', msg)
+    const { _id, avatar, fullname, username } = auth.user
+    socket.emit('addMessage', {...msg, user: { _id, avatar, fullname, username } })
     try {
         await postDataAPI('message', msg, auth.token)
     } catch (err) {
@@ -34,7 +32,7 @@ export const getConversations = ({auth, page = 1}) => async(dispatch) => {
         res.data.conversations.forEach(item => {
             item.recipients.forEach(cv => {
                 if(cv._id !== auth.user._id) {
-                    newArr.push({...cv, text: item.text, media: item.media})
+                    newArr.push({...cv, text: item.text, media: item.media, typing: false})
                 }
             })
         })
@@ -73,6 +71,15 @@ export const deleteMessages = ({msg, data, auth, socket}) => async (dispatch) =>
     dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
     try {
         await deleteDataAPI(`message/${msg._id}`, auth.token)
+    } catch (err) {
+        dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+    }
+}
+
+export const deleteConversation = ({auth, id}) => async (dispatch) => {
+    dispatch({type: MESS_TYPES.DELETE_CONVERSATION, payload: id})
+    try {
+        await deleteDataAPI(`conversation/${id}`, auth.token)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }

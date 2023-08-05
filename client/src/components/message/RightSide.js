@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react'
 import UserCard from '../UserCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import MsgDisplay from './MsgDisplay'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { videoShow, imageShow } from '../../utils/mediaShow'
 import Icons from '../Icons'
 import { imageUpload } from '../../utils/imageUpload'
-import { addMessage, getMessages, loadMoreMessages } from '../../redux/actions/messageAction'
+import { addMessage, deleteConversation, getMessages, loadMoreMessages } from '../../redux/actions/messageAction'
 import LoadIcon from '../../images/loading.gif'
 import { TbPhoto } from 'react-icons/tb'
+import Avatar from '../Avatar'
+import stylePopUpConfirm from '../alert/Confirm'
+import { BsTelephone } from 'react-icons/bs'
+import { HiOutlineVideoCamera } from 'react-icons/hi2'
+import { MdDeleteOutline } from 'react-icons/md'
 
 const RightSide = () => {
     const { auth, message, theme, socket } = useSelector(state => state)
@@ -28,6 +33,8 @@ const RightSide = () => {
     const [result, setResult] = useState(9)
     const [page, setPage] = useState(0)
     const [isLoadMore, setIsLoadMore] = useState(0)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const newData = message.data.find(item => item._id === id)
@@ -147,13 +154,61 @@ const RightSide = () => {
     // eslint-disable-next-line 
     },[isLoadMore])
 
+    const handleDeleteConversation = () => {
+        stylePopUpConfirm.fire({
+            text: "Delete conversation?",
+            showCancelButton: true,
+            confirmButtonText: "OK",
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteConversation({auth, id}))
+                return navigate('/message')
+            } 
+        })
+    }
+
+    // Call
+    const caller = ({video}) => {
+        const { _id, avatar, username, fullname } = user
+        
+        const msg = {
+            sender: auth.user._id,
+            recipient: _id,
+            avatar, username, fullname, video
+        }
+
+        dispatch({type: GLOBALTYPES.CALL, payload: msg})
+
+    }
+
+    const handleAudioCall = () => {
+        caller({video: false})
+    }
+
+    const handleVideoCall = () => {
+        caller({video: true})
+    }
+
+    //Typing Text Chat..
+    const handleTyping = () => {
+        socket.emit('typing', {sender: auth.user, recipient: user})
+    }
+
     return (
         <>
-            <div className='message_header'>
+            <div className='message_header' style={{cursor: 'pointer'}}>
                 {
                     user.length !== 0 &&
                     <UserCard user={user}>
-                        <i className='fas fa-trash text-danger' />
+                        <div className='options__message_header'>
+                            <BsTelephone
+                            onClick={handleAudioCall}/>
+                            <HiOutlineVideoCamera
+                            onClick={handleVideoCall}/>
+                            <MdDeleteOutline
+                            onClick={handleDeleteConversation}/>
+                        </div>
                     </UserCard>
                 }
             </div>
@@ -187,6 +242,16 @@ const RightSide = () => {
                             <img src={LoadIcon} alt='loading' />
                         </div>
                     }
+
+                    {
+                       user.typing && 
+                       <div className='user_typing'>
+                            <Avatar src={user.avatar} size='mess-avatar'/>
+                            <div className='typing_text'>
+                                <span>{user.fullname} is typing...</span>
+                            </div>
+                       </div>
+                    }
                 </div>
             </div>
 
@@ -210,6 +275,7 @@ const RightSide = () => {
                 <input type='text' 
                 placeholder='Enter you message...'
                 value={text} onChange={e => setText(e.target.value)}
+                onKeyPress={handleTyping}
                 style={{
                     filter: theme ? 'invert(1)' : 'invert(0)',
                     background: theme ? '#040404' : '',

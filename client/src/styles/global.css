@@ -81,6 +81,8 @@ button:focus {
 @import url('./icons.css');
 /* POPUP CONFIRM */
 @import url('./popup.css');
+/* CALL MODAL */
+@import url('./call_modal.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {

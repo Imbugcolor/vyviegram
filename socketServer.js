@@ -4,10 +4,25 @@ const SocketServer = (socket) => {
   //Connect - Disconnect
   socket.on("joinUser", (user) => {
     // console.log(user._id)
-    users.push({ id: user._id, socketId: socket.id });
+    users.push({ id: user._id, socketId: socket.id, followers: user.followers });
   });
 
   socket.on("disconnect", () => {
+    // get user disconnect
+    const data = users.find(user => user.socketId === socket.id)
+    if(data) {
+      // get followers user above is connecting (online) 
+      const clients = users.filter(user => 
+        data.followers.find(item => item._id === user.id)
+      )
+
+      // send response to clients
+      if(clients.length > 0) {
+        clients.forEach(client => {
+          socket.to(`${client.socketId}`).emit('checkUserOffline', data.id)
+        })
+      }
+    }
     users = users.filter(user => user.socketId !== socket.id)
   });
 
@@ -75,29 +90,8 @@ const SocketServer = (socket) => {
   
     user && socket.to(`${user.socketId}`).emit("unFollowToClient", newUser);
   });
-  //...
-  //Notifications
-
-  //  socket.on('createNotify', msg => {
-  //     const clients = users.filter(user => msg.recipsients.includes(user.id))
-
-  //     if(clients.length > 0){
-  //         clients.forEach(client => {
-  //             socket.to(`${client.socketId}`).emit('createNotifyToClient', msg)
-  //         })
-  //     }
-  // })
-
-  // socket.on('removeNotify', msg => {
-  //     const clients = users.filter(user => msg.recipsients.includes(user.id))
-
-  //     if(clients.length > 0){
-  //         clients.forEach(client => {
-  //             socket.to(`${client.socketId}`).emit('removeNotifyToClient', msg)
-  //         })
-  //     }
-  // })
-
+  
+  //Notification
   socket.on("createNotify", (msg) => {
     const client = users.find((user) => msg.recipients.includes(user.id));
     client && socket.to(`${client.socketId}`).emit("createNotifyToClient", msg);
@@ -113,6 +107,30 @@ const SocketServer = (socket) => {
     const user = users.find((user) => user.id === msg.recipient)
     user && socket.to(`${user.socketId}`).emit('addMessageToClient', msg)
   })
+
+  // Check User Online / Offline
+  socket.on('checkUserOnline', data => {
+    //only check following users online/offline
+    const following = users.filter(user => data.following.find(item => item._id === user.id))
+    socket.emit('checkUserOnlineToMe', following)
+
+    //only request my online to followers
+    const clients = users.filter(user => 
+      data.followers.find(item => item._id === user.id)
+    )
+    if(clients.length > 0) {
+      clients.forEach(client => {
+        socket.to(`${client.socketId}`).emit('checkUserOnlineToClient', data._id)
+      })
+    }
+  })
+
+  // Typing Message
+  socket.on('typing', data => {
+    const user = users.find( user => user.id === data.recipient._id )
+    user && socket.to(`${user.socketId}`).emit('typingToClient', data)
+  })
+
 };
 
 module.exports = SocketServer;
