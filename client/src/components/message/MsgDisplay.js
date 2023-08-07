@@ -4,6 +4,8 @@ import { imageShow, videoShow } from '../../utils/mediaShow'
 import { useDispatch, useSelector } from 'react-redux'
 import stylePopUpConfirm from '../alert/Confirm'
 import { deleteMessages } from '../../redux/actions/messageAction'
+import { Link } from 'react-router-dom'
+import Times from './Times'
 
 const MsgDisplay = ({user, msg, theme, data}) => {
   const { auth, socket } = useSelector(state => state)
@@ -53,7 +55,64 @@ const MsgDisplay = ({user, msg, theme, data}) => {
                       </div>
                     ))
                   }
+
+                  {
+                    msg.share && 
+                    <Link to={`/post/${msg.share._id}`} style={{textDecoration: 'none', color: '#000'}}>
+                      <div className='share_msg'>
+                          <div className='share__msg_header'>
+                              <Avatar src={msg.share.user.avatar} size='medium-avatar' alt='avatar'/>
+                              <span className='ml-2'>{msg.share.user.username}</span>
+                          </div>
+                          <div>
+                            {
+                              msg.share.images[0].url.match(/video/i) ?
+                              videoShow(msg.share.images[0].url, theme)
+                              : <img src={msg.share.images[0].url} alt='images' 
+                                  style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '100%', height: 'auto', objectFit: 'cover', verticalAlign: 'middle'}}
+                                />
+                            }
+                          </div>
+                          <div className='content__share'>
+                              <p>{msg.share.content.length < 150 ? msg.share.content : msg.share.content.slice(0, 150) + '...'}</p>
+                          </div>
+                      </div>
+                    </Link>
+                  }
                 </div>
+
+                  {
+                    msg.call &&
+                    <button className='btn d-flex align-items-center py-3'
+                    style={{background: '#eee', borderRadius: '10px'}}>
+                        <span className='material-icons font-weight-bold mr-1'
+                        style={{ fontSize: '2.5rem', color: msg.call.times === 0 ? 'crimson' : 'green',
+                        filter:  theme ? 'invert(1)' : 'invert(0)'}}>
+                          {
+                            msg.call.times === 0 ?
+                            msg.call.video ? 'videocam_off' : 'phone_disabled' :
+                            msg.call.video ? 'video_camera_front' : 'call'
+                          }
+                        </span>
+
+                        <div className='text-left'>
+                            <h6>
+                              {
+                                msg.call.times === 0 ?
+                                msg.call.video ? 'Missed video call' : 'Missed audio call' :
+                                msg.call.video ? 'Video call ended' : 'Audio call ended'
+                              }
+                            </h6>
+                            <small>
+                                {
+                                  msg.call.times > 0 ?
+                                  <Times total={msg.call.times}/> :
+                                  new Date(msg.createdAt).toLocaleTimeString()
+                                }
+                            </small>
+                        </div>
+                    </button>
+                  }
               </div>
 
               <div className='chat_time' style={{textAlign: `${user._id === auth.user._id ? 'end' : 'start'}`}}>

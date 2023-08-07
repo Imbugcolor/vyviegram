@@ -29,10 +29,11 @@ export const getConversations = ({auth, page = 1}) => async(dispatch) => {
         const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token);
         let newArr = []
    
+        // loop conversations to get recipient (_id, fullname, username, avatar)
         res.data.conversations.forEach(item => {
             item.recipients.forEach(cv => {
                 if(cv._id !== auth.user._id) {
-                    newArr.push({...cv, text: item.text, media: item.media, typing: false})
+                    newArr.push({...cv, text: item.text, media: item.media, call: item.call, share: item.share, typing: false})
                 }
             })
         })
@@ -67,10 +68,13 @@ export const loadMoreMessages = ({ auth, id, page = 1 }) => async(dispatch) => {
 }
 
 export const deleteMessages = ({msg, data, auth, socket}) => async (dispatch) => {
-    const newData = DeleteData(data, msg._id)
-    dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
     try {
         await deleteDataAPI(`message/${msg._id}`, auth.token)
+        
+        const newData = DeleteData(data, msg._id)
+        dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
+
+        socket.emit('deleteMessages', { newData, user: auth.user._id, recipient: msg.recipient })
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }
@@ -82,5 +86,36 @@ export const deleteConversation = ({auth, id}) => async (dispatch) => {
         await deleteDataAPI(`conversation/${id}`, auth.token)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
+    }
+}
+
+export const shareToMess = ({post, usersShare, auth, shareMsg, socket}) => async(dispatch) => {
+
+    const msg = {
+        sender: auth.user._id,
+        text: shareMsg ? shareMsg : '',
+        media: [],
+        share: post,
+        createdAt: new Date().toISOString()
+    }
+
+    const { _id, avatar, fullname, username } = auth.user
+   
+    try {
+
+        dispatch({type: GLOBALTYPES.ALERT, payload: { loading: true }})
+
+        // loop users to share
+        await Promise.all(usersShare.map(async(item) => {
+            const res = await postDataAPI('message', {...msg, recipient: item._id}, auth.token)
+            dispatch({type: MESS_TYPES.ADD_MESSAGE, payload: res.data.newMsg})
+            socket.emit('addMessage', {...res.data.newMsg, user: {_id, avatar, fullname, username}})
+        }))
+
+        dispatch({type: GLOBALTYPES.ALERT, payload: { success: 'Send success.'}})
+
+    } catch (err) {
+        console.log(err);
+        dispatch({type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})
     }
 }

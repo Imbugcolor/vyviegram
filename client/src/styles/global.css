@@ -83,6 +83,10 @@ button:focus {
 @import url('./popup.css');
 /* CALL MODAL */
 @import url('./call_modal.css');
+/* NEW MESSAGE MODAL */
+@import url('./newmsg.css');
+/* SHARE MODAL */
+@import url('./share.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {

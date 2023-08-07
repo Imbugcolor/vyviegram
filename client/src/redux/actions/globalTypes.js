@@ -7,7 +7,9 @@ export const GLOBALTYPES = {
     SOCKET: 'SOCKET',
     ONLINE: 'ONLINE',
     OFFLINE: 'OFFLINE',
-    CALL: 'CALL'
+    CALL: 'CALL',
+    PEER: 'PEER',
+    SHARE: 'SHARE'
 }
 
 export const EditData = (data, id, post) => {
@@ -16,10 +18,7 @@ export const EditData = (data, id, post) => {
     )
     return newData;
 }
-// export const DeleteDAta = (data, id) => {
-//     const newDAta = data.filter(item => item._id !== id)
-//     return newDAta;
-// }
+
 export const DeleteData = (data, id) => {
     const newData = data.filter(item => item._id !== id)
     return newData;

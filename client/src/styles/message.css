@@ -52,7 +52,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
-    border: 1px solid #f3f3f3;
     color: #555;
     cursor: pointer;
 }
@@ -93,8 +92,12 @@
     font-weight: 500;
 }
 
-.share_msg .share__msg_header, .content__share p{
+.share_msg .share__msg_header, .content__share p {
     padding: 15px;
+}
+
+.content__share p{
+    margin-bottom: 0;
 }
 
 /*------------Chat Input--------------*/

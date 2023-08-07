@@ -32,7 +32,13 @@ const messageReducer = (state = initialState, action) => {
                 ),
                 users: state.users.map(user => 
                     user._id === action.payload.recipient || user._id === action.payload.sender ?
-                    {...user, text: action.payload.text, media: action.payload.media} : user
+                    {
+                        ...user, 
+                        text: action.payload.text, 
+                        media: action.payload.media,
+                        call: action.payload.call,
+                        share: action.payload.share
+                    } : user
                 )
             };
         case MESS_TYPES.GET_CONVERSATIONS:

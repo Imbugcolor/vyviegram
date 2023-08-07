@@ -16,7 +16,7 @@ const spawnNotifications =(body, icon, url, title) => {
     }
 }
 const SocketClient = () => {
-    const { auth, socket, notify, online } = useSelector(state => state)
+    const { auth, socket, notify, online, call } = useSelector(state => state)
     const dispatch = useDispatch()
     const audioRef = useRef()
 
@@ -123,6 +123,14 @@ const SocketClient = () => {
         return () => socket.off('addMessageToClient')
     },[socket, dispatch])
 
+    useEffect(() => {
+        socket.on('deleteMessagesToClient', data => {
+            dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: { newData: data.newData, _id: data.user }})
+        })
+
+        return () => socket.off('deleteMessagesToClient')
+    },[socket, dispatch])
+
     //Typing Message 
     useEffect(() => {
         socket.on('typingToClient', data => {
@@ -170,6 +178,23 @@ const SocketClient = () => {
 
         return () => socket.off('checkUserOffline')
     },[socket, dispatch, online])
+
+    // Call user
+    useEffect(() => {
+        socket.on('callUserToClient', data => {
+            dispatch({type: GLOBALTYPES.CALL, payload: data})
+        })
+
+        return () => socket.off('callUserToClient')
+    },[socket, dispatch, online])
+
+    useEffect(() => {
+        socket.on('userBusy', data => {
+            dispatch({type: GLOBALTYPES.ALERT, payload: {error: `${call.fullname} is busy.`}})
+        })
+
+        return () => socket.off('userBusy')
+    },[socket, dispatch, online, call])
 
   return (  
     <>

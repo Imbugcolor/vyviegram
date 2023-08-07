@@ -1,9 +1,15 @@
 let users = [];
 
+const EditData = (data, id, call) => {
+  const newData = data.map(item =>
+      item.id === id ? {...item, call} : item
+  )
+  return newData;
+}
+
 const SocketServer = (socket) => {
   //Connect - Disconnect
   socket.on("joinUser", (user) => {
-    // console.log(user._id)
     users.push({ id: user._id, socketId: socket.id, followers: user.followers });
   });
 
@@ -21,6 +27,15 @@ const SocketServer = (socket) => {
         clients.forEach(client => {
           socket.to(`${client.socketId}`).emit('checkUserOffline', data.id)
         })
+      }
+
+      // if user is calling to other user => end Call & response Disconnect 
+      if(data.call) {
+        const callUser = users.find(user => user.id === data.call)
+        if(callUser) {
+          users = EditData(users, callUser.id, null)
+          socket.to(`${callUser.socketId}`).emit('callerDisconnect')
+        }
       }
     }
     users = users.filter(user => user.socketId !== socket.id)
@@ -76,18 +91,12 @@ const SocketServer = (socket) => {
 
   //Follow
   socket.on("follow", (newUser) => {
-    // console.log(newUser)
-
     const user = users.find((user) => user.id === newUser._id);
-
     user && socket.to(`${user.socketId}`).emit("followToClient", newUser);
   });
 
   socket.on("unFollow", (newUser) => {
-    // console.log(newUser)
-
     const user = users.find((user) => user.id === newUser._id);
-  
     user && socket.to(`${user.socketId}`).emit("unFollowToClient", newUser);
   });
   
@@ -108,6 +117,17 @@ const SocketServer = (socket) => {
     user && socket.to(`${user.socketId}`).emit('addMessageToClient', msg)
   })
 
+  socket.on('deleteMessages', data => {
+    const user = users.find( user => user.id === data.recipient )
+    user && socket.to(`${user.socketId}`).emit('deleteMessagesToClient', data)
+  })
+
+  // Typing Message
+  socket.on('typing', data => {
+    const user = users.find( user => user.id === data.recipient._id )
+    user && socket.to(`${user.socketId}`).emit('typingToClient', data)
+  })
+
   // Check User Online / Offline
   socket.on('checkUserOnline', data => {
     //only check following users online/offline
@@ -125,10 +145,39 @@ const SocketServer = (socket) => {
     }
   })
 
-  // Typing Message
-  socket.on('typing', data => {
-    const user = users.find( user => user.id === data.recipient._id )
-    user && socket.to(`${user.socketId}`).emit('typingToClient', data)
+  // Call
+  socket.on('callUser', data => {
+    // add call field ( sender ) value is recipient id
+    users = EditData(users, data.sender, data.recipient)
+
+    const client = users.find(user => user.id === data.recipient)
+    
+    // if recipient exist call field , the user is busy ( end call ), else connecting to user...
+    if(client) {
+      if(client.call) {
+          users = EditData(users, data.sender, null)
+          socket.emit('userBusy', data)
+      } else {
+          users = EditData(users, data.recipient, data.sender)
+          socket.to(`${client.socketId}`).emit('callUserToClient', data)
+      }
+    }
+  })
+
+  socket.on('endCall', data => {
+    const client = users.find(user => user.id === data.sender)
+
+    if(client) {
+      // end call sender side
+      socket.to(`${client.socketId}`).emit('endCallToClient', data)
+      users = EditData(users, client.id, null)
+      // end call recipient side
+      if(client.call) {
+        const clientCall = users.find(user => user.id === client.call)
+        clientCall && socket.to(`${clientCall.socketId}`).emit('endCallToClient', data)
+        users = EditData(users, client.call, null)
+      }
+    }
   })
 
 };

@@ -5,7 +5,8 @@ const initialState = {
     loading: false,
     posts: [],
     result: 0,
-    page: 2
+    page: 2,
+    total: 0
 }
 
 const postReducer = (state = initialState, action) => {
@@ -25,7 +26,8 @@ const postReducer = (state = initialState, action) => {
                 ...state,
                 posts: action.payload.posts,
                 result: action.payload.result,
-                page: action.payload.page
+                page: action.payload.page,
+                total: action.payload.total
             }
         case POST_TYPES.UPDATE_POST:
             return {

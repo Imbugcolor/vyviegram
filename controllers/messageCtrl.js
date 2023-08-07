@@ -20,31 +20,38 @@ class APIfeatures {
 const messageCtrl = {
     createMessage: async (req, res) => {
         try {
-            const { recipient, text, media } = req.body
+            const { sender, recipient, text, media, call, share } = req.body
 
-            if(!recipient || (!text.trim() && media.length === 0)) return;
+            if(!recipient || (!text.trim() && media.length === 0 && !call && !share)) return;
 
+            // update newest text, media, call in conversation collection, if conversation not exist => create new with upsert property
             const newConversation = await Conversations.findOneAndUpdate({
                 $or: [
-                    {recipients: [req.user._id, recipient]},
-                    {recipients: [recipient, req.user._id]}
+                    {recipients: [sender, recipient]},
+                    {recipients: [recipient, sender]}
                 ]
             },{
-                recipients: [req.user._id, recipient],
-                text, media
+                recipients: [sender, recipient],
+                text, media, call, share
             }, { new: true, upsert: true })
 
+            // create new message
             const newMessage = new Messages({
                 conversation: newConversation._id,
-                sender: req.user._id,
+                sender,
+                call,
                 recipient,
                 text,
-                media
+                media,
+                share
             })
 
             await newMessage.save()
 
-            res.json({msg: 'Create Success.'})
+            res.json({
+                msg: 'Create Success!', 
+                newMsg: newMessage
+            })
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }

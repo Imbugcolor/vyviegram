@@ -19,9 +19,11 @@ import SocketClient from './SocketClient';
 import { getNotifies } from './redux/actions/notifyAction';
 import LeftSidebar from './components/sidebar/LeftSidebar';
 import CallModal from './components/message/CallModal';
+import Peer from 'peerjs'
+import ShareModal from './components/ShareModal';
 
 function App() {
-  const { auth, status, modal, call } = useSelector(state => state)
+  const { auth, status, modal, call, share } = useSelector(state => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -58,6 +60,13 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const newPeer = new Peer(undefined, {
+      path: '/', secure: true
+    })
+    dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
+  },[dispatch])
+
   return (
     <Router>
       <Alert />
@@ -75,6 +84,7 @@ function App() {
             { status && <StatusModal /> }
             { auth.token && <SocketClient />}
             { call && <CallModal />}
+            { share && <ShareModal />}
             <Routes>
                 <Route exact path='/' Component={auth.token ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />

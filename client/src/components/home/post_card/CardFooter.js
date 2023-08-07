@@ -4,18 +4,18 @@ import { Link } from 'react-router-dom'
 import LikeButton from '../../LikeButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { likePost, savePost, unSavePost, unlikePost } from '../../../redux/actions/postAction'
-import ShareModal from '../../ShareModal'
-import { BASE_URL } from '../../../utils/config'
+import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
+
 const CardFooter = ({post}) => {
     const [isLike, setIsLike] = useState(false)
     const [loadLike, setLoadLike] = useState(false)
-    const [isShare, setIsShare] = useState(false)
-    const {auth, theme, socket} = useSelector(state => state)
+    const {auth, socket} = useSelector(state => state)
     const [saved, setSaved] = useState(false)
     const [saveLoad, setSaveLoad] = useState(false)
 
     const dispatch = useDispatch()
-     //Likes
+
+    // Likes
     useEffect(() => {
         if(post.likes.find(like => like._id === auth.user._id)){
             setIsLike(true)
@@ -31,6 +31,7 @@ const CardFooter = ({post}) => {
         await dispatch(likePost({post, auth, socket}))
         setLoadLike(false)
     }
+
     const handleUnLike = async() => {
         if(loadLike) return;
 
@@ -38,7 +39,8 @@ const CardFooter = ({post}) => {
         await dispatch(unlikePost({post, auth, socket}))
         setLoadLike(false)
     }
-    //save
+
+    // Save
     useEffect(() => {
         if(auth.user.saved.find(id => id === post._id)){
             setSaved(true)
@@ -46,6 +48,7 @@ const CardFooter = ({post}) => {
             setSaved(false)
         }
     },[auth.user.saved, post._id])
+
     const handleSavePost = async () => {
         if(saveLoad) return;
         
@@ -61,6 +64,12 @@ const CardFooter = ({post}) => {
         await dispatch(unSavePost({post, auth}))
         setSaveLoad(false)
     }
+
+    // Share 
+    const handleSharePost = () => {
+        dispatch({ type: GLOBALTYPES.SHARE, payload: { post }})
+    }
+
     return (
         <div className='card_footer'>
             <div className='card_icon_menu'>
@@ -74,7 +83,7 @@ const CardFooter = ({post}) => {
                         <i className='far fa-comment' />
                     </Link>
 
-                    <img src={Send} alt="Send" onClick={() => setIsShare(!isShare)} />
+                    <img src={Send} alt="Send" onClick={handleSharePost} />
                 </div>
 
                 {
@@ -96,9 +105,6 @@ const CardFooter = ({post}) => {
                     {post.comments.length} comments
                 </h6>
             </div>
-            {
-                 isShare &&  <ShareModal url={`${BASE_URL}/post/${post._id}`} theme={theme} />
-            }
         </div>
     )
 }
