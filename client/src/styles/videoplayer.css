@@ -1,0 +1,22 @@
+.video_player {
+    height: 100%;
+}
+
+.video_player video {
+    position: relative;
+    width: 100%;
+}
+
+.video_player .play-btn {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    color: #fff;
+    font-size: 50px;
+    transform: translate(25px, -25px);
+}
+
+.video_player .play-btn-active {
+    display: block;
+}

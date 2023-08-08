@@ -6,6 +6,7 @@ import stylePopUpConfirm from '../alert/Confirm'
 import { deleteMessages } from '../../redux/actions/messageAction'
 import { Link } from 'react-router-dom'
 import Times from './Times'
+import Video from '../Video'
 
 const MsgDisplay = ({user, msg, theme, data}) => {
   const { auth, socket } = useSelector(state => state)
@@ -67,7 +68,7 @@ const MsgDisplay = ({user, msg, theme, data}) => {
                           <div>
                             {
                               msg.share.images[0].url.match(/video/i) ?
-                              videoShow(msg.share.images[0].url, theme)
+                              <Video public_id={msg.share.images[0].public_id}/>
                               : <img src={msg.share.images[0].url} alt='images' 
                                   style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '100%', height: 'auto', objectFit: 'cover', verticalAlign: 'middle'}}
                                 />

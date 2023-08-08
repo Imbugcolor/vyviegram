@@ -2,7 +2,7 @@
 .status {
     background: white;
     box-shadow: 0 0 5px #ddd;
-    padding: 20px;
+    padding: 20px 15px;
     border-radius: 5px;
     border: 1px solid rgb(0, 0, 0, .125)
 }
@@ -51,7 +51,7 @@
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    padding: 15px 25px;
+    padding: 15px;
 }
 
 .posts .card_header .card_name {
@@ -71,7 +71,7 @@
 
 /* -------------- POST CARD BODY ------------- */
 .posts .card_body-content {
-    padding: 0 25px;
+    padding: 0 15px;
     margin-top: -10px;
     margin-bottom: 10px;
 }

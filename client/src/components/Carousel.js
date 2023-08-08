@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import Video from './Video';
 
 const Carousel = ({images, id}) => {
     const isActive = index => {
@@ -36,11 +37,12 @@ const Carousel = ({images, id}) => {
                         >
                             {
                                 img.url.match(/video/i) ?
-                                <video controls src={img.url} 
-                                    className="d-block w-100" 
-                                    alt={img.url}
-                                    style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
-                                />   
+                                // <video controls src={img.url} 
+                                //     className="d-block w-100" 
+                                //     alt={img.url}
+                                //     style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
+                                // />  
+                                <Video public_id={img.public_id}/> 
                                 :
                                 <img src={img.url} 
                                     className="d-block w-100" 

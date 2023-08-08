@@ -12,5 +12,6 @@
 .carousel .image__display img {
     height: 100%;
     object-fit: cover;
+    width: 100%;
 }
 

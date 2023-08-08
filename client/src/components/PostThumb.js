@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { HiSquare2Stack, HiOutlineCamera } from 'react-icons/hi2'
+import Video from './Video'
 
 const PostThumb = ({posts, result}) => {
     const { theme } = useSelector(state => state)
@@ -25,8 +26,7 @@ const PostThumb = ({posts, result}) => {
                         {
                             post.images[0].url.match(/video/i)
                             ?
-                            <video controls src={post.images[0].url} alt={post.images[0].url}
-                                 style={{filter: theme ? 'invert(1)' : 'invert(0)'}}/>
+                            <Video public_id={post.images[0].public_id}/>
                             :   
                             <img src={post.images[0].url} alt={post.images[0].url}
                                      style={{filter: theme ? 'invert(1)' : 'invert(0)'}}/>
