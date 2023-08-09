@@ -131,7 +131,9 @@ const ShareModal = () => {
                                    users.map(user => (
                                         <div className='search__item_result' key={user._id} style={{background: `${userChosen._id === user._id ? '#efefef' : '#fff'}`}}>
                                              <label className='d-flex align-item-center' htmlFor={user._id} style={{cursor: 'pointer'}}>
-                                                  <Avatar src={user.avatar} size='big-avatar'/>
+                                                  <div>
+                                                       <Avatar src={user.avatar} size='big-avatar'/>
+                                                  </div>
                                                   <div className='ml-2' style={{transform: 'translateY(-2px)'}}>
                                                        <span className='d-block' style={{color: '#262626', fontWeight: '500'}}>{user.username}</span>
                                                   

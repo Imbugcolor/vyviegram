@@ -1,13 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Video from './Video';
+import { useParams } from 'react-router-dom';
 
 const Carousel = ({images, id}) => {
+    const search = useParams()
+
+    const [idParams, setIdParams] = useState('')
+    const [page, setPage] = useState('')
+
     const isActive = index => {
         if(index === 0) return 'active';
     }
     
     const { theme } = useSelector(state => state)
+
+    useEffect(() => {
+        if(search) {
+            setIdParams(search.id)
+            setPage(search.page)
+        }
+    },[search])
 
     return (
         <div id={`image${id}`} className="carousel" data-interval="false">
@@ -29,7 +42,7 @@ const Carousel = ({images, id}) => {
                 
                 </ol>
             }
-            <div className="carousel-inner image__display">
+            <div className={`carousel-inner image__display ${idParams && page && page === 'post' && 'height-auto'}`}>
                 {
                     images.map((img, index) => (
                         <div key={index} 

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { HiSquare2Stack, HiOutlineCamera } from 'react-icons/hi2'
 import Video from './Video'
+import { MdSlowMotionVideo } from 'react-icons/md'
 
 const PostThumb = ({posts, result}) => {
     const { theme } = useSelector(state => state)
@@ -36,6 +37,13 @@ const PostThumb = ({posts, result}) => {
                             post.images.length > 1 &&
                             <div className='images_stack'>
                                 <HiSquare2Stack />                
+                            </div> 
+                        }
+
+                        {
+                            post.images.length === 1 && post.images[0].url.match(/video/i) &&
+                            <div className='images_stack'>
+                                <MdSlowMotionVideo />                
                             </div> 
                         }
 

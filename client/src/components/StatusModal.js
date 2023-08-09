@@ -113,7 +113,7 @@ const StatusModal = () => {
         <div className='status_modal'>
             <form onSubmit={handleSubmit}>
                 <div className='status_header'>
-                    <h5 className='m-0'>Create Post</h5>
+                    <h5 className='m-0'>Create new post</h5>
                     <span onClick={() => dispatch({
                         type: GLOBALTYPES.STATUS, payload: false
                         })}

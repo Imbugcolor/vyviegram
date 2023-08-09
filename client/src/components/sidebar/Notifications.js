@@ -39,7 +39,7 @@ const Notifications = ({setOpenNoti}) => {
 
     return (
         <div className='notifications__container'>
-            <div>
+            <div className='d-flex justify-content-between align-items-center mb-3'>
                 <h4>Notifications</h4>
                 {
                     notify.sound ? 

@@ -9,7 +9,7 @@ const Home = () => {
     const { homePosts } = useSelector(state => state)
     return (
       <div className='home row mx-0'>
-          <div className='col-md-8 center__side'>
+          <div className='col-md-7 center__side'>
             <Status />
             {
                 homePosts.loading ?

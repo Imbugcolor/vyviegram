@@ -97,6 +97,7 @@ const authCtrl = {
                 const passwordHash = await bcrypt.hash(password, 12)
 
                 const user = await Users.findOne({email})
+                .populate("followers following", "avatar username fullname followers following")
 
                 if (user) {
                     loginUser(user, password, res)
@@ -154,6 +155,7 @@ const authCtrl = {
             const passwordHash = await bcrypt.hash(password, 12)
 
             const user = await Users.findOne({email: newEmail})
+            .populate("followers following", "avatar username fullname followers following")
 
                 if (user) {
                     loginUser(user, password, res)

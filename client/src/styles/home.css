@@ -1,5 +1,6 @@
 /* --------------- STATUS ------------- */
 .status {
+    max-width: 700px;
     background: white;
     box-shadow: 0 0 5px #ddd;
     padding: 20px 15px;

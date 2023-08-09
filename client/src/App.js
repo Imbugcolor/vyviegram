@@ -75,10 +75,13 @@ function App() {
         <div className='row'> 
           {
             auth.token &&
-            <div className='left__sidebar col-md-3'>
-                <LeftSidebar />
+            <div className='col-md-3 nav_side__bar'>
+                <div className='left__sidebar'>
+                  <LeftSidebar />
+                </div>
             </div> 
           }
+          
           <div className={`main ${auth.token ? 'col-md-9 content_app' : ''}`}>
             { auth.token && <Header /> }
             { status && <StatusModal /> }

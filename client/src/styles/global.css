@@ -30,13 +30,8 @@ code {
 }
 
 .main {
-    max-width: 1000px;
     width: 100%;
     margin: auto;
-}
-
-.content_app {
-    margin-left: 33%;
 }
 
 img {
@@ -92,10 +87,6 @@ button:focus {
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
-  .content_app {
-      margin-left: 25%;
-  }
-
   .menu__side_bar .title__menu {
       display: none;
   }
@@ -191,6 +182,12 @@ button:focus {
   .left__sidebar {
       display: none;
   }
+
+  .right__side_bar {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+  }
+
   .content_app {
       margin-left: 0;
   }
@@ -201,6 +198,10 @@ button:focus {
 
   .left_mess, .right_mess {
       display: none;
+  }
+
+  .status_modal form {
+    max-width: 400px;
   }
 }
 

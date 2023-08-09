@@ -5,6 +5,7 @@
     height: 100vh;
     background-color: #fff;
     border-left: 1px solid #d5d2d3;
+    border-right: 1px solid #d5d2d3;
     padding: 25px 20px;
     overflow-y: auto;
     min-width: 350px;
