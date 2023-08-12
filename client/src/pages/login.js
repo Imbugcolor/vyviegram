@@ -6,7 +6,8 @@ import { useGoogleLogin } from '@react-oauth/google'
 import { FcGoogle } from 'react-icons/fc'
 import { AiFillGithub } from 'react-icons/ai'
 import TextBrand from '../images/text-logo.png'
-
+import {BsEyeFill} from 'react-icons/bs'
+import {BsEyeSlashFill} from 'react-icons/bs'
 const Login = () => {
     const initialState = { email: '', password: '' }
    
@@ -110,32 +111,28 @@ const Login = () => {
                         VyViegram
                         </span> */}
                         <div className="p-b-49">
-                            <img src={TextBrand}  alt="vyviegram_logo" style={{width: '50%', height: '50px', 'object-fit': 'contain', display: 'block', margin: 'auto'}}/>
+                            <img src={TextBrand}  alt="vyviegram_logo" style={{width: '50%', height: '50px', 'objectFit': 'contain', display: 'block', margin: 'auto'}}/>
                         </div>
 
-                        <div className="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
-                            <span className="label-input100">Email address</span>
-                            <input className="input100" type="email" name="email" aria-describedby="emailHelp"
+                        <div className="wrap-input100 validate-input m-b-23" data-validate="Email address is required">
+                            <label htmlFor="exampleInputEmail1" className="label-input100">Email address</label>
+                            <input className="input100" id="exampleInputEmail1" type="email" name="email" aria-describedby="emailHelp"
                         placeholder="Enter email" onChange={handleChangeInput} value={email}/>
                             <span className="focus-input100" data-symbol="" />
                             
                         </div>
-                        <div className="wrap-input100 validate-input" data-validate="Password is required">
-                            <span className="label-input100">Password</span>
-                            <input className="input100"  type={typePass ? "text" : "password"} placeholder="Password"
+                        <div  className="wrap-input100 validate-input m-b-23" data-validate="Password is required">
+                            <label htmlFor="exampleInputPassword1" className="label-input100">Password</label>
+                            <input id="exampleInputPassword1" className="input100"  type={typePass ? "text" : "password"} placeholder="Password"
                             onChange={handleChangeInput} value={password} name="password" />
                         
                             <span className="focus-input100" data-symbol="" />
                             <small onClick={() => setTypePass(!typePass)}>
-                            {typePass ? 'Hide' : 'Show'}
+                            {typePass ? <BsEyeFill size={20}/> : <BsEyeSlashFill size={20}/>}
                             
                         </small>
                         </div>
-                        <div className="text-right p-t-8 p-b-31">
-                            <p>
-                                You don't have an account? <Link to="/register" style={{color:"crimson"}}>Register Now</Link>
-                            </p>
-                        </div>
+                        
                         <div className="container-login100-form-btn">
                             <div className="wrap-login100-form-btn">
                             <div className="login100-form-bgbtn" />
@@ -143,6 +140,11 @@ const Login = () => {
                                 Login
                             </button>
                             </div>
+                        </div>
+                        <div className="text-right p-t-8 p-b-31">
+                            <p>
+                                You don't have an account? <Link to="/register" style={{color:"crimson"}}>Register Now</Link>
+                            </p>
                         </div>
                         <div className="txt1 text-center p-t-54 p-b-20">
                             <span>

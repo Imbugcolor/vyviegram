@@ -43,7 +43,15 @@
     color: white;
     margin: 0 20px;
 }
-
+.fa-heart:before{
+    margin: 0 6px;
+}
+.fa-comment:before{
+    margin: 0 6px;
+}
+.react-icon{
+    color: #fff !important;
+}
 .images_stack {
     position: absolute;
     top: 5px;
