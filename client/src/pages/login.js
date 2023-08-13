@@ -119,7 +119,7 @@ const Login = () => {
                             <label htmlFor="exampleInputEmail1" className="label-input100">Email address</label>
                             <input className="input100" id="exampleInputEmail1" type="email" name="email" aria-describedby="emailHelp"
                         placeholder="Enter email" onChange={handleChangeInput} value={email}/>
-                            <span className="focus-input100" data-symbol="" />
+                            <span className="focus-input100" data-symbol="" />
                             
                         </div>
                         <div  className="wrap-input100 validate-input m-b-23" data-validate="Password is required">

@@ -156,7 +156,7 @@ return (
                             <input className="input100"  type="text" name="fullname"
                                  onChange={handleChangeInput} value={fullname}
                                      style={{background: `${alert.fullname ? '#fd2d6a14' : ''}`}}/>
-                             <span className="focus-input100" data-symbol="" />
+                             <span className="focus-input100" data-symbol="" />
                              
                             <small className="form-text text-danger">
                                 {alert.fullname ? alert.fullname : ''}
@@ -181,7 +181,7 @@ return (
                             <span className="label-input100">Email address</span>
                             <input className="input100" type="email" name="email" aria-describedby="emailHelp"
                             placeholder="Enter email" onChange={handleChangeInput} value={email}/>
-                            <span className="focus-input100" data-symbol="" />
+                            <span className="focus-input100" data-symbol="" />
                             <small className="form-text text-danger">
                             {alert.email ? alert.email : ''}
                             </small>
