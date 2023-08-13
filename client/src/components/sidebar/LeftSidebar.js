@@ -155,7 +155,7 @@ const LeftSidebar = () => {
                     {theme ? 'Light mode' : 'Dark mode'}
                 </label>
                 <div className="dropdown-divider"></div>
-                <Link className="dropdown-item" to={`/`} onClick={() => dispatch(logout())}>Log out</Link>
+                <Link className="dropdown-item" to={`/`} onClick={() => dispatch(logout(auth.token))}>Log out</Link>
             </div>
         </div>
         

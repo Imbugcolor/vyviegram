@@ -31,7 +31,7 @@ const Search = () => {
       if(!search) return;
       try{
         setLoad(true)
-        const res = await getDataAPI(`search?username=${search}`, auth.token)
+        const res = await getDataAPI(`search?username=${search}`, auth.token, dispatch)
         setUsers(res.data.users)
         setLoad(false)
       } catch(err){

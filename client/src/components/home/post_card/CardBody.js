@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
 import Carousel from '../../Carousel'
 
-const CardBody = ({post}) => {
+const CardBody = ({post, theme}) => {
     const [readMore, setReadMore] = useState(false)
     return (
         <div className='card_body'>
             <div className='card_body-content'>
-                <span>
+                <span 
+                style={{ 
+                    filter: theme ? 'invert(1)' : 'invert(0)',
+                    color: theme ? '#fff' : '#000'
+                }}>
                     {
                         post.content.length < 60 ? post.content :
                         readMore ? 

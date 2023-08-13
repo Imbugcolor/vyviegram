@@ -69,7 +69,8 @@ const userSchema = new mongoose.Schema({
     typeRegister: {
         type: 'String',
         default: 'normal' // github, google
-    }
+    },
+    rf_token: { type: 'String' }
 }, {
     timestamps: true
 })

@@ -23,26 +23,31 @@ import Peer from 'peerjs'
 import ShareModal from './components/ShareModal';
 
 function App() {
-  const { auth, status, modal, call, share } = useSelector(state => state)
+  const { auth, status, modal, call, share, theme } = useSelector(state => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // get new AccessToken everytime access/refresh page
     dispatch(refreshToken())
 
+    // create new socket 
     const socket = io()
     dispatch({type: GLOBALTYPES.SOCKET, payload: socket})
     return () => socket.close()
   },[dispatch])
 
   useEffect(() => {
-    if(auth.token){ 
+    if(auth.isLogged){ 
       dispatch(getPosts(auth.token))
       dispatch(getSuggestions(auth.token))
       dispatch(getNotifies(auth.token))
     }
 
-  }, [dispatch, auth.token]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, auth.isLogged]);
 
+
+  // Notification API 
   useEffect(() => {
     if (!("Notification" in window)) {
       // Check if the browser supports notifications
@@ -60,12 +65,24 @@ function App() {
     }
   }, []);
 
+
+  // create peer
   useEffect(() => {
     const newPeer = new Peer(undefined, {
       path: '/', secure: true
     })
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
   },[dispatch])
+
+  // light mode - dark mode
+  useEffect(() => {
+    const htmlElement = document.querySelector(':root')
+    if (theme) {
+      htmlElement.style.filter = 'invert(1)'
+    } else {
+      htmlElement.style.removeProperty('filter')
+    }
+  },[theme])
 
   return (
     <Router>
@@ -74,7 +91,7 @@ function App() {
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className='row'> 
           {
-            auth.token &&
+            auth.isLogged &&
             <div className='col-md-3 nav_side__bar'>
                 <div className='left__sidebar'>
                   <LeftSidebar />
@@ -82,14 +99,14 @@ function App() {
             </div> 
           }
           
-          <div className={`main ${auth.token ? 'col-md-9 content_app' : ''}`}>
-            { auth.token && <Header /> }
+          <div className={`main ${auth.isLogged ? 'col-md-9 content_app' : ''}`}>
+            { auth.isLogged && <Header /> }
             { status && <StatusModal /> }
-            { auth.token && <SocketClient />}
+            { auth.isLogged && <SocketClient />}
             { call && <CallModal />}
             { share && <ShareModal />}
             <Routes>
-                <Route exact path='/' Component={auth.token ? Home : Login}/>
+                <Route exact path='/' Component={auth.isLogged ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />
                 <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>

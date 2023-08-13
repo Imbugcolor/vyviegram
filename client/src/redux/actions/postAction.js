@@ -20,7 +20,7 @@ export const createPost = ({content, images, auth, socket}) => async (dispatch) 
 
         if(images.length > 0) media = await imageUpload(images)
 
-        const res = await postDataAPI('posts', { content, images: media }, auth.token)
+        const res = await postDataAPI('posts', { content, images: media }, auth.token, dispatch)
         
         dispatch({
             type: POST_TYPES.CREATE_POST, 
@@ -48,7 +48,7 @@ export const createPost = ({content, images, auth, socket}) => async (dispatch) 
 export const getPosts = (token) => async (dispatch) => {
     try {
         dispatch({ type: POST_TYPES.LOADING_POST, payload: true })
-        const res = await getDataAPI('posts', token)
+        const res = await getDataAPI('posts', token, dispatch)
 
         dispatch({ 
             type: POST_TYPES.GET_POSTS, 
@@ -78,7 +78,7 @@ export const updatePost = ({content, images, auth, status}) => async (dispatch) 
         
         const res = await patchDataAPI(`post/${status._id}`, { 
             content, images: [...imgOldUrl, ...media] 
-        }, auth.token)
+        }, auth.token, dispatch)
 
         dispatch({ type: POST_TYPES.UPDATE_POST, payload: res.data.newPost })
         dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg } })
@@ -91,7 +91,7 @@ export const likePost = ({post, auth, socket}) => async(dispatch) =>{
     dispatch({type: POST_TYPES.UPDATE_POST, payload: newPost})
     socket.emit('likePost', newPost)
     try {
-        await patchDataAPI(`post/${post._id}/like`,null, auth.token)
+        await patchDataAPI(`post/${post._id}/like`,null, auth.token, dispatch)
         //Notify 
         const msg = {
             id: auth.user._id,
@@ -113,7 +113,7 @@ export const unlikePost = ({post, auth, socket}) => async(dispatch) =>{
     dispatch({type: POST_TYPES.UPDATE_POST, payload: newPost})
     socket.emit('unLikePost', newPost)
     try {
-        await patchDataAPI(`post/${post._id}/unlike`,null, auth.token)
+        await patchDataAPI(`post/${post._id}/unlike`,null, auth.token, dispatch)
         // Notify
         const msg = {
             id: auth.user._id,
@@ -131,7 +131,7 @@ export const unlikePost = ({post, auth, socket}) => async(dispatch) =>{
 export const getPost = ({detailPost, id, auth}) => async (dispatch) => {
     if(detailPost.every(post => post._id !== id)){
         try {
-            const res = await getDataAPI(`post/${id}`, auth.token)
+            const res = await getDataAPI(`post/${id}`, auth.token, dispatch)
             dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
         } catch (err) {
             dispatch({
@@ -145,7 +145,7 @@ export const deletePost = ({post, auth, socket}) => async (dispatch) => {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
     try {
-        const res = await deleteDataAPI(`post/${post._id}`, auth.token)
+        const res = await deleteDataAPI(`post/${post._id}`, auth.token, dispatch)
 
         // Notify
         const msg = {
@@ -168,7 +168,7 @@ export const savePost = ({post, auth}) => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.AUTH, payload: {...auth, user: newUser}})
 
     try {
-        await patchDataAPI(`savePost/${post._id}`, null, auth.token)
+        await patchDataAPI(`savePost/${post._id}`, null, auth.token, dispatch)
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ALERT,
@@ -182,7 +182,7 @@ export const unSavePost = ({post, auth}) => async (dispatch) => {
     dispatch({ type: GLOBALTYPES.AUTH, payload: {...auth, user: newUser}})
 
     try {
-        await patchDataAPI(`unSavePost/${post._id}`, null, auth.token)
+        await patchDataAPI(`unSavePost/${post._id}`, null, auth.token, dispatch)
     } catch (err) {
         dispatch({
             type: GLOBALTYPES.ALERT,

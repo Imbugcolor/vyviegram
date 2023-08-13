@@ -18,7 +18,7 @@ export const addMessage = ({msg, auth, socket}) => async(dispatch) => {
     const { _id, avatar, fullname, username } = auth.user
     socket.emit('addMessage', {...msg, user: { _id, avatar, fullname, username } })
     try {
-        await postDataAPI('message', msg, auth.token)
+        await postDataAPI('message', msg, auth.token, dispatch)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }
@@ -26,7 +26,7 @@ export const addMessage = ({msg, auth, socket}) => async(dispatch) => {
 
 export const getConversations = ({auth, page = 1}) => async(dispatch) => {
     try {
-        const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token);
+        const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token, dispatch);
         let newArr = []
    
         // loop conversations to get recipient (_id, fullname, username, avatar)
@@ -49,7 +49,7 @@ export const getConversations = ({auth, page = 1}) => async(dispatch) => {
 
 export const getMessages = ({ auth, id, page = 1 }) => async(dispatch) => {
     try {
-        const res= await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token)
+        const res= await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token, dispatch)
         const newData = {...res.data, messages: res.data.messages.reverse()}
         dispatch({type: MESS_TYPES.GET_MESSAGES, payload: {...newData, _id: id, page}})
     } catch (err) {
@@ -59,7 +59,7 @@ export const getMessages = ({ auth, id, page = 1 }) => async(dispatch) => {
 
 export const loadMoreMessages = ({ auth, id, page = 1 }) => async(dispatch) => {
     try {
-        const res= await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token)
+        const res= await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token, dispatch)
         const newData = {...res.data, messages: res.data.messages.reverse()}
         dispatch({type: MESS_TYPES.UPDATE_MESSAGES, payload: {...newData, _id: id, page}})
     } catch (err) {
@@ -69,7 +69,7 @@ export const loadMoreMessages = ({ auth, id, page = 1 }) => async(dispatch) => {
 
 export const deleteMessages = ({msg, data, auth, socket}) => async (dispatch) => {
     try {
-        await deleteDataAPI(`message/${msg._id}`, auth.token)
+        await deleteDataAPI(`message/${msg._id}`, auth.token, dispatch)
         
         const newData = DeleteData(data, msg._id)
         dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
@@ -83,7 +83,7 @@ export const deleteMessages = ({msg, data, auth, socket}) => async (dispatch) =>
 export const deleteConversation = ({auth, id}) => async (dispatch) => {
     dispatch({type: MESS_TYPES.DELETE_CONVERSATION, payload: id})
     try {
-        await deleteDataAPI(`conversation/${id}`, auth.token)
+        await deleteDataAPI(`conversation/${id}`, auth.token, dispatch)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }
@@ -107,7 +107,7 @@ export const shareToMess = ({post, usersShare, auth, shareMsg, socket}) => async
 
         // loop users to share
         await Promise.all(usersShare.map(async(item) => {
-            const res = await postDataAPI('message', {...msg, recipient: item._id}, auth.token)
+            const res = await postDataAPI('message', {...msg, recipient: item._id}, auth.token, dispatch)
             dispatch({type: MESS_TYPES.ADD_MESSAGE, payload: res.data.newMsg})
             socket.emit('addMessage', {...res.data.newMsg, user: {_id, avatar, fullname, username}})
         }))

@@ -17,7 +17,7 @@ const Discover = () => {
   }, [dispatch, auth.token, discover.firstLoad]);
   const handleLoadMore = async () => {
     setLoad(true)
-    const res = await getDataAPI(`post_discover?num=${discover.page * 9}`, auth.token)
+    const res = await getDataAPI(`post_discover?num=${discover.page * 9}`, auth.token, dispatch)
     // console.log(res)
     dispatch({type: DISCOVER_TYPES.UPDATE_POST, payload: res.data})
     setLoad(false)

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const router = require('express').Router()
 const authCtrl = require('../controllers/authCtrl')
+const auth = require('../middleware/auth')
 
 router.post('/register', authCtrl.register)
 
@@ -10,9 +11,9 @@ router.post('/google_login', authCtrl.googleLogin)
 
 router.post('/github_login', authCtrl.githubLogin)
 
-router.post('/logout', authCtrl.logout)
+router.get('/logout', auth, authCtrl.logout)
 
-router.post('/refresh_token', authCtrl.generateAccessToken)
+router.get('/refresh_token', authCtrl.generateAccessToken)
 
 
 module.exports = router

@@ -51,7 +51,12 @@ const Video = ({ public_id }) => {
           onPlay={handleOnPlay}
           onPause={handleOnPause}
         />
-        <FaPlay id={public_id} className='play-btn play-btn-active' onClick={handleVideoToggle}/>
+        <FaPlay 
+          id={public_id} 
+          className='play-btn play-btn-active' 
+          onClick={handleVideoToggle}
+          style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}
+        />
     </div>
   )
 }

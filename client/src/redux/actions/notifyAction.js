@@ -10,7 +10,7 @@ export const NOTIFY_TYPES = {
 }
 export const createNotify = ({msg, auth, socket}) => async (dispatch) => {
     try {
-        const res = await postDataAPI('notify', msg, auth.token)
+        const res = await postDataAPI('notify', msg, auth.token, dispatch)
 
         socket.emit('createNotify', {
             ...res.data.notify,
@@ -25,7 +25,7 @@ export const createNotify = ({msg, auth, socket}) => async (dispatch) => {
 }
 export const removeNotify = ({msg, auth, socket}) => async (dispatch) => {
     try {
-        await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token)
+        await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token, dispatch)
         
         socket.emit('removeNotify', msg)
     } catch (err) {
@@ -34,7 +34,7 @@ export const removeNotify = ({msg, auth, socket}) => async (dispatch) => {
 }
 export const getNotifies = (token) => async (dispatch) => {
     try {
-        const res = await getDataAPI('notifies', token)
+        const res = await getDataAPI('notifies', token, dispatch)
         
         dispatch({ type: NOTIFY_TYPES.GET_NOTIFIES, payload: res.data.notifies })
     } catch (err) {
@@ -44,7 +44,7 @@ export const getNotifies = (token) => async (dispatch) => {
 export const isReadNotify = ({msg, auth}) => async (dispatch) => {
     dispatch({type: NOTIFY_TYPES.UPDATE_NOTIFY, payload: {...msg, isRead: true}})
     try {
-        await patchDataAPI(`/isReadNotify/${msg._id}`, null, auth.token)
+        await patchDataAPI(`/isReadNotify/${msg._id}`, null, auth.token, dispatch)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }
@@ -52,7 +52,7 @@ export const isReadNotify = ({msg, auth}) => async (dispatch) => {
 export const deleteAllNotifies = (token) => async (dispatch) => {
     dispatch({type: NOTIFY_TYPES.DELETE_ALL_NOTIFIES, payload: []})
     try {
-        await deleteDataAPI('deleteAllNotify', token)
+        await deleteDataAPI('deleteAllNotify', token, dispatch)
     } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg}})
     }

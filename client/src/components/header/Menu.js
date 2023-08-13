@@ -69,7 +69,7 @@ const Menu = () => {
                         {theme ? 'Light mode' : 'Dark mode'}
                     </label>
                     <div className="dropdown-divider"></div>
-                    <Link className="dropdown-item" to="/" onClick={()=> dispatch(logout())}>Logout</Link>
+                    <Link className="dropdown-item" to="/" onClick={()=> dispatch(logout(auth.token))}>Logout</Link>
                 </div>
             </li>
         

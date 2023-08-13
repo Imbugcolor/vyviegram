@@ -5,6 +5,7 @@ import LoadIcon from '../../images/loading.gif'
 import { getDataAPI } from '../../utils/fetchData'
 import { POST_TYPES } from '../../redux/actions/postAction'
 import DoneIcon from '../../images/done.png'
+import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
 const Posts = () => {
     const { homePosts, auth, theme } = useSelector(state => state)
@@ -15,13 +16,17 @@ const Posts = () => {
     //--------------- Infinite scroll ------------------
     // Load more 9 records
     const handleLoadMore = useCallback(async () => {
-        setLoad(true)
-        const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token)
-        dispatch({
-            type: POST_TYPES.GET_POSTS, 
-            payload: {...res.data, page: homePosts.page + 1}
-        })
-        setLoad(false)
+        try {
+            setLoad(true)
+            const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token, dispatch)
+            dispatch({
+                type: POST_TYPES.GET_POSTS, 
+                payload: {...res.data, page: homePosts.page + 1}
+            })
+            setLoad(false)
+        } catch (err) {
+            dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg }})
+        }
     },[homePosts.page, dispatch, auth.token])
 
     // When scroll to bottom page & check if records loaded less than total records => call handleLoadMore()

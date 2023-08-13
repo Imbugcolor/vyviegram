@@ -39,7 +39,7 @@ const NewMessenger = ({setOpenNewMsg}) => {
             setLoad(true)
            
             try {
-                const res = await getDataAPI(`search?username=${search}`, auth.token)
+                const res = await getDataAPI(`search?username=${search}`, auth.token, dispatch)
                 setUsers(res.data.users)
             } catch (err) {
                 dispatch({

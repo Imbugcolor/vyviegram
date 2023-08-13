@@ -20,8 +20,8 @@ export const getProfileUsers = ({id, auth})=> async (dispatch) =>{
             dispatch({
                 type: PROFILE_TYPES.LOADING, 
                 payload: true})
-                const res = getDataAPI(`/user/${id}`, auth.token)
-                const res1 = getDataAPI(`/user_posts/${id}`, auth.token)
+                const res = getDataAPI(`/user/${id}`, auth.token, dispatch)
+                const res1 = getDataAPI(`/user_posts/${id}`, auth.token, dispatch)
                 const users = await res;
                 const posts = await res1;
             dispatch({
@@ -57,7 +57,7 @@ export const updateProfileUser = ({userData, avatar, auth}) => async (dispatch) 
         const res = await patchDataAPI("user", {
             ...userData,
             avatar: avatar ? media[0].url : auth.user.avatar
-        }, auth.token)
+        }, auth.token, dispatch)
       
         dispatch({
             type: GLOBALTYPES.AUTH,
@@ -100,7 +100,7 @@ export const follow = ({users, user, auth, socket}) => async (dispatch) => {
     })
 
     try {
-         const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token)
+         const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token, dispatch)
          socket.emit('follow', res.data.newUser)
          // Notify
         const msg = {
@@ -170,7 +170,7 @@ export const unfollow = ({users, user, auth, socket}) => async (dispatch) => {
     })
     
     try {
-        const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token)
+        const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token, dispatch)
         socket.emit('unFollow',res.data.newUser)
         // Notify
         const msg = {

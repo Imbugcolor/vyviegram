@@ -1,5 +1,5 @@
 import { GLOBALTYPES } from './globalTypes'
-import { postDataAPI } from '../../utils/fetchData'
+import { getDataAPI, postDataAPI } from '../../utils/fetchData'
 import valid from '../../utils/valid'
 
 export const TYPES = {
@@ -102,14 +102,13 @@ export const githubLogin = (code) => async(dispatch) => {
     }
 }
 
-
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
     if(firstLogin){
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
 
         try {
-            const res = await postDataAPI('refresh_token')
+            const res = await getDataAPI('refresh_token')
             dispatch({ 
                 type: GLOBALTYPES.AUTH, 
                 payload: {
@@ -163,10 +162,11 @@ export const register = (data) => async (dispatch) => {
         })
     }
 }
-export const logout = () => async (dispatch) => {
+
+export const logout = (token) => async (dispatch) => {
     try {
         localStorage.removeItem("firstLogin")
-        await postDataAPI('logout')
+        await getDataAPI('logout', token, dispatch)
         window.location.href = "/"
     } catch (err) {
         dispatch({ 

@@ -180,6 +180,13 @@ const authCtrl = {
             res.clearCookie('refreshtoken', {
                 path: '/api/refresh_token'
             })
+
+            const user = await Users.findById(req.user._id);
+
+            user.rf_token = '';
+
+            await user.save();
+
             return res.json({msg: "Logged out."})
         } catch (err) {
             return res.status(500).json({msg: err.message})
@@ -196,13 +203,21 @@ const authCtrl = {
                 const user = await Users.findById(result.id).select("-password")
                 .populate('followers following', 'avatar username fullname followers following')
 
-                if(!user) return res.status(400).json({msg: 'This user does not exists.'})
+                if(!user || !user.rf_token) return res.status(403).json({msg: 'Access Denied.'})
+
+                const refreshTokenMatches = await bcrypt.compare(rf_token, user.rf_token)
+
+                if (!refreshTokenMatches) return res.status(403).json({msg: 'Access Denied.'})
 
                 const access_token = createAccessToken({id: result.id})
 
                 res.json({
                     access_token,
-                    user
+                    user: {
+                        ...user._doc,
+                        password: '',
+                        rf_token: ''
+                    }
                 })
             })
         } catch (err) {
@@ -212,11 +227,19 @@ const authCtrl = {
 }
 
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'})
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }   
 
 const createRefreshToken = (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
+}
+
+const updateRefreshToken = async(user, refreshToken) => {
+    const salt = await bcrypt.genSalt();
+    const hashRefreshToken = await bcrypt.hash(refreshToken, salt);
+    await Users.findOneAndUpdate({ email: user.email }, {
+        rf_token: hashRefreshToken
+    })
 }
 
 const loginUser = async (user, password, res) => {
@@ -240,12 +263,16 @@ const loginUser = async (user, password, res) => {
         maxAge: 30*24*60*60*1000 //30days
     })
 
+    // Update rf_token in db
+    await updateRefreshToken(user, refresh_token)
+
     res.json({
         msg: 'Login Success!',
         access_token, 
         user: {
             ...user._doc,
-            password: ''
+            password: '',
+            rf_token: ''
         }
     })
 }
@@ -263,6 +290,11 @@ const registerUser = async (user, res) => {
         maxAge: 30*24*60*60*1000 //30days
     })
 
+    const salt = await bcrypt.genSalt();
+    const hashRefreshToken = await bcrypt.hash(refresh_token, salt);
+
+    newUser.rf_token = hashRefreshToken
+
     await newUser.save()
 
     res.json({
@@ -270,7 +302,8 @@ const registerUser = async (user, res) => {
         access_token, 
         user: {
             ...newUser._doc,
-            password: ''
+            password: '',
+            rf_token: ''
         }
     })
 }

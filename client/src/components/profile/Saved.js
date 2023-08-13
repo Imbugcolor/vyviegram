@@ -18,7 +18,7 @@ const Saved = ({auth, dispatch}) => {
   useEffect(() => {
       if(auth.user._id !== id) return;
       setLoad(true)
-      getDataAPI('getSavePosts', auth.token)
+      getDataAPI('getSavePosts', auth.token, dispatch)
       .then(res => {
           setSavePosts(res.data.savePosts)
           setResult(res.data.result)
@@ -34,7 +34,7 @@ const Saved = ({auth, dispatch}) => {
 
   const handleLoadMore = async () => {
       setLoad(true)
-      const res = await getDataAPI(`getSavePosts?limit=${page*9}`, auth.token)
+      const res = await getDataAPI(`getSavePosts?limit=${page*9}`, auth.token, dispatch)
       setSavePosts(res.data.savePosts)
       setResult(res.data.result)
       setPage(page + 1)
