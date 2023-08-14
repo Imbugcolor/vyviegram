@@ -13,11 +13,48 @@ const Register = () => {
   const initialState = { 
     fullname: '', username: '', email: '', password: '', cf_password: '', gender: 'male'
 }
+
+
   const [userData, setUserData] = useState(initialState)
   const { fullname, username, email, password, cf_password } = userData
   const [typePass, setTypePass] = useState(false);
   const [typeCfPass, setTypeCfPass] = useState(false);
+  const [message, setMessage] = useState('');
+const validate = () => {
+    const msg = {
+        
+    };
+    if(!fullname){
+        msg.fullname = 'Please enter your fullname.';
 
+    }
+    if(!username){
+        msg.username='Please enter your username.';
+    }
+    if(!email){
+        msg.email = 'Please enter your email address.';
+    }else if(!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)){
+        msg.email = 'Email is not valid.'
+    }
+    if(!password){
+        msg.password = 'Please enter your password.';
+    }else if(password.length<6){
+        msg.password="Password must be at least 6 characters long."
+    }else if (password.match(/^(?=.*\s)/)) {
+        msg.password = "Password must not contain any spaces."
+      } else if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/)) {
+        msg.password = 'Password must be contain uppercase letters, lowercase letters and numbers '
+      }
+    if(!cf_password){
+        msg.cf_password="Please enter your confirm password"
+    }else if(cf_password!==password){
+        msg.cf_password="Confirm password did not match."
+    }
+    setMessage(msg);
+    if(Object.keys(msg).length>0){
+        return false;
+    }return true
+}
   useEffect(() => {
     if(auth.token) navigate("/")
   }, [auth.token, navigate]);
@@ -27,7 +64,12 @@ const Register = () => {
      setUserData({...userData, [name]:value})
  }
  const handleSubmit = e => {
+    
      e.preventDefault()
+     const isValid = validate()
+     if(!isValid) {
+        return 
+     }
      dispatch(register(userData))
 
  }
@@ -155,11 +197,11 @@ return (
                             <span className="label-input100">Full name</span>
                             <input className="input100"  type="text" name="fullname"
                                  onChange={handleChangeInput} value={fullname}
-                                     style={{background: `${alert.fullname ? '#fd2d6a14' : ''}`}}/>
+                                     style={{background: `${message.fullname ? '#fd2d6a14' : ''}`}}/>
                              <span className="focus-input100" data-symbol="" />
                              
-                            <small className="form-text text-danger">
-                                {alert.fullname ? alert.fullname : ''}
+                            <small className="alert-input form-text text-danger">
+                                {message.fullname ? message.fullname : ''}
                              </small>
                            
                         
@@ -169,21 +211,21 @@ return (
                             <span className="label-input100">User name</span>
                             <input className="input100" name="username"
                             onChange={handleChangeInput} value={username.toLowerCase().replace(/ /g, '')}
-                            style={{background: `${alert.username ? '#fd2d6a14' : ''}`}} />
+                            style={{background: `${message.username ? '#fd2d6a14' : ''}`}} />
                             <span className="focus-input100" data-symbol="" />
                                 
-                            <small className="form-text text-danger">
-                                {alert.username ? alert.username : ''}
+                            <small className="alert-input form-text text-danger">
+                                {message.username ? message.username : ''}
                                 </small>
                         </div>
 
-                        <div className="wrap-input100 validate-input m-b-23" data-validate="Email address is required">
+                        <div className="wrap-input100 validate-input m-b-23">
                             <span className="label-input100">Email address</span>
                             <input className="input100" type="email" name="email" aria-describedby="emailHelp"
-                            placeholder="Enter email" onChange={handleChangeInput} value={email}/>
+                            placeholder="Enter email" onChange={handleChangeInput} value={email} style={{background: `${message.email ? '#fd2d6a14' : ''}`}} />
                             <span className="focus-input100" data-symbol="" />
-                            <small className="form-text text-danger">
-                            {alert.email ? alert.email : ''}
+                            <small className="alert-input form-text text-danger">
+                            {message.email ? message.email : ''}
                             </small>
                         </div>
                         
@@ -191,13 +233,13 @@ return (
                             <label htmlFor="exampleInputPassword1" className="label-input100">Password</label>
                             <input className="input100"  id="exampleInputPassword1" type={ typePass ? "text" : "password" } 
                             onChange={handleChangeInput} value={password} name="password"
-                            style={{background: `${alert.password ? '#fd2d6a14' : ''}`}} />
+                            style={{background: `${message.password ? '#fd2d6a14' : ''}`}} />
                             <span className="focus-input100" data-symbol="" />
                             <small onClick={() =>  setTypePass(!typePass)}>
                             {typePass ? <BsEyeFill size={20}/> : <BsEyeSlashFill size={20}/>}        
                                 </small>
-                            <small className="form-text text-danger">
-                                {alert.password ? alert.password : ''}
+                            <small className="alert-input form-text text-danger">
+                                {message.password ? message.password : ''}
                             </small>
                         </div>
                         
@@ -205,13 +247,13 @@ return (
                             <label htmlFor="cf_password" className="label-input100">Confirm Password</label>
                             <input className="input100" id="cf_password" type={ typeCfPass ? "text" : "password" } 
                                 onChange={handleChangeInput} value={cf_password} name="cf_password"
-                                style={{background: `${alert.cf_password ? '#fd2d6a14' : ''}`}} />
+                                style={{background: `${message.cf_password ? '#fd2d6a14' : ''}`}} />
                             <span className="focus-input100" data-symbol="" />
                             <small onClick={() => setTypeCfPass(!typeCfPass)}>
                             {typeCfPass ? <BsEyeFill size={20}/> : <BsEyeSlashFill size={20}/>}        
                                 </small>
-                            <small className="form-text text-danger">
-                                {alert.cf_password ? alert.cf_password : ''}
+                            <small className="alert-input form-text text-danger">
+                                {message.cf_password ? message.cf_password : ''}
                             </small>
                         </div>
 

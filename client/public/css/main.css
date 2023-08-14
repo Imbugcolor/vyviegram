@@ -87,6 +87,7 @@ lex-c a:hover {
 .wrap-input100 input {
 	outline: none;
 	border: none;
+  padding-right: 30px;
 }
 
 textarea {
@@ -285,7 +286,9 @@ textarea:-ms-input-placeholder { color: #adadad;} */
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
-
+.eye-icon{
+  transform: translateY(24%) !important;
+}
 
 .input100:focus + .focus-input100::before {
   width: 100%;

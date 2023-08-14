@@ -124,11 +124,11 @@ const Login = () => {
                         </div>
                         <div  className="wrap-input100 validate-input m-b-23" data-validate="Password is required">
                             <label htmlFor="exampleInputPassword1" className="label-input100">Password</label>
-                            <input id="exampleInputPassword1" className="input100"  type={typePass ? "text" : "password"} placeholder="Password"
+                            <input id="exampleInputPassword1" className="input100 "  type={typePass ? "text" : "password"} placeholder="Password"
                             onChange={handleChangeInput} value={password} name="password" />
                         
                             <span className="focus-input100" data-symbol="" />
-                            <small onClick={() => setTypePass(!typePass)}>
+                            <small onClick={() => setTypePass(!typePass)} className="eye-icon">
                             {typePass ? <BsEyeFill size={20}/> : <BsEyeSlashFill size={20}/>}
                             
                         </small>
