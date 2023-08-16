@@ -47,6 +47,7 @@ const Carousel = ({images, id}) => {
                     images.map((img, index) => (
                         <div key={index} 
                             className={`carousel-item ${isActive(index)}`}
+                            style={{ height: '700px', background: '#000'}}
                         >
                             {
                                 img.url.match(/video/i) ?

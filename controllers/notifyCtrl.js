@@ -3,11 +3,11 @@ const Notifies = require('../models/notifyModel')
 const notifyCtrl = {
     createNotify: async (req, res) => {
         try {
-            const { id, recipients, url, text, content, image } = req.body
+            const { id, recipients, url, text, content, image, description } = req.body
 
             if(recipients.includes(req.user._id.toString())) return;
             const notify = new Notifies({
-                id, recipients, url, text, content, image, user: req.user._id
+                id, recipients, url, text, content, description, image, user: req.user._id
             })
 
             await notify.save()
@@ -35,6 +35,17 @@ const notifyCtrl = {
             }).sort('-createdAt').populate('user', 'avatar username')
 
             return res.json({notifies})
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getNotify: async (req, res) => {
+        try {
+            const notify = await Notifies.findOne({
+                recipients: req.user._id, url: `/post/removed/${req.params.id}`
+            }).sort('-createdAt').populate('user', 'avatar username')
+
+            return res.json({notify})
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }

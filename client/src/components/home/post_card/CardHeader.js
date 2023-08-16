@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '../../Avatar'
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment'
@@ -7,14 +7,19 @@ import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { deletePost } from '../../../redux/actions/postAction'
 import {BASE_URL} from "../../../utils/config"
 import stylePopUpConfirm from '../../alert/Confirm'
+import ConfirmDeletePost from '../ConfirmDeletePost'
+
 const CardHeader = ({post}) => {
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const [openModal, setOpenModal] = useState(false)
+
     const handleEditPost = () => {
         dispatch({ type: GLOBALTYPES.STATUS, payload: {...post, onEdit: true} })
     }
+
     const handleDeletePost = () => {
         stylePopUpConfirm.fire({
             text: "Are you sure you want to delete this post?",
@@ -28,9 +33,11 @@ const CardHeader = ({post}) => {
             } 
         })
     }
+
     const handleCopyLink = () => {
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
     }
+
     return (
         <div className='card_header'>
             <div className='d-flex'>
@@ -62,12 +69,29 @@ const CardHeader = ({post}) => {
                             </div>
                         </>
                     }
+                    {
+                        auth.user.role === 'admin' && auth.user._id !== post.user._id &&
+                        <div className='dropdown-item' onClick={() => setOpenModal(true)}>
+                                <span className='material-icons'>
+                                    delete_outline
+                                </span> Remove Post
+                        </div>
+                    }
 
                     <div className='dropdown-item' onClick={handleCopyLink}> 
                         <span className='material-icons'>content_copy</span> Copy link
                     </div>
                 </div>
             </div>
+            {
+                openModal && 
+                <ConfirmDeletePost 
+                    setOpenPopup={setOpenModal} 
+                    post={post} 
+                    auth={auth} 
+                    socket={socket}
+                />
+            }
         </div>
     )
 }

@@ -21,6 +21,7 @@ import LeftSidebar from './components/sidebar/LeftSidebar';
 import CallModal from './components/message/CallModal';
 import Peer from 'peerjs'
 import ShareModal from './components/ShareModal';
+import RemovedPost from './pages/post/removed/RemovedPost';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -110,6 +111,7 @@ function App() {
                 <Route exact path='/register' Component={Register} />
                 <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
+                <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>
             </Routes>
           </div> 
         </div>

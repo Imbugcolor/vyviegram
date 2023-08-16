@@ -86,6 +86,7 @@ export const updatePost = ({content, images, auth, status}) => async (dispatch) 
         dispatch({type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})
     }
 }
+
 export const likePost = ({post, auth, socket}) => async(dispatch) =>{
     const newPost = {...post, likes: [...post.likes, auth.user]}
     dispatch({type: POST_TYPES.UPDATE_POST, payload: newPost})
@@ -108,6 +109,7 @@ export const likePost = ({post, auth, socket}) => async(dispatch) =>{
         payload: {error: err.response.data.msg}})
     }
 }
+
 export const unlikePost = ({post, auth, socket}) => async(dispatch) =>{
     const newPost = {...post, likes: post.likes.filter(like => like._id !== auth.user._id)}
     dispatch({type: POST_TYPES.UPDATE_POST, payload: newPost})
@@ -128,6 +130,7 @@ export const unlikePost = ({post, auth, socket}) => async(dispatch) =>{
         payload: {error: err.response.data.msg}})
     }
 }
+
 export const getPost = ({detailPost, id, auth}) => async (dispatch) => {
     if(detailPost.every(post => post._id !== id)){
         try {
@@ -141,6 +144,7 @@ export const getPost = ({detailPost, id, auth}) => async (dispatch) => {
         }
     }
 }
+
 export const deletePost = ({post, auth, socket}) => async (dispatch) => {
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post })
 
@@ -163,6 +167,49 @@ export const deletePost = ({post, auth, socket}) => async (dispatch) => {
         })
     }
 }
+
+export const deletePostByAdmin = ({message, post, auth, socket, navigate}) => async (dispatch) => {
+    try {
+        dispatch({type: GLOBALTYPES.ALERT, payload: { loading: true }})
+
+        const res = await deleteDataAPI(`admin/post/${post._id}`, auth.token, dispatch)
+
+        const msgDelete = {
+            id: post._id,
+            text: 'Your post has been deleted',
+            description:  message.msg,
+            recipients: [post.user._id],
+            url: `/post/removed/${post._id}`,
+            content: post.content, 
+            image: post.images[0].url
+        }
+
+        dispatch(createNotify({msg: msgDelete, auth, socket}))
+
+        // Remove Notify
+        const msg = {
+            id: post._id,
+            text: 'added a new post.',
+            recipients: res.data.newPost.user.followers,
+            url: `/post/${post._id}`
+        }
+
+        await dispatch(removeNotify({msg, auth, socket}))
+
+        dispatch({type: POST_TYPES.DELETE_POST, payload: post})
+
+        dispatch({type: GLOBALTYPES.ALERT, payload: { success: 'Deleted Post.' }})
+
+        navigate('/')
+
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: {error: err.response.data.msg}
+        })
+    }
+}
+
 export const savePost = ({post, auth}) => async (dispatch) => {
     const newUser = {...auth.user, saved: [...auth.user.saved, post._id]}
     dispatch({ type: GLOBALTYPES.AUTH, payload: {...auth, user: newUser}})

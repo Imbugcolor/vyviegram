@@ -11,7 +11,7 @@
 .carousel .image__display video,
 .carousel .image__display img {
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
 }
 

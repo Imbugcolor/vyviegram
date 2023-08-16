@@ -1,15 +1,29 @@
 .notifications__container {
-    position: absolute;
-    top: 0;
-    left: 100px;
-    height: 100vh;
-    background-color: #fff;
-    border-left: 1px solid #d5d2d3;
-    border-right: 1px solid #d5d2d3;
-    padding: 25px 20px;
-    overflow-y: auto;
-    min-width: 350px;
-    animation: fadeInLeft 0.2s;
+   position: absolute;
+   top: 0;
+   left: 100px;
+   height: 100vh;
+   background-color: #fff;
+   border-left: 1px solid #d5d2d3;
+   border-right: 1px solid #d5d2d3;
+   padding: 25px 20px;
+   overflow-y: auto;
+   min-width: 350px;
+   animation: fadeInLeft 0.2s;
+}
+
+.deteted_notify {
+   width: 50px;
+   height: 50px;
+   align-items: center;
+   display: flex;
+   justify-content: center;
+}
+
+.deteted_notify svg {
+   width: 50px;
+   height: 35px;
+   color: #dc3545;
 }
 
 @keyframes fadeInLeft {

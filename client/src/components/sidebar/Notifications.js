@@ -7,6 +7,7 @@ import moment from 'moment'
 import { NOTIFY_TYPES, deleteAllNotifies, isReadNotify } from '../../redux/actions/notifyAction'
 import stylePopUpConfirm from '../alert/Confirm'
 import { FaPhotoVideo } from 'react-icons/fa'
+import { ImWarning } from 'react-icons/im'
 
 const Notifications = ({setOpenNoti}) => {
 
@@ -65,16 +66,34 @@ const Notifications = ({setOpenNoti}) => {
                             <Link to={`${msg.url}`} className='d-flex text-dark align-items-center'
                             style={{ textDecoration: 'none' }}
                             onClick={() => handleIsRead(msg)}>
-                                <Avatar src={msg.user.avatar} size='big-avatar'/>
-                                <div className='mx-1 flex-fill'>
-                                    <div>
-                                        <strong className='mr-1'>{msg.user.username}</strong>
-                                        <span>{msg.text}</span>
-                                    </div>
-                                    {
-                                        msg.content && <small>{msg.content.slice(0,20)}...</small>
-                                    }
-                                </div>
+                                 {
+                                    msg.description ? 
+                                    <>
+                                        <div className='deteted_notify'>
+                                            <ImWarning />
+                                        </div>
+                                        <div className="mx-1 flex-fill">
+                                            <div>                                         
+                                                <span><strong className="mr-1">Community Guidelines</strong> {msg.text}</span>
+                                            </div>
+                                            {
+                                                msg.content&& <small>{msg.content.slice(0.20)}...</small>
+                                            }
+                                        </div>
+                                    </> :
+                                    <>
+                                        <Avatar src={msg.user.avatar} size="big-avatar"/>
+                                        <div className="mx-1 flex-fill">
+                                            <div>
+                                                <strong className="mr-1">{msg.user.username}</strong>
+                                                <span>{msg.text}</span>
+                                            </div>
+                                            {
+                                                msg.content&& <small>{msg.content.slice(0.20)}...</small>
+                                            }
+                                        </div>
+                                    </>
+                                }
                                 {
                                     msg.image && 
                                     <div style={{width: '30px'}}>

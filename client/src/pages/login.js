@@ -137,7 +137,7 @@ const Login = () => {
                         <div className="container-login100-form-btn">
                             <div className="wrap-login100-form-btn">
                             <div className="login100-form-bgbtn" />
-                            <button  type="submit" className="login100-form-btn"  disabled={email && password ? false : true}>
+                            <button  type="submit" className="login100-form-btn">
                                 Login
                             </button>
                             </div>

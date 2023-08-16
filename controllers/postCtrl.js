@@ -210,6 +210,23 @@ const postCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
+    deletePostByAdmin: async (req, res) => {
+        try {
+            const post = await Posts.findOneAndDelete({_id: req.params.id})
+            await Comments.deleteMany({_id: {$in: post.comments}})
+
+            res.json({
+                msg: 'Delete Post!',
+                newPost: {
+                    ...post,
+                    user: req.user
+                }
+            })
+            
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
     savePost: async (req, res) => {
         try {
             const post = await Users.find({_id: req.user._id, saved: req.params.id})

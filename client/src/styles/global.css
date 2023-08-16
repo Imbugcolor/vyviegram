@@ -80,6 +80,10 @@ button:focus {
 @import url('./share.css');
 /* VIDEO PLAYER */
 @import url('./videoplayer.css');
+/* DELETE POST MODAL */
+@import url('./delete_post_modal.css');
+/* REMOVED POST */
+@import url('./removed_post.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
