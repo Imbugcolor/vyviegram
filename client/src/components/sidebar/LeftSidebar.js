@@ -150,6 +150,10 @@ const LeftSidebar = () => {
             </span>
             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <Link className="dropdown-item" to={`/profile/${auth.user._id}`}>Profile</Link>
+                {
+                  auth.user.role === 'admin' &&
+                  <Link className="dropdown-item" to={'/admin/dashboard'}>Dashboard</Link>
+                }
                 <label htmlFor='theme' className="dropdown-item" 
                         onClick={() => dispatch({type: GLOBALTYPES.THEME, payload: !theme})}>
                     {theme ? 'Light mode' : 'Dark mode'}

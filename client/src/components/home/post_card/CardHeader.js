@@ -8,6 +8,7 @@ import { deletePost } from '../../../redux/actions/postAction'
 import {BASE_URL} from "../../../utils/config"
 import stylePopUpConfirm from '../../alert/Confirm'
 import ConfirmDeletePost from '../ConfirmDeletePost'
+import { BiDotsHorizontalRounded } from 'react-icons/bi'
 
 const CardHeader = ({post}) => {
     const { auth, socket } = useSelector(state => state)
@@ -55,7 +56,7 @@ const CardHeader = ({post}) => {
             </div>
             <div className='nav-item dropdown'>
                 <span className='material-icons' id='moreLink' data-toggle='dropdown'>
-                    more_horiz
+                    <BiDotsHorizontalRounded />
                 </span>
                 <div className='dropdown-menu'>
                     {

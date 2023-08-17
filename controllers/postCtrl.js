@@ -276,6 +276,18 @@ const postCtrl = {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+    },
+    getAllPosts: async (req, res) => {
+        try {
+            const posts = await Posts.find()
+
+            return res.json({
+                posts,
+                total: posts.length
+            })
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
     }
 }
 

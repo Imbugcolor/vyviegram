@@ -1,4 +1,5 @@
 const Users = require('../models/userModel')
+const moment = require('moment')
 
 const userCtrl = {
     searchUser: async (req, res) => {
@@ -93,6 +94,37 @@ const userCtrl = {
                 result: users.length
             })
             
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getAllUsers: async (req, res) => {
+        try {
+            const users = await Users.find({ role: 'user' })
+
+            return res.json({
+                users,
+                total: users.length
+            })
+
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    getRecentUsers: async (req, res) => {
+        try {
+            const recentUsers = await Users.find({ 
+                role: 'user', 
+                createdAt: {
+                    $gte: moment().add(-10, "days"),
+                }
+            }).sort('-createdAt')
+
+            return res.json({
+                recentUsers,
+                total: recentUsers.length
+            })
+
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }

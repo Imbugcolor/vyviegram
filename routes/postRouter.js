@@ -24,6 +24,7 @@ router.patch('/unSavePost/:id', auth, postCtrl.unSavePost)
 router.get('/getSavePosts', auth, postCtrl.getSavePosts)
 
 router.delete('/admin/post/:id', authAdmin, postCtrl.deletePostByAdmin)
+router.get('/admin/posts', authAdmin, postCtrl.getAllPosts)
 
 
 module.exports = router

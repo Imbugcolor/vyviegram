@@ -22,6 +22,8 @@ import CallModal from './components/message/CallModal';
 import Peer from 'peerjs'
 import ShareModal from './components/ShareModal';
 import RemovedPost from './pages/post/removed/RemovedPost';
+import AdminRouter from './customRouter/AdminRouter';
+import Dashboard from './pages/admin/Dashboard';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -112,6 +114,7 @@ function App() {
                 <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>
+                <Route exact path='/admin/dashboard' element={<AdminRouter component={Dashboard}/>}/>
             </Routes>
           </div> 
         </div>
