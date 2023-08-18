@@ -14,8 +14,7 @@ import {
   RedditShareButton, RedditIcon
 } from 'react-share'
 import { shareToMess } from '../redux/actions/messageAction'
-
-
+import { SiAdguard } from 'react-icons/si'
 
 const ShareModal = () => {
      const { auth, theme, share, socket } = useSelector(state => state)
@@ -134,8 +133,14 @@ const ShareModal = () => {
                                                   <div>
                                                        <Avatar src={user.avatar} size='big-avatar'/>
                                                   </div>
-                                                  <div className='ml-2' style={{transform: 'translateY(-2px)'}}>
-                                                       <span className='d-block' style={{color: '#262626', fontWeight: '500'}}>{user.username}</span>
+                                                  <div className='ml-2' style={{transform: 'translateY(-2px)', width: '100%' }}>
+                                                       <span className='d-flex align-items-center' style={{color: '#262626', fontWeight: '500'}}>
+                                                            {user.username}
+                                                            {
+                                                                 user.role === 'admin' &&
+                                                                 <span><SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }}/></span>
+                                                            }
+                                                       </span>
                                                   
                                                        <small style={{ color: '#666666'}}>
                                                             {user.fullname}

@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
-// import {useParams} from 'react-router-dom'
-// import { useDispatch, useSelector } from 'react-redux'
 import Avatar from "../Avatar"
-// import { getProfileUsers } from '../../redux/actions/profileAction'
 import EditProfile from './EditProfile'
 import FollowBtn from '../FollowBtn'
 import Followers from './Followers'
 import Following from './Following'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { Link } from 'react-router-dom'
+import { SiAdguard } from 'react-icons/si'
+
 const Info = ({auth,profile,dispatch, id}) => {
- 
-  
-  
   const [onEdit, setOnEdit] = useState(false);
 
   const [userData, setUserData] = useState([]);
@@ -44,7 +40,10 @@ const Info = ({auth,profile,dispatch, id}) => {
 
                 <div className="info_content">
                     <div className='info_content_title'>
-                        <h2>{user.username}</h2>
+                        <h2 className='d-flex align-items-center'>
+                          { user.username } 
+                          { user.role === 'admin' && <SiAdguard style={{ marginLeft: '10px', fontSize: '15px', color: '#007bff' }}/> }
+                        </h2>
                           {
                               user._id === auth.user._id ? 
                               <Link className='edit__profile_btn' to={'/edit'}>

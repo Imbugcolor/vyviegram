@@ -1,11 +1,61 @@
 const Users = require('../models/userModel')
 const moment = require('moment')
 
+
+class APIfeatures {
+    query;
+    queryString;
+
+    constructor(query, queryString){
+        this.query = query;
+        this.queryString = queryString;
+    }
+    filtering(){
+        const queryObj = {...this.queryString} //queryString = req.query
+        // console.log({before: queryObj}) // before delete params
+
+        const excludedFields = ['page', 'sort', 'limit', 'sizes']
+        excludedFields.forEach(el => delete(queryObj[el]))
+
+        // console.log({after: queryObj}) //after delete params
+
+        let queryStr = JSON.stringify(queryObj)
+        queryStr = queryStr.replace(/\b(gte|gt|lt|lte|regex)\b/g, match => '$' + match)
+        // lte, gte = less/greater than or equal
+        // lt, gt = less/greater than
+        // regex = compare ~ string 
+        // console.log({queryStr})
+
+        this.query.find(JSON.parse(queryStr))
+
+        return this;
+    }
+    sorting(){
+        if(this.queryString.sort){
+            const sortBy = this.queryString.sort.split(',').join('')
+            this.query = this.query.sort(sortBy)
+        } else {
+            this.query = this.query.sort('-createdAt')
+        }
+        
+        return this;
+    }
+    pagination(){
+        let page = Number(this.queryString.page) * 1 || 1;
+        let limit = Number(this.queryString.limit) * 1 || 4;
+        let skip = (page -1) * limit;
+
+        this.query = this.query.limit(limit).skip(skip);
+
+        return this;
+    }
+}
+
 const userCtrl = {
     searchUser: async (req, res) => {
         try {
             const users = await Users.find({ username: {$regex: req.query.username} })
-            .limit(10).select('fullname username avatar')
+            .limit(10).select('fullname username avatar role')
 
             res.json({users})
 
@@ -113,16 +163,39 @@ const userCtrl = {
     },
     getRecentUsers: async (req, res) => {
         try {
-            const recentUsers = await Users.find({ 
-                role: 'user', 
-                createdAt: {
-                    $gte: moment().add(-10, "days"),
-                }
-            }).sort('-createdAt')
+            const records = new APIfeatures(
+                Users.find({ 
+                    role: 'user', 
+                    createdAt: {
+                        $gte: moment().add(-10, "days"),
+                    }
+                }), 
+                req.query
+            )
+            .filtering()
+            .sorting()
+
+            const totalRecords = await records.query
+
+            const features = new APIfeatures(
+                Users.find({ 
+                    role: 'user', 
+                    createdAt: {
+                        $gte: moment().add(-10, "days"),
+                    }
+                }).select('-password'),
+                req.query
+            )
+            .filtering()
+            .sorting()
+            .pagination()
+          
+            const recentUsers = await features.query
 
             return res.json({
                 recentUsers,
-                total: recentUsers.length
+                result: recentUsers.length,
+                total: totalRecords.length
             })
 
         } catch (err) {

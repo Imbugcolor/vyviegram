@@ -9,6 +9,7 @@ import {BASE_URL} from "../../../utils/config"
 import stylePopUpConfirm from '../../alert/Confirm'
 import ConfirmDeletePost from '../ConfirmDeletePost'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import { SiAdguard } from 'react-icons/si'
 
 const CardHeader = ({post}) => {
     const { auth, socket } = useSelector(state => state)
@@ -45,8 +46,12 @@ const CardHeader = ({post}) => {
                 <Avatar src={post.user.avatar} size='big-avatar' />
                 <div className='card_name ml-2'>
                     <h6 className='m-0'>
-                        <Link to={`/profile/${post.user._id}`} className='text-dark'>
+                        <Link to={`/profile/${post.user._id}`} className='text-dark d-flex align-items-center'>
                             {post.user.username}
+                            {
+                                post.user.role === 'admin' &&
+                                <span style={{ marginLeft: '8px', fontSize: '14px', color: '#007bff' }}><SiAdguard /></span>
+                            }
                         </Link>
                     </h6>
                     <small className='text-muted'>

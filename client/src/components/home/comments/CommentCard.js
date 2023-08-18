@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import CommentMenu from './CommentMenu'
 import { likeComment, unLikeComment, updateComment } from '../../../redux/actions/commentAction'
 import InputComment from '../InputComment'
+import { SiAdguard } from 'react-icons/si'
+
 const CommentCard = ({children, comment, post, commentId}) => {
   const dispatch = useDispatch()
   const {auth} = useSelector(state => state)
@@ -63,7 +65,10 @@ const CommentCard = ({children, comment, post, commentId}) => {
    <div className="comment_card mt-2" style={styleCard}>
         <Link to={`/profile/${comment.user._id}`} className="d-flex text-dark">
             <Avatar src={comment.user.avatar} size="small-avatar"/>
-            <h6 className="mx-1">{comment.user.username}</h6>
+            <h6 className="d-flex align-items-center mx-1">
+              { comment.user.username } 
+              { comment.user.role === 'admin' && <SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }} /> }
+            </h6>
         </Link>
         <div className="comment_content">
           <div className="flex-fill">

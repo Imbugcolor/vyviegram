@@ -47,15 +47,10 @@ const Carousel = ({images, id}) => {
                     images.map((img, index) => (
                         <div key={index} 
                             className={`carousel-item ${isActive(index)}`}
-                            style={{ height: '700px', background: '#000'}}
+                            style={{ height: '700px', background: theme ? '#fff' : '#000' }}
                         >
                             {
                                 img.url.match(/video/i) ?
-                                // <video controls src={img.url} 
-                                //     className="d-block w-100" 
-                                //     alt={img.url}
-                                //     style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
-                                // />  
                                 <Video public_id={img.public_id}/> 
                                 :
                                 <img src={img.url} 

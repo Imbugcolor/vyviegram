@@ -6,6 +6,7 @@ import Avatar from '../Avatar'
 import LoadIcon from '../../images/loading.gif'
 import { MESS_TYPES } from '../../redux/actions/messageAction'
 import { useNavigate } from 'react-router-dom'
+import { SiAdguard } from 'react-icons/si'
 
 const NewMessenger = ({setOpenNewMsg}) => {
     const { auth, online } = useSelector(state => state )
@@ -98,7 +99,13 @@ const NewMessenger = ({setOpenNewMsg}) => {
                                     <div onClick={() =>handleChoose(user)} className='d-flex align-item-center'>
                                         <Avatar src={user.avatar} size='big-avatar'/>
                                         <div className='ml-2' style={{transform: 'translateY(-2px)'}}>
-                                            <span className='d-block' style={{color: '#262626', fontWeight: '500'}}>{user.username}</span>
+                                            <span className='d-flex align-items-center' style={{color: '#262626', fontWeight: '500'}}>
+                                                {user.username}
+                                                {
+                                                    user.role === 'admin' &&
+                                                    <span><SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }}/></span>
+                                                }
+                                            </span>
                                         
                                             <small style={{ color: '#666666'}}>
                                                 {user.fullname}

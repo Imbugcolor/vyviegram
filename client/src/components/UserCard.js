@@ -2,6 +2,7 @@ import React from 'react'
 import Avatar from './Avatar'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { SiAdguard } from 'react-icons/si'
 
 const UserCard = ({children, user, border, handleClose, setShowFollowers, setShowFollowing, msg}) => {
   
@@ -49,7 +50,13 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
           <Link to={`/profile/${user._id}`} className="d-flex align-items-center"  onClick={handleCloseAll} style={{textDecoration: 'none'}}>
             <Avatar src={user.avatar} size="big-avatar"/>
             <div className="ml-2" style={{transform: 'translate(-2px)'}}>
-                <span className="d-block" style={{color: '#262626', fontWeight: '500'}} >{user.username}</span>
+                <span className="d-flex align-items-center" style={{color: '#262626', fontWeight: '500'}} >
+                  {user.username}
+                  {
+                    user.role === 'admin' &&
+                    <span><SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }}/></span>
+                  }
+                </span>
                 <small style={{ color: '#666666'}} >
                   {
                     user.typing ? <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.fullname} is typing...</div> :
