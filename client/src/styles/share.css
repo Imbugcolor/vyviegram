@@ -46,7 +46,8 @@
 
 .share_modal .search__new {
     width: 100%;
-    display: inline;
+    display: flex;
+    flex-wrap: wrap;
     border-top: 1px solid #d5d3d2;
     border-bottom: 1px solid #d5d3d2;
     padding: 15px 20px;
@@ -61,8 +62,9 @@
     margin-left: 15px;
     padding: 5px 15px;
     border: none;
-    width: 100%;
+    width: auto !important;
     outline: none;
+    flex: 1 1 auto !important;
 }
 
 .share_modal .search__new_container {
@@ -76,6 +78,7 @@
     width: 100%;
     padding: 10px 20px;
     cursor: pointer;
+    flex: 0 0 auto;
 }
 
 .share_modal .new__footer {
@@ -100,7 +103,8 @@
 }
 
 .share_modal .result__input {
-    display: inline-block;
+    display: inline-flex;
+    /* display: inline-block; */
     align-items: center;
     margin: 2px 5px;
     background: #e0f1ff;
@@ -123,4 +127,18 @@
 
 .share__social_media button {
     margin: 0 10px;
+}
+.contain-sendbox{
+    width: 100% !important;
+}
+.send-box{
+    outline: none !important;
+    border:none !important;
+    padding: 10px 20px
+   
+}
+.share-media{
+    border-top: 1px solid #d5d3d2;
+    border-bottom: 1px solid #d5d3d2;
+    width: 100% !important;
 }

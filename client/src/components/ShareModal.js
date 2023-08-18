@@ -148,7 +148,7 @@ const ShareModal = () => {
                                                   </div>
           
                                                   <div className="user-check">
-                                                       <input type="checkbox" 
+                                                       <input type="checkbox"
                                                             name={user.username} 
                                                             id={user._id} 
                                                             value={user._id}                                          
@@ -167,7 +167,7 @@ const ShareModal = () => {
                          }
                     </div>
 
-                    <div className='share__social_media d-flex justify-content-between px-4 py-2'
+                    <div className='share__social_media d-flex justify-content-between px-4 py-2 share-media'
                          style={{filter: theme ? 'invert(1)':'invert(0)'}
                     }>
                          <FacebookShareButton url={url}>
@@ -197,8 +197,8 @@ const ShareModal = () => {
 
                     {
                          userChosen.length > 0 &&
-                         <div>
-                              <input type='text' name='share-message' placeholder='Write a message...' value={shareMsg} onChange={(e) => setShareMsg(e.target.value)}/>
+                         <div className="contain-sendbox">
+                              <input type='text' className='send-box' name='share-message' placeholder='Write a message...' value={shareMsg} onChange={(e) => setShareMsg(e.target.value)}/>
                          </div>
                     }
 
