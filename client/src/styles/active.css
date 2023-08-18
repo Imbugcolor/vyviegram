@@ -1,0 +1,48 @@
+.active_page {
+    height: 100vh;
+    background: #fff;
+}
+
+.header_logo {
+    text-align: center;
+}
+
+.header_logo img {
+    height: 200px;
+}
+
+.active_page .form__message_container {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.active_page .form__message_container .form__message {
+    max-width: 400px;
+    margin: auto;
+    box-shadow: rgba(0,0,0.5%);
+    box-shadow: 0 0 10px rgb(0 0 0 / 5%);
+    border-radius: 8px;
+    padding: 25px 25px;
+}
+
+.form__message_container .form__message img {
+    height: 150px;
+}
+
+.form__message_container .form__message span {
+    display: block;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.form__message_container .form__message button {
+    border: none;
+    height: 45px;
+    width: 100%;
+    color: #fff;
+    background: #1b3b5a;
+    border-radius: 5px;
+}
+
+
+

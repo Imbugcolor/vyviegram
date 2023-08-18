@@ -86,6 +86,8 @@ button:focus {
 @import url('./removed_post.css');
 /* DASHBOARD */
 @import url('./dashboard.css');
+/* ACTIVE ACCOUNT */
+@import url('./active.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {

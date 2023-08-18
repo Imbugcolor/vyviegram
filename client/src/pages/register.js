@@ -76,6 +76,7 @@ const Register = () => {
      
      dispatch(register(userData))
 
+     setUserData(initialState)
   }
 
 return (

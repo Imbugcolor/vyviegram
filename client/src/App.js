@@ -24,6 +24,7 @@ import ShareModal from './components/ShareModal';
 import RemovedPost from './pages/post/removed/RemovedPost';
 import AdminRouter from './customRouter/AdminRouter';
 import Dashboard from './pages/admin/Dashboard';
+import Active from './pages/active/[id]';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -111,6 +112,7 @@ function App() {
             <Routes>
                 <Route exact path='/' Component={auth.isLogged ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />
+                <Route exact path='/active/:token' Component={Active} />
                 <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>

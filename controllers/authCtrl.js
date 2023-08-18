@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const fetch = require('node-fetch')
 const { OAuth2Client } = require("google-auth-library")
+const sendMail = require('../config/sendMail')
 
 const client = new OAuth2Client(
     `${process.env.GOOGLE_CLIENT_ID}`,
@@ -31,30 +32,39 @@ const authCtrl = {
 
             const passwordHash = await bcrypt.hash(password, 12)
 
-            const newUser = new Users({
-                fullname, username: newUserName, email, password: passwordHash, gender
-            })
+            const newUser = { fullname, username: newUserName, email, password: passwordHash, gender }
 
-            const access_token = createAccessToken({id: newUser._id})
-            const refresh_token = createRefreshToken({id: newUser._id})
+            const active_token = createActiveToken({newUser})
+            
+            const url = `${process.env.CLIENT_URL}/active/${active_token}`
+            
+            sendMail(email, url, 'Active your Vyviegram account.')
 
-            res.cookie('refreshtoken', refresh_token, {
-                httpOnly: true,
-                path: '/api/refresh_token',
-                maxAge: 30*24*60*60*1000
-            })
-          
-            await newUser.save()
+            return res.json({ msg: 'Register Success! Please check your email to active your account.' })
 
-            res.json({
-                msg: 'Register Success!',
-                access_token, 
-                user: {
-                    ...newUser._doc,
-                    password: ''
-                }
-            })
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    activeAccount: async (req, res) => {
+        try {
+            const { active_token } = req.body
 
+            const decoded = jwt.verify(active_token, `${process.env.ACTIVE_TOKEN_SECRET}`)
+
+            const { newUser } = decoded 
+
+            if(!newUser) return res.status(400).json({msg: 'Please check your credentials.'})
+
+            const user = await Users.findOne({email: newUser.email})
+            if(user) return res.status(400).json({msg: 'Account already exists.'})
+           
+            const new_user = new Users(newUser)
+
+            await new_user.save()
+
+            res.json({msg: 'Account has been activated!'})
+        
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
@@ -232,6 +242,10 @@ const createAccessToken = (payload) => {
 
 const createRefreshToken = (payload) => {
     return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
+}
+
+const createActiveToken = (payload) => {
+    return jwt.sign(payload, process.env.ACTIVE_TOKEN_SECRET, {expiresIn: '5m'})
 }
 
 const updateRefreshToken = async(user, refreshToken) => {
