@@ -77,3 +77,11 @@
     font-size: 30px;
     cursor: pointer;
 }
+.menu__footer:hover{
+    background-color:#f2f2f2;
+    border-radius: 8px;
+    transform: scale(1.1);
+}
+.menu__footer{
+    transition: transform 0.3s ease;
+  }

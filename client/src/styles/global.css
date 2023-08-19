@@ -37,7 +37,20 @@ img {
 button:focus {
     outline: 0 !important;
 }
-
+.menu__side_bar ul li svg,img{
+  transition: transform 0.3s ease;
+}
+.menu__side_bar ul li:hover svg{
+  transform: scale(1.1);
+}
+.menu__side_bar ul li:hover img{
+  transform: scale(1.1);
+}
+.menu__side_bar ul li:hover {
+  background-color:#f2f2f2;
+  border-radius: 8px;
+ 
+}
 /* AUTH */
 @import url("./auth.css");
 /* LOADING */

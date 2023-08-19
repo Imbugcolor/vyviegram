@@ -128,7 +128,7 @@ return (
                         </small>
                     </div>
                     
-                    <div className="wrap-input100 m-b-23">
+                    <div className={`wrap-input100 ${message.password?.length > 65 ? "m-b-35" : "m-b-23"}`}>
                         <label htmlFor="exampleInputPassword1" className="label-input100">Password</label>
                         <input className="input100"  id="exampleInputPassword1" type={ typePass ? "text" : "password" } 
                         onChange={handleChangeInput} value={password} name="password"
