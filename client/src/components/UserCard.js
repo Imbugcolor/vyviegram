@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { SiAdguard } from 'react-icons/si'
 
-const UserCard = ({children, user, border, handleClose, setShowFollowers, setShowFollowing, msg}) => {
+const UserCard = ({children, user, border, handleClose, setShowFollowers, setShowFollowing, setShowLikes, msg}) => {
   
   const { theme } = useSelector(state => state)
   
@@ -12,6 +12,7 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
     if(handleClose) handleClose()
     if(setShowFollowers) setShowFollowers(false)
     if(setShowFollowing) setShowFollowing(false)
+    if(setShowLikes) setShowLikes(false)
   }
 
   const showMsg = (user) => {

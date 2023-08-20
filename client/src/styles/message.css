@@ -290,3 +290,14 @@
 .user_typing .typing_text span {
     color: #666666;
 }
+
+.loading_conversation {
+    margin: auto;
+    width: 30px;
+    height: 30px;
+}
+
+.loading_conversation img {
+    width: 100%;
+    height: 100%;
+}

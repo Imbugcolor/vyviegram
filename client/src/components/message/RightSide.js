@@ -33,6 +33,7 @@ const RightSide = () => {
     const [result, setResult] = useState(9)
     const [page, setPage] = useState(0)
     const [isLoadMore, setIsLoadMore] = useState(0)
+    const [load, setLoad] = useState(false)
 
     const navigate = useNavigate()
 
@@ -121,13 +122,15 @@ const RightSide = () => {
     useEffect(() => {
         // get messages data each conversation
         const getMessagesData = async () => {
-            // if data id is not exist, get messages data, if exist then skip.
+            setLoad(true)
+            // if data id is not exist, get messages data
             if(message.data.every(item => item._id !== id)) {
                 await dispatch(getMessages({auth, id}))
                 setTimeout(() => {
                     refDisplay.current.scrollIntoView({behavior: 'smooth', block: 'end'})
                 }, 50)
             }
+            setLoad(false)
         }
 
         getMessagesData()
@@ -228,45 +231,52 @@ const RightSide = () => {
                     </UserCard>
                 }
             </div>
-
+            
             <div className='chat_container'>
                 <div className='chat_display' ref={refDisplay}>
                     <button style={{marginTop: '-25px', opacity: 0}} ref={pageEnd}>Load more</button>
                     {
-                        data.map((msg, index) => (
-                            <div key={index}>
-                                {
-                                    msg.sender !== auth.user._id &&
-                                    <div className='chat_row other_message'>
-                                        <MsgDisplay user={user} msg={msg} theme={theme} />
+                        load ? <div className='loading_conversation'>
+                            <img src={LoadIcon} alt='loading'/>
+                        </div> :
+                        <>
+                            {
+                                data.map((msg, index) => (
+                                    <div key={index}>
+                                        {
+                                            msg.sender !== auth.user._id &&
+                                            <div className='chat_row other_message'>
+                                                <MsgDisplay user={user} msg={msg} theme={theme} />
+                                            </div>
+                                        }
+
+                                        {
+                                            msg.sender === auth.user._id &&
+                                            <div className='chat_row you_message'>
+                                                <MsgDisplay user={auth.user} msg={msg} theme={theme} data={data}/>
+                                            </div>
+                                        }
                                     </div>
-                                }
+                                ))
+                            }
 
-                                {
-                                    msg.sender === auth.user._id &&
-                                    <div className='chat_row you_message'>
-                                        <MsgDisplay user={auth.user} msg={msg} theme={theme} data={data}/>
+                            {
+                                loadMedia &&
+                                <div className='chat_row you_message'>
+                                    <img src={LoadIcon} alt='loading' />
+                                </div>
+                            }
+
+                            {
+                            user.typing && 
+                            <div className='user_typing'>
+                                    <Avatar src={user.avatar} size='mess-avatar'/>
+                                    <div className='typing_text'>
+                                        <span>{user.fullname} is typing...</span>
                                     </div>
-                                }
                             </div>
-                        ))
-                    }
-
-                    {
-                        loadMedia &&
-                        <div className='chat_row you_message'>
-                            <img src={LoadIcon} alt='loading' />
-                        </div>
-                    }
-
-                    {
-                       user.typing && 
-                       <div className='user_typing'>
-                            <Avatar src={user.avatar} size='mess-avatar'/>
-                            <div className='typing_text'>
-                                <span>{user.fullname} is typing...</span>
-                            </div>
-                       </div>
+                            }
+                        </>
                     }
                 </div>
             </div>

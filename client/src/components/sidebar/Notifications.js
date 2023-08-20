@@ -39,7 +39,7 @@ const Notifications = ({setOpenNoti}) => {
     }
 
     return (
-        <div className='notifications__container'>
+        <div className='notifications__container' style={{ animation: ''}}>
             <div className='d-flex justify-content-between align-items-center mb-3'>
                 <h4>Notifications</h4>
                 {
@@ -82,7 +82,9 @@ const Notifications = ({setOpenNoti}) => {
                                         </div>
                                     </> :
                                     <>
-                                        <Avatar src={msg.user.avatar} size="big-avatar"/>
+                                        <div>
+                                            <Avatar src={msg.user.avatar} size="big-avatar"/>
+                                        </div>
                                         <div className="mx-1 flex-fill">
                                             <div>
                                                 <strong className="mr-1">{msg.user.username}</strong>

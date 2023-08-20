@@ -8,7 +8,7 @@ const RightSidebar = () => {
     const {auth, suggestions} = useSelector(state => state)
     const dispatch = useDispatch()
     return ( 
-    <div className="mt-3">
+    <div className="mt-3" style={{ maxWidth: '380px'}}>
         <UserCard user={auth.user}/>
 
         <div className="d-flex justify-content-between align-items-center my-2">

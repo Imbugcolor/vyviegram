@@ -1,6 +1,7 @@
 /* --------------- STATUS ------------- */
 .status {
-    max-width: 700px;
+    max-width: 600px;
+    margin: auto;
     background: white;
     box-shadow: 0 0 5px #ddd;
     padding: 20px 15px;
@@ -25,8 +26,8 @@
 
 /* --------------- POSTS ------------- */
 .posts {
-    margin-bottom: 25px;
-    max-width: 700px;
+    margin: auto auto 25px auto;
+    max-width: 600px;
 }
 
 .posts .card {

@@ -223,7 +223,7 @@ button:focus {
       font-size: 1.5rem;
   }
   .message {
-      height: calc(100vh - 150px);
+      height: calc(100vh - 128px);
   }
   .right_mess, .left_mess {
       display: none;

@@ -9,7 +9,7 @@
    padding: 25px 20px;
    overflow-y: auto;
    min-width: 350px;
-   animation: fadeInLeft 0.2s;
+   animation: fadeInLeft 0.4s ease-in-out;
 }
 
 .deteted_notify {
@@ -35,4 +35,15 @@
        opacity: 1;
        transform: translateX(0);
     }
- }   
+}
+
+@keyframes fadeOutLeft {
+   0% {
+      opacity: 1;
+      transform: translateX(0);
+   }
+   100% {
+      opacity: 0;
+      transform: translateX(-20px);
+   }
+} 

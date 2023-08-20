@@ -5,6 +5,7 @@ import LikeButton from '../../LikeButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { likePost, savePost, unSavePost, unlikePost } from '../../../redux/actions/postAction'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
+import Likes from '../Likes'
 
 const CardFooter = ({post}) => {
     const [isLike, setIsLike] = useState(false)
@@ -12,6 +13,7 @@ const CardFooter = ({post}) => {
     const {auth, socket} = useSelector(state => state)
     const [saved, setSaved] = useState(false)
     const [saveLoad, setSaveLoad] = useState(false)
+    const [showLikes, setShowLikes] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -97,14 +99,28 @@ const CardFooter = ({post}) => {
             </div>
 
             <div className='d-flex justify-content-between'>
-                <h6 style={{padding: '0 25px', cursor: 'pointer'}}>
-                    {post.likes.length} likes
-                </h6>
+                {
+                    post.likes.length > 0 ?
+                    <h6 style={{padding: '0 25px', cursor: 'pointer'}} onClick={() => setShowLikes(true)}>
+                        {post.likes.length} likes
+                    </h6> :
+                    <h6 style={{padding: '0 25px', cursor: 'pointer'}}>
+                        {post.likes.length} likes
+                    </h6>
+                }
 
                 <h6 style={{padding: '0 25px', cursor: 'pointer'}}>
                     {post.comments.length} comments
                 </h6>
             </div>
+
+            {
+                  showLikes &&
+                  <Likes 
+                  users={post.likes} 
+                  setShowLikes={setShowLikes} 
+                  />
+            }
         </div>
     )
 }
