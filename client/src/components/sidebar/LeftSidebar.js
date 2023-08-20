@@ -19,8 +19,18 @@ const LeftSidebar = () => {
   const { auth, notify, theme } = useSelector(state => state)
 
   const { pathname } = useLocation()
+  const [pathName, setPathName] = useState('')
   
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    setPathName(pathname.split('/')[1])
+    if (pathname.split('/')[1] === 'message') {
+      document.getElementById('main').classList.add('message_wrapper')
+    } else {
+      document.getElementById('main').classList.remove('message_wrapper')
+    }
+  },[pathname])
 
   const isActive = (pn) => {
       if(pn === pathname) return true
@@ -67,14 +77,14 @@ const LeftSidebar = () => {
   }
 
   return (
-    <div className='side_bar_container'>
+    <div className='side_bar_container' style={{ width: pathName === 'message' ? '50px' : '250px'}}>
         <div className='header__side_bar'>
             <Link to='/'>
-              <div className={`text__brand ${(openNoti || openSearch) && ' d-none'}`}>
+              <div className={`text__brand ${(openNoti || openSearch || pathName === 'message') && ' d-none'}`}>
                 <img src={textLogo} style={styleImg} alt='logobrand'/>
               </div>
 
-              <div className={`logo__brand ${(openNoti || openSearch) && ' d-block'}`}>
+              <div className={`logo__brand ${(openNoti || openSearch || pathName === 'message') && ' d-block'}`}>
                 <img src={iconLogo} style={styleImg} alt='logobrand'/>
               </div>
             </Link>
@@ -85,28 +95,29 @@ const LeftSidebar = () => {
                   navLinks.map((link, index) => (
                       <li className='menu__li' key={index} onClick={handleCloseAll}>
                           <Link to={link.path} 
+                          className={`${pathName === 'message' && 'd-flex justify-content-center'}`}
                           style={{textDecoration: 'none', 
                           color: isActive(link.path) ? '#ee3e38' : theme ? '#fff' : '#000', fontWeight: isActive(link.path) ? '700' : 'normal',
-                          filter: theme ? 'invert(1)' : 'invert(0)'
+                          filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                           }}>
                               {link.icon}
-                              <span className={`title__menu ${(openNoti || openSearch) && ' d-none'}`}>{link.label}</span>
+                              <span className={`title__menu ${(openNoti || openSearch ||pathName === 'message') && ' d-none'}`}>{link.label}</span>
                           </Link>
                       </li>
                   ))
               }
-              <li className='menu__li' onClick={handleOpenSearch}>
-                  <div className='menu__icon'>
+              <li className='menu__li'  onClick={handleOpenSearch}>
+                  <div className={`menu__icon ${pathName === 'message' && 'd-flex justify-content-center'}`} >
                     <IoSearchOutline style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch) && ' d-none'}`} 
-                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal'}}>
+                  <span className={`title__menu ${(openNoti || openSearch ||pathName === 'message') && ' d-none'}`} 
+                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Search
                   </span>
               </li>
 
-              <li className='menu__li' onClick={handleOpenNoti}>
-                  <div className='menu__icon'>
+              <li className='menu__li'  onClick={handleOpenNoti}>
+                  <div className={`menu__icon ${pathName === 'message' && 'd-flex justify-content-center'}`} >
                     <MdFavoriteBorder style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>
                     {
                       newNoti > 0 && 
@@ -116,28 +127,28 @@ const LeftSidebar = () => {
                       </span>
                     }
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch) && ' d-none'}`} 
-                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal'}}>
+                  <span className={`title__menu ${(openNoti || openSearch ||pathName === 'message') && ' d-none'}`} 
+                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Notifications
                   </span>
               </li>
 
               <li className='menu__li' onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true})}>
-                  <div className='menu__icon'>
+                  <div className={`menu__icon ${pathName === 'message' && 'd-flex justify-content-center'}`} >
                     <FiPlusSquare style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch) && ' d-none'}`} 
-                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal'}}>
+                  <span className={`title__menu ${(openNoti || openSearch ||pathName === 'message') && ' d-none'}`} 
+                  style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Create
                   </span>
               </li>
 
-              <li className='menu__li' onClick={handleCloseAll}>
-                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666'}}>
+              <li className='menu__li'  onClick={handleCloseAll}>
+                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666', width: '100%'}}>
                     <span style={{ marginRight: '15px' }}>
                         <Avatar src={auth.user.avatar} size='medium-avatar'/>
                     </span>
-                    <span className={`title__menu ${(openNoti || openSearch) && ' d-none'}`}>Profile</span>
+                    <span className={`title__menu ${(openNoti || openSearch ||pathName === 'message') && ' d-none'}`}>Profile</span>
                   </Link>
               </li>
             </ul>

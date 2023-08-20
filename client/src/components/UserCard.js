@@ -17,7 +17,7 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
   const showMsg = (user) => {
     return (
       <>
-        <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.text}</div>
+        <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.text && user.text.length > 60 ? user.text.slice(0,60) + '...' : user.text}</div>
         { 
           user.media.length > 0 && 
           <div>

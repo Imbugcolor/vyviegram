@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageRender from './customRouter/PageRender';
 import Home from './pages/home';
 import Login from './pages/login';
@@ -29,6 +29,7 @@ import Active from './pages/active/[id]';
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
   const dispatch = useDispatch()
+
 
   useEffect(() => {
     // get new AccessToken everytime access/refresh page
@@ -103,7 +104,7 @@ function App() {
             </div> 
           }
           
-          <div className={`main ${auth.isLogged ? 'col-md-9 content_app' : ''}`}>
+          <div id='main' className={`main ${auth.isLogged ? 'col-md-9 content_app' : ''}`}>
             { auth.isLogged && <Header /> }
             { status && <StatusModal /> }
             { auth.isLogged && <SocketClient />}

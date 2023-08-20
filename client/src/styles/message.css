@@ -90,6 +90,7 @@
     border-radius: 10px;
     font-size: 14px;
     font-weight: 500;
+    max-width: 300px;
 }
 
 .share_msg .share__msg_header, .content__share p {
@@ -231,6 +232,7 @@
     color: white;
     border: 1px solid #0048AA;
     border-radius: 14px 14px 0 14px;
+    max-width: 700px;
 }
 
 .other_message .chat_text {

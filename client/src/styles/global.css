@@ -37,20 +37,31 @@ img {
 button:focus {
     outline: 0 !important;
 }
+
+.message_wrapper {
+  margin: 0 0 0 100px !important;
+  flex: unset;
+  max-width: unset;
+}
+
 .menu__side_bar ul li svg,img{
   transition: transform 0.3s ease;
 }
+
 .menu__side_bar ul li:hover svg{
   transform: scale(1.1);
 }
+
 .menu__side_bar ul li:hover img{
   transform: scale(1.1);
 }
+
 .menu__side_bar ul li:hover {
   background-color:#f2f2f2;
   border-radius: 8px;
  
 }
+
 /* AUTH */
 @import url("./auth.css");
 /* LOADING */
@@ -143,7 +154,6 @@ button:focus {
   
   .logo__brand {
     display: flex;
-    justify-content: center;
     margin-left: 0;
   }
 
@@ -227,8 +237,8 @@ button:focus {
     max-width: 41.666667%;
   }
 
-  .content_app {
-      margin-left: 0;
+  .content_app, .message_wrapper {
+    margin-left: 0 !important;
   }
 
   .new__messenger_box {

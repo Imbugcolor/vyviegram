@@ -7,11 +7,11 @@ const Message = () => {
   const [openNewMsg, setOpenNewMsg] = useState(false)
   return (
     <div className='message d-flex'>
-      <div className='col-md-4 border-right px-0'>
+      <div className='col-md-3 border-right px-0'>
         <LeftSide />
       </div>
 
-      <div className='col-md-8 px-0 right_mess'>
+      <div className='col-md-9 px-0 right_mess'>
             <div className='d-flex justify-content-center
              align-items-center flex-column h-100 right_mess'>
                 <RiMessengerLine 

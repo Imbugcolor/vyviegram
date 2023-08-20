@@ -52,16 +52,15 @@ const StatusModal = () => {
 
     const handleStream = () => {
         if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+            setStream(true)
             navigator.mediaDevices.getUserMedia({video: true})
             .then(MediaStream => {
-                setStream(true)
                 videoRef.current.srcObject = MediaStream
                 videoRef.current.play()
                 const track = MediaStream.getTracks()
                 setTracks(track[0])
-            }).catch(err => console.log(err))
-        }
-        dispatch({type: GLOBALTYPES.ALERT, payload: { error: 'Device not found.'}})
+            }).catch(err => dispatch({type: GLOBALTYPES.ALERT, payload: { error: 'Device not found.'}}))
+        } 
     }
 
     const handleCapture = () => {

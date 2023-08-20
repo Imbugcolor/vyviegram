@@ -32,7 +32,7 @@ const messageCtrl = {
                 ]
             },{
                 recipients: [sender, recipient],
-                text, media, call, share
+                text, media, call, share, deleted: []
             }, { new: true, upsert: true })
 
             // create new message
@@ -59,7 +59,7 @@ const messageCtrl = {
     getConversations: async (req, res) => {
         try {
             const features = new APIfeatures(Conversations.find({
-                recipients: req.user._id
+                recipients: req.user._id, deleted: { $nin: [req.user._id] }
             }), req.query).paginating()
 
             const conversations = await features.query.sort('-updatedAt')
@@ -77,8 +77,8 @@ const messageCtrl = {
         try {
             const features = new APIfeatures(Messages.find({
                 $or: [
-                    {sender: req.user._id, recipient: req.params.id},
-                    {sender: req.params.id, recipient: req.user._id}
+                    {sender: req.user._id, recipient: req.params.id, deleted: { $nin: [req.user._id] }},
+                    {sender: req.params.id, recipient: req.user._id, deleted: { $nin: [req.user._id] }}
                 ]
             }), req.query).paginating()
 
@@ -102,13 +102,18 @@ const messageCtrl = {
     },
     deleteConversation: async (req, res) => {
         try {
-            const newConver = await Conversations.findOneAndDelete({
+            const newConver = await Conversations.findOneAndUpdate({
                 $or: [
                     {recipients: [req.user._id, req.params.id]},
                     {recipients: [req.params.id, req.user._id]}
                 ]
+            },{
+                $push: { deleted: req.user._id }
             })
-            await Messages.deleteMany({conversation: newConver._id})
+
+            await Messages.updateMany({conversation: newConver._id}, { 
+                $push: { deleted: req.user._id }
+            })
 
             res.json({msg: 'Delete Success.'})
         } catch (err) {

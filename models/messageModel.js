@@ -7,7 +7,8 @@ const messageSchema = new mongoose.Schema({
     text: String,
     media: Array,
     call: Object,
-    share: Object
+    share: Object,
+    deleted: Array,
 }, {
     timestamps: true
 })

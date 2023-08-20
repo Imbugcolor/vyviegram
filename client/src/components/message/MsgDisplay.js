@@ -1,6 +1,5 @@
 import React from 'react'
 import Avatar from '../Avatar'
-import { imageShow, videoShow } from '../../utils/mediaShow'
 import { useDispatch, useSelector } from 'react-redux'
 import stylePopUpConfirm from '../alert/Confirm'
 import { deleteMessages } from '../../redux/actions/messageAction'
@@ -50,8 +49,13 @@ const MsgDisplay = ({user, msg, theme, data}) => {
                       <div key={index}>
                         {
                           item.url.match(/video/i) ?
-                          videoShow(item.url, theme) :
-                          imageShow(item.url, theme)
+                          <video controls src={item.url} alt='images'  
+                              className='img-thumbnail'
+                              style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px'}}
+                          /> :
+                          <img src={item.url} alt='images'  className='img-thumbnail'
+                          style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px'}}
+                          />
                         }
                       </div>
                     ))
