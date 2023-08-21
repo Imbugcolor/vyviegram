@@ -57,6 +57,9 @@ const CardHeader = ({post}) => {
                     <small className='text-muted'>
                         {moment(post.createdAt).fromNow()}
                     </small>
+                    {/* <div className="card-hover">
+                        <Avatar src={post.user.avatar} size='big-avatar' />
+                    </div> */}
                 </div>
             </div>
             <div className='nav-item dropdown'>
