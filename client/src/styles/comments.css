@@ -28,7 +28,12 @@
 .comment_display {
     padding: 10px 25px;
 }
-
+.comment_display a{
+    text-decoration: none
+}
+.comment_display a:hover{
+    color:#8f8a8a !important;
+}
 .comment_card .comment_content {
     background-color: rgba(0,0,0,.03);
     padding: 7px;

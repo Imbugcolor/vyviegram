@@ -20,11 +20,12 @@ const Active = () => {
 
     return (
         <div className='active_page'>
-            <div className='header_logo'>
-                <img src={LogoBrand} alt='logo'/>
-            </div>
+            
             <div className='form__message_container'>
                 <div className='form__message'>
+                    <div className='header_logo'>
+                        <img src={LogoBrand} alt='logo'/>
+                    </div>
                     {
                         err &&
                         <>

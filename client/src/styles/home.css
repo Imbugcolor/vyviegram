@@ -59,7 +59,9 @@
 .posts .card_header .card_name {
     transform: translateY(3px);
 }
-
+.posts .card_header .card_name h6 a{
+    text-decoration: none;
+}
 .posts .card_header .dropdown-menu {
     position: absolute;
     right: 0;
@@ -95,7 +97,9 @@
     font-size: 28px;
     margin: 10px;
 }
-
+.posts .card_icon_menu i:hover{
+    color: #8f8a8a;
+}
 .posts .card_icon_menu img {
     width: 28px;
     height: 28px;
@@ -105,4 +109,7 @@
 
 .posts .card-footer {
     background-color: #fff;
+}
+.posts .card-footer .nav-item svg:hover{
+    color: #8f8a8a;
 }
