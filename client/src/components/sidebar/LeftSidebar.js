@@ -16,7 +16,7 @@ import SearchBar from './SearchBar'
 import useComponentVisible from '../../hooks/useComponentVisible'
 
 const LeftSidebar = () => {
-  const { auth, notify, theme } = useSelector(state => state)
+  const { auth, notify, theme, message } = useSelector(state => state)
 
   const { pathname } = useLocation()
   const [path, setPath] = useState('')
@@ -45,12 +45,17 @@ const LeftSidebar = () => {
   }
 
   const [newNoti, setNewNoti] = useState(0)
-
+  const [newMessages, setNewMessages] = useState(0)
 
   useEffect(() => {
     const new_Noti = notify.data.filter(msg => !msg.isRead)
     setNewNoti(new_Noti.length)
   },[notify])
+
+  useEffect(() => {
+    const new_Messages = message.users.filter(user => !user.isRead && user.sender && user.sender !== auth.user._id)
+    setNewMessages(new_Messages.length)
+  },[message.users, auth.user._id])
 
   const navLinks = [
     { label: 'Messages', iconRegular: <RiMessengerLine style={styleIcon}/>, iconSolid: <RiMessengerFill style={styleIcon}/>, path: 'message'},
@@ -108,13 +113,22 @@ const LeftSidebar = () => {
                   navLinks.map((link, index) => (
                       <li className='menu__li' key={index} onClick={handleCloseAll}>
                           <Link to={link.path} 
-                          className={`${path === 'message' && 'd-flex justify-content-center'}`}
+                          className='d-flex'
                           style={{textDecoration: 'none', 
                           color: '#000',
                           fontWeight: isActive(link.path) ? '700' : 'normal',
                           filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                           }}>
-                              { isActive(link.path) ? link.iconSolid : link.iconRegular }
+                              <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} style={{ width: path !== 'message' ? '30px' : 'auto'}}>
+                                { isActive(link.path) ? link.iconSolid : link.iconRegular }          
+                                {
+                                  link.path === 'message' && newMessages > 0 && 
+                                  <span className='num__new_messages' 
+                                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '11px'}}>
+                                    {newMessages}
+                                  </span>
+                                }
+                              </div>
                               <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`}>{link.label}</span>
                           </Link>
                       </li>

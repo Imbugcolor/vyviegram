@@ -128,6 +128,12 @@ const SocketServer = (socket) => {
     user && socket.to(`${user.socketId}`).emit('typingToClient', data)
   })
 
+  // Read Message
+  socket.on('readMessage', data => {
+    const user = users.find( user => user.id === data.sendUser )
+    user && socket.to(`${user.socketId}`).emit('readMessageToClient', data)
+  })
+
   // Check User Online / Offline
   socket.on('checkUserOnline', data => {
     //only check following users online/offline

@@ -12,4 +12,6 @@ router.delete('/message/:id', auth, messageCtrl.deleteMessages)
 
 router.delete('/conversation/:id', auth, messageCtrl.deleteConversation)
 
+router.patch('/conversation/read/:id', auth, messageCtrl.readMessage)
+
 module.exports = router;

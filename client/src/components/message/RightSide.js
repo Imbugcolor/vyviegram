@@ -7,7 +7,7 @@ import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { videoShow, imageShow } from '../../utils/mediaShow'
 import Icons from '../Icons'
 import { imageUpload } from '../../utils/imageUpload'
-import { addMessage, deleteConversation, getMessages, loadMoreMessages } from '../../redux/actions/messageAction'
+import { addMessage, deleteConversation, getMessages, handleReadMessage, loadMoreMessages } from '../../redux/actions/messageAction'
 import LoadIcon from '../../images/loading.gif'
 import { TbPhoto } from 'react-icons/tb'
 import Avatar from '../Avatar'
@@ -24,6 +24,8 @@ const RightSide = () => {
     const [user, setUser] = useState([])
     const [text, setText] = useState('')
     const [media, setMedia] = useState([])
+    const [isRead, setIsRead] = useState(false)
+    const [sender, setSender] = useState('')
     const [loadMedia, setLoadMedia] = useState(false)
 
     const refDisplay = useRef()
@@ -37,6 +39,7 @@ const RightSide = () => {
 
     const navigate = useNavigate()
 
+    // If data loaded, get data in Redux Store
     useEffect(() => {
         const newData = message.data.find(item => item._id === id)
         if(newData) {
@@ -45,7 +48,20 @@ const RightSide = () => {
             setPage(newData.page)
         }
         
-    },[message.data, id])
+    },[message.data, id, message.users])
+
+    useEffect(() => {
+        if(auth) {
+            const conversation = message.users.find(item => item._id === id)
+            if(conversation) {
+                setIsRead(conversation.isRead)
+                setSender(conversation.sender)
+            }
+            if(conversation && conversation.sender === id && !conversation.isRead) {
+                dispatch(handleReadMessage({ auth, id, socket }))
+            }
+        }
+    },[message.users, id, auth, dispatch, socket])
 
     useEffect(() => {
         if(id && message.users.length > 0) {
@@ -258,6 +274,11 @@ const RightSide = () => {
                                         }
                                     </div>
                                 ))
+                            }
+
+                            {
+                                sender === auth.user._id && isRead &&
+                                <div className='txt_seen_message'>Seen</div>
                             }
 
                             {

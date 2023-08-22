@@ -37,7 +37,9 @@ const messageReducer = (state = initialState, action) => {
                         text: action.payload.text, 
                         media: action.payload.media,
                         call: action.payload.call,
-                        share: action.payload.share
+                        share: action.payload.share,
+                        sender: action.payload.sender,
+                        isRead: false
                     } : user
                 )
             };
@@ -75,6 +77,17 @@ const messageReducer = (state = initialState, action) => {
                     {
                         ...user,
                         typing: action.payload.typing
+                    } : user
+                )
+            };
+        case MESS_TYPES.UPDATE_READ_MESSAGE:
+            return {
+                ...state,
+                users: state.users.map(user => 
+                    user._id === action.payload._id ?
+                    {
+                        ...user,
+                        isRead: action.payload.isRead
                     } : user
                 )
             };
