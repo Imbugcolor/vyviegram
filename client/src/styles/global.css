@@ -39,7 +39,7 @@ button:focus {
 }
 
 .message_wrapper {
-  margin: 0 0 0 100px !important;
+  margin: 0 0 0 99px !important;
   flex: unset;
   max-width: unset;
 }
@@ -138,14 +138,15 @@ button:focus {
     display: flex;
     justify-content: center;
     margin-right: 0 !important;
+    width: 50px !important;
   }
 
   .menu__side_bar ul li a svg, .menu__side_bar ul li a span {
     margin-right: 0 !important;
   }
 
-  .menu__li .menu__icon .numNotifications {
-    right: 5px;
+  .menu__li .menu__icon .numNotifications, .num__new_messages {
+    right: 6px !important;
   }
 
   .text__brand {
@@ -154,7 +155,6 @@ button:focus {
   
   .logo__brand {
     display: flex;
-    margin-left: 0;
   }
 
   .notifications__container {

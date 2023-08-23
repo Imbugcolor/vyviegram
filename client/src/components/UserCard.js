@@ -6,7 +6,7 @@ import { SiAdguard } from 'react-icons/si'
 
 const UserCard = ({children, user, border, handleClose, setShowFollowers, setShowFollowing, setShowLikes, msg}) => {
   
-  const { theme } = useSelector(state => state)
+  const { theme, auth } = useSelector(state => state)
   
   const handleCloseAll = () => {
     if(handleClose) handleClose()
@@ -18,7 +18,14 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
   const showMsg = (user) => {
     return (
       <>
-        <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.text && user.text.length > 60 ? user.text.slice(0,60) + '...' : user.text}</div>
+        <div style={{ filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: user.sender !== auth.user._id && !user.isRead ? 'bold' : 'normal' }}>
+          {
+            user.sender === auth.user._id && 'You: '
+          }
+          {
+            user.text && user.text.length > 60 ? user.text.slice(0,60) + '...' : user.text
+          }
+        </div>
         { 
           user.media.length > 0 && 
           <div>
@@ -52,7 +59,7 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
             <Avatar src={user.avatar} size="big-avatar"/>
             <div className="ml-2" style={{transform: 'translate(-2px)'}}>
                 <span className="d-flex align-items-center" style={{color: '#262626', fontWeight: '500'}} >
-                  {user.username}
+                  {user.username.length > 13 ? user.username.slice(0,13) + '...' : user.username}
                   {
                     user.role === 'admin' &&
                     <span><SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }}/></span>

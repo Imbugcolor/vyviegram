@@ -129,11 +129,28 @@ const userCtrl = {
         try {
 
             const newArr = [...req.user.following, req.user._id]
-            
+
+            const sugesstions = []
+
+            const userMap = await Users.find({_id: { $in: req.user.following }})
+
+            userMap.map(user => {
+                user.following.map(follow => {
+                    sugesstions.push(follow)
+                })
+            })
+
             const num = req.query.num || 10
 
             const users = await Users.aggregate([
-                { $match: {_id: {$nin: newArr}}},
+                { 
+                    $match: { 
+                        $and: [
+                            {_id: {$nin: newArr}},
+                            {_id: {$in: sugesstions}}
+                        ]
+                    }
+                },
                 { $sample: { size: Number(num) }},
                 { $lookup: { from: 'users', localField: 'followers', foreignField: '_id', as: 'followers'}},
                 { $lookup: { from: 'users', localField: 'following', foreignField: '_id', as: 'following'}}

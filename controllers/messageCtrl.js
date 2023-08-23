@@ -32,7 +32,7 @@ const messageCtrl = {
                 ]
             },{
                 recipients: [sender, recipient],
-                text, media, call, share, deleted: []
+                sender, text, media, call, share, deleted: [], isRead: false
             }, { new: true, upsert: true })
 
             // create new message
@@ -119,7 +119,23 @@ const messageCtrl = {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
-    }
+    },
+    readMessage: async (req, res) => {
+        try {
+            await Conversations.findOneAndUpdate({
+                $or: [
+                    {recipients: [req.user._id, req.params.id]},
+                    {recipients: [req.params.id, req.user._id]}
+                ]
+            },{
+                isRead: true
+            })
+
+            res.json({msg: 'Success.'})
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
 }
 
 module.exports = messageCtrl;

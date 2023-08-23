@@ -1,5 +1,5 @@
 import { DeleteData, GLOBALTYPES } from './globalTypes'
-import { deleteDataAPI, getDataAPI, postDataAPI } from '../../utils/fetchData'
+import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from '../../utils/fetchData'
 
 export const MESS_TYPES = {
     ADD_USER: 'ADD_USER',
@@ -10,7 +10,8 @@ export const MESS_TYPES = {
     DELETE_MESSAGES: 'DELETE_MESSAGES',
     UPDATE_TYPING: 'UPDATE_TYPING',
     DELETE_CONVERSATION: 'DELETE_CONVERSATION',
-    CHECK_ONLINE_OFFLINE: 'CHECK_ONLINE_OFFLINE'
+    CHECK_ONLINE_OFFLINE: 'CHECK_ONLINE_OFFLINE',
+    UPDATE_READ_MESSAGE: 'UPDATE_READ_MESSAGE'
 }
 
 export const addMessage = ({msg, auth, socket}) => async(dispatch) => {
@@ -33,7 +34,7 @@ export const getConversations = ({auth, page = 1}) => async(dispatch) => {
         res.data.conversations.forEach(item => {
             item.recipients.forEach(cv => {
                 if(cv._id !== auth.user._id) {
-                    newArr.push({...cv, text: item.text, media: item.media, call: item.call, share: item.share, typing: false})
+                    newArr.push({...cv, sender: item.sender, text: item.text, media: item.media, call: item.call, share: item.share, typing: false, isRead: item.isRead})
                 }
             })
         })
@@ -116,6 +117,17 @@ export const shareToMess = ({post, usersShare, auth, shareMsg, socket}) => async
 
     } catch (err) {
         console.log(err);
+        dispatch({type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})
+    }
+}
+
+export const handleReadMessage = ({auth, id, socket}) => async(dispatch) => { 
+    dispatch({type: MESS_TYPES.UPDATE_READ_MESSAGE, payload: { _id: id, isRead: true }})
+    try {
+        await patchDataAPI(`conversation/read/${id}`, null, auth.token, dispatch)
+
+        socket.emit('readMessage', { readUser: auth.user._id, sendUser: id })
+    } catch (err) {
         dispatch({type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})
     }
 }

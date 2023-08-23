@@ -115,7 +115,9 @@ const SocketClient = () => {
                 payload: {
                     ...msg.user,
                     text: msg.text,
-                    media: msg.media
+                    media: msg.media,
+                    sender: msg.sender,
+                    isRead: false,
                 }
             })
         })
@@ -139,6 +141,15 @@ const SocketClient = () => {
             setTimeout(() => {
                 dispatch({type: MESS_TYPES.UPDATE_TYPING, payload: { _id: data.sender._id, typing: false }})
             }, 3000)
+        })
+
+        return () => socket.off('typingToClient')
+    },[socket, dispatch])
+
+    //Read Message
+    useEffect(() => {
+        socket.on('readMessageToClient', data => {
+            dispatch({type: MESS_TYPES.UPDATE_READ_MESSAGE, payload: { _id: data.readUser, isRead: true }})   
         })
 
         return () => socket.off('typingToClient')

@@ -29,11 +29,10 @@
 
 .logo__brand {
     display: none;
-    margin-left: -13px;
 }
 
 .logo__brand img{
-    width: 70px;
+    width: 50px;
 }
 
 .menu__side_bar ul li {
@@ -56,7 +55,7 @@
     margin-right: 15px;
 }
 
-.menu__li .menu__icon .numNotifications {
+.menu__li .menu__icon .numNotifications, .num__new_messages {
     position: absolute;
     top: -3px;
     right: -4px;
@@ -76,11 +75,13 @@
     font-size: 30px;
     cursor: pointer;
 }
+
 .menu__footer:hover{
     background-color:#f2f2f2;
     border-radius: 8px;
     transform: scale(1.1);
 }
+
 .menu__footer{
     transition: transform 0.3s ease;
-  }
+}

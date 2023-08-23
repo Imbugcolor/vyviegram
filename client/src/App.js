@@ -25,6 +25,7 @@ import RemovedPost from './pages/post/removed/RemovedPost';
 import AdminRouter from './customRouter/AdminRouter';
 import Dashboard from './pages/admin/Dashboard';
 import Active from './pages/active/[id]';
+import { getConversations } from './redux/actions/messageAction';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -46,10 +47,12 @@ function App() {
       dispatch(getPosts(auth.token))
       dispatch(getSuggestions(auth.token))
       dispatch(getNotifies(auth.token))
+      dispatch(getConversations({auth}))
     }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, auth.isLogged]);
+
 
 
   // Notification API 

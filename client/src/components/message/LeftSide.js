@@ -31,10 +31,10 @@ const LeftSide = () => {
         return ''
     }
 
-    useEffect(() => {
-        if(message.firstLoad) return;
-        dispatch(getConversations({auth}))
-    },[message.firstLoad, auth, dispatch])
+    // useEffect(() => {
+    //     if(message.firstLoad) return;
+    //     dispatch(getConversations({auth}))
+    // },[message.firstLoad, auth, dispatch])
 
     // Load more
     useEffect(() => {
