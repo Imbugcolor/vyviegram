@@ -37,7 +37,7 @@ const LeftSidebar = () => {
   }
 
   const styleIcon = {
-    fontSize: '30px', marginRight: '15px'
+    fontSize: '30px'
   }
   
   const styleImg = {
@@ -106,7 +106,7 @@ const LeftSidebar = () => {
                   filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                   }}>
                       { path === '' ? <AiFillHome style={styleIcon}/> : <AiOutlineHome style={styleIcon}/> }
-                      <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`}>Home</span>
+                      <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'} ml-3`}>Home</span>
                   </Link>
               </li>
               {
@@ -119,12 +119,13 @@ const LeftSidebar = () => {
                           fontWeight: isActive(link.path) ? '700' : 'normal',
                           filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                           }}>
-                              <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} style={{ width: path !== 'message' ? '30px' : 'auto'}}>
+                              <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
+                              style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
                                 { isActive(link.path) ? link.iconSolid : link.iconRegular }          
                                 {
                                   link.path === 'message' && newMessages > 0 && 
                                   <span className='num__new_messages' 
-                                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '11px'}}>
+                                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '6px'}}>
                                     {newMessages}
                                   </span>
                                 }
@@ -135,7 +136,8 @@ const LeftSidebar = () => {
                   ))
               }
               <li className='menu__li'  onClick={handleOpenSearch}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} >
+                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
                     <IoSearchOutline style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
                   <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`} 
@@ -145,12 +147,13 @@ const LeftSidebar = () => {
               </li>
 
               <li className='menu__li'  onClick={handleOpenNoti}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} >
+                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
                     <MdFavoriteBorder style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>
                     {
                       newNoti > 0 && 
                       <span className='numNotifications' 
-                      style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
+                      style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '6px'}}>
                         {newNoti}
                       </span>
                     }
@@ -162,7 +165,8 @@ const LeftSidebar = () => {
               </li>
 
               <li className='menu__li' onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true})}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} >
+                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
                     <FiPlusSquare style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
                   <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`} 
@@ -172,8 +176,8 @@ const LeftSidebar = () => {
               </li>
 
               <li className='menu__li'  onClick={handleCloseAll}>
-                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666', width: '100%'}}>
-                    <span style={{ marginRight: '15px' }}>
+                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666', width: '100%', textAlign: path !== 'message' ? 'start' : 'center'}}>
+                    <span style={{ marginRight: path !== 'message' ? '15px' : '0px' }}>
                         <Avatar src={auth.user.avatar} size='medium-avatar'/>
                     </span>
                     <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`}>Profile</span>

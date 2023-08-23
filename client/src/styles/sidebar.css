@@ -29,11 +29,10 @@
 
 .logo__brand {
     display: none;
-    margin-left: -13px;
 }
 
 .logo__brand img{
-    width: 70px;
+    width: 50px;
 }
 
 .menu__side_bar ul li {
