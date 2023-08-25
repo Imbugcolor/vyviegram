@@ -69,7 +69,7 @@ const LeftSide = () => {
             <div className='message__list_header'>
                 <div className='d-flex justify-content-between align-items-center' 
                 style={{height: '74px'}}>
-                    <span>{auth.user.username}</span>
+                    <span>{auth.user.username.length > 13 ? auth.user.username.slice(0,13) : auth.user.username }</span>
                     <FaRegEdit style={{cursor: 'pointer'}} onClick={() => setOpenNewMsg(true)}/>
                 </div>
             </div>

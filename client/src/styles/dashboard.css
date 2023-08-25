@@ -227,7 +227,7 @@
 }
 
 .user-view-detail-box {
-    display: none;
+    display: block;
     width: 100%;
     position: fixed;
     top: 0;
@@ -235,10 +235,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.4);
-}
-
-.user-view-detail-box.active {
-    display: block;
+    z-index: 99;
 }
 
 .view-detail-user-modal {
@@ -252,7 +249,6 @@
     width: 500px;
     position: relative;
     background: #fff;
-    animation: zoomOut ease .3s;
     border-radius: 10px;
 }
 
@@ -316,6 +312,10 @@
     border-radius: 50%;
     display: flex;
     padding: 1px;
+}
+
+.user-publish-toggle svg {
+    cursor: pointer;
 }
 
 .loading__spinner {

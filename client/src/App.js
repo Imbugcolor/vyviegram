@@ -26,6 +26,7 @@ import AdminRouter from './customRouter/AdminRouter';
 import Dashboard from './pages/admin/Dashboard';
 import Active from './pages/active/[id]';
 import { getConversations } from './redux/actions/messageAction';
+import Users from './pages/admin/Users';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -121,6 +122,7 @@ function App() {
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>
                 <Route exact path='/admin/dashboard' element={<AdminRouter component={Dashboard}/>}/>
+                <Route exact path='/admin/users' element={<AdminRouter component={Users}/>}/>
             </Routes>
           </div> 
         </div>

@@ -16,6 +16,8 @@ import online from './onlineReducer'
 import call from './callReducer'
 import peer from './peerReducer'
 import share from './shareReducer'
+import users from './usersReducer'
+import recentUsers from './usersRecentReducer'
 
 export default combineReducers({
     auth,
@@ -34,5 +36,7 @@ export default combineReducers({
     online,
     call,
     peer,
-    share
+    share,
+    users,
+    recentUsers
 })

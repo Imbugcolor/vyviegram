@@ -16,6 +16,9 @@ router.patch('/user/:id/unfollow', auth, userCtrl.unfollow)
 router.get('/suggestionsUser', auth, userCtrl.suggestionsUser)
 
 router.get('/users', authAdmin, userCtrl.getAllUsers)
+
 router.get('/recent-users', authAdmin, userCtrl.getRecentUsers)
+
+router.patch('/update-roles/:id', authAdmin, userCtrl.updateRoles)
 
 module.exports = router

@@ -167,11 +167,29 @@ const userCtrl = {
     },
     getAllUsers: async (req, res) => {
         try {
-            const users = await Users.find({ role: 'user' })
+            const records = new APIfeatures(
+                Users.find(), 
+                req.query
+            )
+            .filtering()
+            .sorting()
+
+            const totalRecords = await records.query
+
+            const features = new APIfeatures(
+                Users.find().select('-password'),
+                req.query
+            )
+            .filtering()
+            .sorting()
+            .pagination()
+
+            const users = await features.query
 
             return res.json({
                 users,
-                total: users.length
+                result: users.length,
+                total: totalRecords.length,
             })
 
         } catch (err) {
@@ -215,6 +233,23 @@ const userCtrl = {
                 total: totalRecords.length
             })
 
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    updateRoles: async (req, res) => {
+        try {
+            const { role } = req.body;
+
+            if(role !== 'admin' && role !== 'user') {
+                return res.status(400).json({msg: 'Request is not valid'})
+            }
+
+            await Users.findByIdAndUpdate(req.params.id, {
+                role
+            })
+
+            return res.json('Updated.')
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }

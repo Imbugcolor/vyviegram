@@ -62,6 +62,10 @@ button:focus {
  
 }
 
+.page-item.active .page-link {
+  z-index: 1 !important;
+}
+
 /* AUTH */
 @import url("./auth.css");
 /* LOADING */

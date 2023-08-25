@@ -7,14 +7,19 @@ import { BsSignpostSplit } from 'react-icons/bs'
 import { AiOutlineHeart } from 'react-icons/ai'
 import moment from 'moment'
 import LoadIcon from '../../images/loading.gif'
+import { getUsersRecent } from '../../redux/actions/usersRecentAction'
+import Pagination from '../../utils/pagination'
+import { Link } from 'react-router-dom'
+import UserDetailModal from './common/UserDetailModal'
 
 const Dashboard = () => {
-  const { auth, theme } = useSelector(state => state)
+  const { auth, recentUsers, theme } = useSelector(state => state)
   const dispatch = useDispatch()
-  const [recentUsers, setRecentUsers] = useState([])
+
   const [totalUsers, setTotalUsers] = useState(0)
   const [totalPosts, setTotalPosts] = useState(0)
   const [load, setLoad] = useState(false)
+  const [viewDetail, setViewDetail] = useState(null)
 
   useEffect(() => {
     if(auth && auth.user.role === 'admin') {
@@ -22,8 +27,6 @@ const Dashboard = () => {
            setLoad(true)
            const users = await getDataAPI('users', auth.token, dispatch)
            const posts = await getDataAPI('admin/posts', auth.token, dispatch)
-           const recentUsersData = await getDataAPI('recent-users', auth.token, dispatch)
-           setRecentUsers(recentUsersData.data.recentUsers)
            setTotalUsers(users.data.total)
            setTotalPosts(posts.data.total)
            setLoad(false)
@@ -35,6 +38,16 @@ const Dashboard = () => {
         setTotalPosts(0)
     }
   },[auth, dispatch])
+
+  useEffect(() => {
+    if(!recentUsers.firstLoad){
+      dispatch(getUsersRecent(auth.token))
+    }
+  },[recentUsers.firstLoad, dispatch, auth.token])
+
+  const handleChangePage = (num) => {
+    dispatch(getUsersRecent(auth.token, num))
+  }
 
   return (
     <div>
@@ -48,10 +61,10 @@ const Dashboard = () => {
               <div>
                 <span className='icon-bg primary-bg'><FaUserFriends /></span>
               </div>
-              <div className='card-content'>
+              <Link to='/admin/users' className='card-content'>
                 <h3>Users</h3>
                 <span>{ load ? <img src={LoadIcon} alt='loading' className='loading__spinner'/> : totalUsers}</span>
-              </div>
+              </Link>
             </div>
           </div>
           <div className='card-total'>
@@ -130,7 +143,13 @@ const Dashboard = () => {
                     </thead>
                     <tbody className="table-body">
                         {
-                            recentUsers.length > 0 ? recentUsers.map(user => (
+                            recentUsers.loading ?  
+                            <tr>
+                              <td>
+                                <img src={LoadIcon} alt='loading' className='loading__spinner'/>
+                              </td>
+                            </tr> :
+                            recentUsers.users.length > 0 ? recentUsers.users.map(user => (
                                 <tr key={user._id}>
                                     <td className='d-flex align-items-center'>
                                         <div className="user-avatar">
@@ -148,7 +167,7 @@ const Dashboard = () => {
                                     <td>{moment(user.createdAt).fromNow()}</td>                  
                                     <td>
                                         <div className="user-actions">
-                                            <div className="edit-user">
+                                            <div className="edit-user" onClick={() => setViewDetail(user)}>
                                                 <a href="#!">
                                                     <FaEye style={{ color: '#9e9e9e' }} />
                                                 </a>
@@ -166,12 +185,21 @@ const Dashboard = () => {
                             </tr>
                         }
                     </tbody>
-                </table>
-    
-                <div className="user-view-detail-box">
-                    
-                </div>
-                
+                </table>            
+
+                {
+                  recentUsers.total > 4 &&
+                  <Pagination
+                    page={recentUsers.page} 
+                    total={recentUsers.total}
+                    pageSize={4}
+                    callback={handleChangePage} 
+                  />
+                }             
+
+                {
+                  viewDetail && <UserDetailModal user={viewDetail} setViewDetail={setViewDetail} />
+                }
             </div>
         </div>
       </div>
