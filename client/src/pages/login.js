@@ -146,6 +146,9 @@ const Login = () => {
                             <p>
                                 You don't have an account? <Link to="/register" style={{color:"crimson"}}>Register Now</Link>
                             </p>
+                            <p>
+                                You <Link to="/forgotpassword" style={{color:"crimson"}}>forgot your password?</Link>
+                            </p>
                         </div>
                         <div className="txt1 text-center p-t-54 p-b-20">
                             <span>

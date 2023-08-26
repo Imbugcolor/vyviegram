@@ -10,7 +10,7 @@
 
 .carousel .image__display video,
 .carousel .image__display img {
-    height: 100%;
+    max-height: 700px;
     object-fit: contain;
     width: 100%;
 }

@@ -234,6 +234,81 @@ const authCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
+    forgotPassword: async (req, res) => {
+        try {
+          const { email } = req.body
+          const oldUser = await Users.findOne({ email })
+
+          if (!oldUser) {
+            return res.status(400).json({ msg: 'User not exists.' })
+          }
+
+          if(oldUser.typeRegister !== 'normal') {
+            return res.status(400).json({ msg: 'Sorry, Account cannot recover password.' })
+          }
+
+          const secret = process.env.PASSWORD_RECOVERY_SECRET + oldUser.password
+          const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, { expiresIn: '5m' })
+          const url = `${process.env.PASSWORD_RECOVERY_URL}/${oldUser._id}/${token}`
+
+          sendMail(email, url, 'Confirm password recovery for Vyviegram account.')
+
+          res.json({ msg: 'Check your email to reset your password.' })
+
+        } catch (err) {
+          return res.status(500).json({ msg: err.message })
+        }
+    },
+    verifyAccountRecoveryURL: async (req, res) => {
+        const { id, token } = req.params
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          const oldUser = await Users.findOne({ _id: id })
+
+          if (!oldUser) {
+            return res.status(400).json({ msg: 'User not exists.' })
+          }
+    
+          const secret = process.env.PASSWORD_RECOVERY_SECRET + oldUser.password
+          try {
+            jwt.verify(token, secret)
+            res.json({ msg: 'Verified' })
+          } catch (err) {
+            res.status(500).json({ msg: err.message })
+          }
+        } else return res.status(400).json({ msg: 'Invalid Token' })
+    },
+    resetPassword: async (req, res) => {
+        const { id, token, password } = req.body
+        if (id.match(/^[0-9a-fA-F]{24}$/)) {
+          const oldUser = await Users.findOne({ _id: id })
+    
+          if (!oldUser) {
+            return res.status(400).json({ msg: 'User not exists.' })
+          }
+
+          const secret = process.env.PASSWORD_RECOVERY_SECRET + oldUser.password
+
+          try {
+            jwt.verify(token, secret)
+            if (password.length < 6) 
+              return res.status(400).json({ msg: 'Password must be at least 6 characters long.' })
+            if (password.match(/^(?=.*\s)/))
+              return res.status(400).json({ msg: 'Passwords must not contain spaces.' })
+            if (!validatePassword(password)) 
+              return res.status(400).json({ msg: "Password must contain at least 1 uppercase letter, 1 lowercase letter and 1 number" })
+
+              const passwordHash = await bcrypt.hash(password, 12)
+
+            await Users.findOneAndUpdate({ _id: id }, {
+              password: passwordHash
+            })
+
+            res.json({ msg: 'Your password updated.' })
+          } catch (err) {
+            res.status(500).json({ msg: err.message })
+          }
+        } else return res.status(400).json({ msg: 'Invalid Token' })
+    }
 }
 
 const createAccessToken = (payload) => {
@@ -254,6 +329,16 @@ const updateRefreshToken = async(user, refreshToken) => {
     await Users.findOneAndUpdate({ email: user.email }, {
         rf_token: hashRefreshToken
     })
+}
+
+const validatePassword = (password) => {
+    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    if (password.match(passRegex)) {
+      return true;
+    }
+    else {
+      return false;
+    }
 }
 
 const loginUser = async (user, password, res) => {

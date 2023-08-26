@@ -17,5 +17,11 @@ router.get('/logout', auth, authCtrl.logout)
 
 router.get('/refresh_token', authCtrl.generateAccessToken)
 
+router.post('/forgotpassword', authCtrl.forgotPassword)
+
+router.get('/passwordrecovery/:id/:token', authCtrl.verifyAccountRecoveryURL)
+
+router.patch('/resetpassword', authCtrl.resetPassword)
+
 
 module.exports = router

@@ -27,6 +27,8 @@ import Dashboard from './pages/admin/Dashboard';
 import Active from './pages/active/[id]';
 import { getConversations } from './redux/actions/messageAction';
 import Users from './pages/admin/Users';
+import ForgotPassword from './pages/recovery/forgotPassword';
+import ResetPassword from './pages/recovery/resetPassword';
 
 function App() {
   const { auth, status, modal, call, share, theme } = useSelector(state => state)
@@ -118,6 +120,8 @@ function App() {
                 <Route exact path='/' Component={auth.isLogged ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />
                 <Route exact path='/active/:token' Component={Active} />
+                <Route exact path='/forgotpassword' Component={ForgotPassword} />
+                <Route exact path='/passwordrecovery/:id/:token' Component={ResetPassword} />
                 <Route exact path='/:page' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/:page/:id' element={<PrivateRouter component={PageRender}/>}/>
                 <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>
