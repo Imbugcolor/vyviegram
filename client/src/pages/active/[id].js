@@ -19,36 +19,40 @@ const Active = () => {
     },[token])
 
     return (
-        <div className='active_page'>
-            
-            <div className='form__message_container'>
-                <div className='form__message'>
-                    <div className='header_logo'>
-                        <img src={LogoBrand} alt='logo'/>
-                    </div>
-                    {
-                        err &&
-                        <>
-                            <img src={Failed} alt='logo'/>
-                            <span>{err}</span>
-                        </>
-                    }
+        <div className="limiter">
+            <div className="container-login100" style={{backgroundImage: 'url("/images/bg-01.jpg")'}}>
+                <div className='active_page'>
                     
-                    {
+                    <div className='form__message_container'>
+                        <div className='form__message'>
+                            <div className='header_logo'>
+                                <img src={LogoBrand} alt='logo'/>
+                            </div>
+                            {
+                                err &&
+                                <>
+                                    <img src={Failed} alt='logo'/>
+                                    <span>{err}</span>
+                                </>
+                            }
+                            
+                            {
 
-                        success && 
-                        <>
-                            <img src={Success} alt='logo'/>
-                            <span>{success}</span>
-                        </>
-                    }
+                                success && 
+                                <>
+                                    <img src={Success} alt='logo'/>
+                                    <span>{success}</span>
+                                </>
+                            }
 
-                    <Link to='/' 
-                    style={{textDecoration: 'none'}}>
-                        <button>
-                            Sign in
-                        </button>
-                    </Link>
+                            <Link to='/' 
+                            style={{textDecoration: 'none'}}>
+                                <button>
+                                    Sign in
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
