@@ -7,6 +7,7 @@ import Following from './Following'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { Link } from 'react-router-dom'
 import { SiAdguard } from 'react-icons/si'
+import { AiOutlineLink } from 'react-icons/ai'
 
 const Info = ({auth,profile,dispatch, id}) => {
   const [onEdit, setOnEdit] = useState(false);
@@ -14,16 +15,37 @@ const Info = ({auth,profile,dispatch, id}) => {
   const [userData, setUserData] = useState([]);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
+  const [totalPosts, setTotalPosts] = useState(0)
+  const [followedBy, setFollowedBy] = useState([])
   
   useEffect(() => {
     if(id === auth.user._id){
       setUserData([auth.user])
     }else{
-     
       const newData = profile.users.filter(user => user._id === id)
       setUserData(newData)
+
+      let followByUser = []
+        if(newData) {
+            auth.user.following.forEach(following => {
+                newData[0]?.followers?.forEach(follower => {
+                    if(follower._id === following._id)
+                    followByUser.push(following)
+                })
+            })
+        }
+      setFollowedBy(followByUser)
     }
   }, [id, auth, dispatch, profile.users]);
+
+  useEffect(() => {
+    profile.posts.forEach(data => {
+        if(data._id === id){
+          setTotalPosts(data.totalResults)
+        }
+    })
+  },[profile.posts, id])
+
   useEffect(() => {
     if(showFollowers || showFollowing || onEdit){
       dispatch({type: GLOBALTYPES.MODAL, payload: true})
@@ -31,6 +53,7 @@ const Info = ({auth,profile,dispatch, id}) => {
       dispatch({type: GLOBALTYPES.MODAL, payload:false})
     }
   }, [showFollowers, showFollowing, onEdit, dispatch]);
+
   return (
     <div className="info">
     {
@@ -54,21 +77,48 @@ const Info = ({auth,profile,dispatch, id}) => {
                     </div>
 
                     <div className='follow_btn'>
+                        <span className='mr-4' style={{ cursor: 'default'}}>
+                            <strong>{totalPosts}</strong> posts
+                        </span>
                         <span className='mr-4' onClick={() => setShowFollowers(true)}>
-                            <strong>{user.followers.length}</strong> Followers
+                            <strong>{user.followers.length}</strong> followers
                         </span>
                         <span className='mr-4' onClick={() => setShowFollowing(true)}>
-                            <strong>{user.following.length}</strong> Following
+                            <strong>{user.following.length}</strong> following
                         </span>
                     </div>
 
-                    <h6>{user.fullname} <span style={{color: '#0095F6'}}>{user.mobile}</span></h6>
+                    <h6>{user.fullname} <span style={{color: '#00379b'}}>{user.mobile}</span></h6>
                     <p className='m-0'>{user.address}</p>
-                    <h6 className='m-0'>{user.email}</h6>
-                    <a href={user.website} target='_blank' rel="noreferrer">
-                        {user.website}
-                    </a>
+                    <h6 className='m-0' style={{ padding: '5px 0' }}>{user.email}</h6>
+                    {
+                      user.website &&
+                      <a href={user.website} target='_blank' rel="noreferrer" style={{ color: '#00379b', fontWeight: 600 }}>
+                        <AiOutlineLink /> {user.website}
+                      </a>
+                    }
                     <p className='bio__profile'>{user.story}</p>
+
+                    {
+                        followedBy.length > 0 &&
+                        <div className='follower__by'>
+                            
+                            <span className='text-muted'>Followed by </span>
+                            {
+                                followedBy.length > 0 &&
+                                followedBy.slice(0,3).map((user,index) => (
+                                  <Link key={user._id} to={`/profile/${user._id}`} style={{textDecoration: 'none', color: '#000'}}>
+                                      {index > 0 && ', '}{user.username} 
+                                  </Link>              
+                                ))
+                            }
+
+                            {       
+                                followedBy.length > 3 && <span onClick={() => setShowFollowers(true)} className='folower__by_view'>+ { followedBy.length - 3 } more </span>
+                            }
+
+                        </div>
+                    }
               </div>
 
               {

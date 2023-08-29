@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import Avatar from '../../Avatar'
-import { Link } from 'react-router-dom'
-import { SiAdguard } from 'react-icons/si'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCardHover } from '../../../redux/actions/cardHoverAction'
+import { MESS_TYPES } from '../../../redux/actions/messageAction'
+import Avatar from '../../Avatar'
 import Video from '../../Video'
 import FollowBtn from '../../FollowBtn'
+import { SiAdguard } from 'react-icons/si'
+import { RiMessengerLine } from 'react-icons/ri'
 
 const CardHover = ({user}) => {
-    const {cardHover, auth, theme} = useSelector(state=> state)
+    const {cardHover, auth, theme, online} = useSelector(state=> state)
     const [posts, setPosts] = useState([])
     const [totalResults, setTotalResults] = useState(0);
     const dispatch = useDispatch()
-    // console.log("user", user)
+
+    const navigate = useNavigate()
+  
     useEffect(() => {
       if(cardHover.ids.every(item => item !== user._id))
     {
         dispatch(getCardHover({id: user._id, auth}))
     }
     },[auth, user._id, dispatch, cardHover.ids]);
+
     useEffect(() => {
        const data = cardHover.posts.find(data => 
             data._id === user._id
@@ -29,6 +34,13 @@ const CardHover = ({user}) => {
           
         }
     },[cardHover.posts, user._id])
+
+    const handleAddMessage = () => {
+        dispatch({type: MESS_TYPES.ADD_USER, payload: {...user, text: '', media: []}})
+        dispatch({type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online})
+        return navigate(`/message/${user._id}`)
+    }
+
   return (
     <div className="card-hover animated">
         <div className="card-hover-info">
@@ -57,14 +69,14 @@ const CardHover = ({user}) => {
             </div>
             <div  className="card-hover-item">
                 <span>{user.followers.length}</span>
-                <p>follower</p>
+                <p>followers</p>
             </div>
             <div  className="card-hover-item">
                 <span>{user.following.length}</span>
                 <p>following</p>
             </div>
         </div>
-        <div className="card-hover-postthumb d-flex align-items-center justify-content-center">
+        <div className="card-hover-postthumb d-flex align-items-center">
             {posts.slice(0,3).map(post => (
                 <Link key={post._id} to={`/post/${post._id}`}>
                     <div className='card_hover_post_thumb_display'>
@@ -86,7 +98,10 @@ const CardHover = ({user}) => {
                 <Link className='edit__profile_btn' to={'/edit'}>
                     Edit profile
                 </Link> :
-                <>  <div className="card-hover-message"> Message</div>
+                <>  
+                    <div className="card-hover-message d-flex align-items-center" onClick={handleAddMessage} style={{ cursor: 'pointer' }}> 
+                        <RiMessengerLine style={{ marginRight: '5px' }}/> Message
+                    </div>
                     <div className="card-hover-following"><FollowBtn user={user}/></div>
                 </>
                 

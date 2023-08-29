@@ -30,6 +30,7 @@
     "share": "^0.7.40",
     "socket.io-client": "^4.6.1",
     "sweetalert2": "^11.7.20",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

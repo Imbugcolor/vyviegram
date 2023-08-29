@@ -13,7 +13,7 @@ import { SiAdguard } from 'react-icons/si'
 import CardHover from './CardHover'
 
 const CardHeader = ({post}) => {
-    console.log({post})
+    
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
     const navigate = useNavigate()

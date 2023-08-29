@@ -19,7 +19,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
   const [onEdit, setOnEdit] = useState(false);
   const [loadLike, setLoadLike] = useState(false)
   const [onReply, setOnReply] = useState(false)
-  console.log({comment})
+ 
   useEffect(() => {
       setContent(comment.content)
       setIsLike(false)
@@ -46,6 +46,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
     await dispatch(likeComment({comment, post, auth}))
     setLoadLike(false)
   }
+
   const handleUnLike = async () => {
     if(loadLike) return;
     setIsLike(false)
@@ -54,25 +55,30 @@ const CommentCard = ({children, comment, post, commentId}) => {
     await dispatch(unLikeComment({comment, post, auth}))
     setLoadLike(false)
   }
+
   const handleReply = () => {
     if(onReply) return setOnReply(false)
     setOnReply({...comment, commentId})
     //  setOnReply(true)
-}
+  }
+
   const styleCard = {
     opacity: comment._id ? 1 : 0.5,
     pointerEvents: comment._id ? 'inherit' : 'none'
   }
+  
   return (
    <div className="comment_card mt-2" style={styleCard}>
-        <Link to={`/profile/${comment.user._id}`} className="d-inline-flex text-dark card-hover-active">
-            <Avatar src={comment.user.avatar} size="small-avatar"/>
-            <h6 className="d-flex align-items-center mx-1">
-              { comment.user.username } 
-              { comment.user.role === 'admin' && <SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }} /> }
-            </h6>
-            <CardHover user={comment.user}/>
-        </Link>
+        <div className='card-hover-active'>
+          <Link to={`/profile/${comment.user._id}`} className="d-inline-flex text-dark">
+              <Avatar src={comment.user.avatar} size="small-avatar"/>
+              <h6 className="d-flex align-items-center mx-1">
+                { comment.user.username } 
+                { comment.user.role === 'admin' && <SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }} /> }
+              </h6>
+          </Link>
+          <CardHover user={comment.user}/>
+        </div>
         <div className="comment_content">
           <div className="flex-fill">
             {

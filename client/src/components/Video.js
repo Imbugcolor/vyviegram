@@ -3,9 +3,12 @@ import { AdvancedVideo, lazyload } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
 import { useSelector } from 'react-redux';
 import { FaPlay } from 'react-icons/fa'
+import { v4 as uuidv4 } from 'uuid'
 
 const Video = ({ public_id }) => {
   const { theme } = useSelector(state => state)
+
+  const videoId = uuidv4()
 
   const advancedVideoRef = useRef(null)
   
@@ -29,12 +32,12 @@ const Video = ({ public_id }) => {
   };
 
   const handleOnPlay = () => {
-    const playBtn = document.getElementById(public_id)
+    const playBtn = document.getElementById(videoId)
     playBtn.classList.remove('play-btn-active')
   }
 
   const handleOnPause = () => {
-    const playBtn = document.getElementById(public_id)
+    const playBtn = document.getElementById(videoId)
     playBtn.classList.add('play-btn-active')
   }
 
@@ -52,7 +55,7 @@ const Video = ({ public_id }) => {
           onPause={handleOnPause}
         />
         <FaPlay 
-          id={public_id} 
+          id={videoId} 
           className='play-btn play-btn-active' 
           onClick={handleVideoToggle}
           style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}
