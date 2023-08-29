@@ -55,7 +55,7 @@ const postCtrl = {
             }), req.query).paginating()
 
             const posts = await features.query.sort('-createdAt')
-            .populate('user likes', 'avatar username fullname followers role')
+            .populate('user likes', 'avatar username fullname followers following role')
             .populate({
                 path: 'comments',
                 populate: {
@@ -83,7 +83,7 @@ const postCtrl = {
             const post = await Posts.findOneAndUpdate({_id: req.params.id}, {
                 content, images
             })
-            .populate('user likes', 'avatar username fullname followers role')
+            .populate('user likes', 'avatar username fullname followers following role')
             .populate({
                 path: 'comments',
                 populate: {
@@ -138,6 +138,9 @@ const postCtrl = {
     },
     getUserPosts: async (req, res) => {
         try {
+            const totalResults = await Posts.find({
+                user: req.params.id
+            })
             const features = new APIfeatures(Posts.find({
                 user: req.params.id
             }), req.query).paginating()
@@ -146,7 +149,8 @@ const postCtrl = {
 
             res.json({
                 posts,
-                result: posts.length
+                result: posts.length,
+                totalResults: totalResults.length
             })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
@@ -155,7 +159,7 @@ const postCtrl = {
     getPost: async (req, res) => {
         try {
             const post = await Posts.findById(req.params.id)
-            .populate('user likes', 'avatar username fullname followers role')
+            .populate('user likes', 'avatar username fullname followers following role')
             .populate({
                 path: 'comments',
                 populate: {
