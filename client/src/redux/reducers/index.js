@@ -18,7 +18,7 @@ import peer from './peerReducer'
 import share from './shareReducer'
 import users from './usersReducer'
 import recentUsers from './usersRecentReducer'
-
+import cardHover from './cardHoverReducer'
 export default combineReducers({
     auth,
     alert,
@@ -38,5 +38,6 @@ export default combineReducers({
     peer,
     share,
     users,
-    recentUsers
+    recentUsers,
+    cardHover,
 })

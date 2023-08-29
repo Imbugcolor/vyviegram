@@ -10,12 +10,14 @@ import stylePopUpConfirm from '../../alert/Confirm'
 import ConfirmDeletePost from '../ConfirmDeletePost'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 import { SiAdguard } from 'react-icons/si'
+import CardHover from './CardHover'
 
 const CardHeader = ({post}) => {
+    console.log({post})
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
     const [openModal, setOpenModal] = useState(false)
 
     const handleEditPost = () => {
@@ -42,11 +44,11 @@ const CardHeader = ({post}) => {
 
     return (
         <div className='card_header'>
-            <div className='d-flex'>
+            <div className='d-flex card-hover-active'>
                 <Avatar src={post.user.avatar} size='big-avatar' />
                 <div className='card_name ml-2'>
                     <h6 className='m-0'>
-                        <Link to={`/profile/${post.user._id}`} className='text-dark d-flex align-items-center'>
+                        <Link to={`/profile/${post.user._id}`} className='card-username text-dark d-flex align-items-center'>
                             {post.user.username}
                             {
                                 post.user.role === 'admin' &&
@@ -57,9 +59,7 @@ const CardHeader = ({post}) => {
                     <small className='text-muted'>
                         {moment(post.createdAt).fromNow()}
                     </small>
-                    {/* <div className="card-hover">
-                        <Avatar src={post.user.avatar} size='big-avatar' />
-                    </div> */}
+                    <CardHover user={post.user}/>
                 </div>
             </div>
             <div className='nav-item dropdown'>

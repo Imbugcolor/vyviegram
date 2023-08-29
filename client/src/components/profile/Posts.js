@@ -4,21 +4,30 @@ import LoadMoreBtn from '../LoadMoreBtn'
 import LoadIcon from '../../images/loading.gif'
 import { getDataAPI } from '../../utils/fetchData'
 import { PROFILE_TYPES } from '../../redux/actions/profileAction'
+
 const Posts = ({auth,id,dispatch,profile}) => {
   const [posts, setPosts] = useState([])
   const [result, setResult] = useState(9)
   const [page, setPage] = useState(0)
   const [load,setLoad] = useState(false)
+  const [totalResults, setTotalResults] = useState(0);
+
+  // profile.posts.forEach(data => { 
+  //   console.log(data.result)
+  // })
+  
   useEffect(() => {
     profile.posts.forEach(data => {
         if(data._id === id){
             setPosts(data.posts)
             setResult(data.result)
             setPage(data.page)
-            
+            setTotalResults(data.totalResults)
         }
     })
+    
 },[profile.posts, id])
+
 const handleLoadMore = async () => {
   setLoad(true)
   const res = await getDataAPI(`user_posts/${id}?limit=${page * 9}`, auth.token, dispatch)
@@ -26,6 +35,7 @@ const handleLoadMore = async () => {
   dispatch({type: PROFILE_TYPES.UPDATE_POST, payload: newData})
   setLoad(false)
 }
+
   return (
     <div>
       <PostThumb posts={posts} result={result} />

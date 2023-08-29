@@ -8,6 +8,7 @@ import CommentMenu from './CommentMenu'
 import { likeComment, unLikeComment, updateComment } from '../../../redux/actions/commentAction'
 import InputComment from '../InputComment'
 import { SiAdguard } from 'react-icons/si'
+import CardHover from '../post_card/CardHover'
 
 const CommentCard = ({children, comment, post, commentId}) => {
   const dispatch = useDispatch()
@@ -18,6 +19,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
   const [onEdit, setOnEdit] = useState(false);
   const [loadLike, setLoadLike] = useState(false)
   const [onReply, setOnReply] = useState(false)
+  console.log({comment})
   useEffect(() => {
       setContent(comment.content)
       setIsLike(false)
@@ -63,12 +65,13 @@ const CommentCard = ({children, comment, post, commentId}) => {
   }
   return (
    <div className="comment_card mt-2" style={styleCard}>
-        <Link to={`/profile/${comment.user._id}`} className="d-flex text-dark">
+        <Link to={`/profile/${comment.user._id}`} className="d-inline-flex text-dark card-hover-active">
             <Avatar src={comment.user.avatar} size="small-avatar"/>
             <h6 className="d-flex align-items-center mx-1">
               { comment.user.username } 
               { comment.user.role === 'admin' && <SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }} /> }
             </h6>
+            <CardHover user={comment.user}/>
         </Link>
         <div className="comment_content">
           <div className="flex-fill">

@@ -116,7 +116,8 @@ button:focus {
 @import url('./dashboard.css');
 /* ACTIVE ACCOUNT */
 @import url('./active.css');
-
+/* CARD HOVER */
+@import url('./card-hover.css');
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
   .menu__side_bar .title__menu {

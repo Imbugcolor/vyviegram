@@ -1,0 +1,81 @@
+.animated{
+    /* -webkit-animation-duration: 10s;animation-duration: 10s;
+    -webkit-animation-fill-mode: both;animation-fill-mode: both; */
+}
+.card-hover{
+    display: none;
+    position: absolute;
+    max-width: 500px;
+    /* width: 400px; */
+    background: #fff;
+    top: 60px;
+    left: -60px;
+    border-radius: 10px;
+    animation: fadeIn ease-in .3s;
+    box-shadow: 0 -4px 32px rgba(0,0,0,.2);
+    z-index: 999;
+    
+    /* -webkit-animation-name: fadeOut;
+    animation-name: fadeOut; */
+    
+}
+a.card-hover-active{}
+a.card-hover-active .card-hover{
+    top: 576px!important;
+    left: 16px!important;
+}
+.card-hover::before{
+    content:"";
+    background: transparent;
+    display: block;
+    height:20px;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top:-21px;
+    height: 30px;
+}
+.card-hover-active:hover .card-hover, .card-hover:hover .card-hover{
+    display: block;
+
+}
+.card-hover-info{
+    display:flex;
+    padding: 5px 0;
+    margin: 1rem;
+}
+.card-hover-info img{
+    margin-right: 0.5rem;
+}
+.card-hover-info .card-hover-username a{
+    text-decoration: none;
+}
+.card-hover-follow{
+    display: flex;
+    justify-content:space-around;
+    align-items:center;
+    margin: 0.5rem;
+}
+.card-hover-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+.card-hover-item span{
+    color: rgb(38, 38, 38);
+     font-weight: 750;
+}
+.card-hover-postthumb video, .card-hover-postthumb img{
+    width: 120px;
+    height: 120px;
+}
+.card-hover-postthumb a:nth-child(2){
+    margin: 0 3px;
+}
+.card-hover-contact{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 0.5rem;
+}
