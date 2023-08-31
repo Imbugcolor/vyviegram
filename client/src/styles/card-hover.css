@@ -46,11 +46,12 @@ a.card-hover-active .card-hover{
     height: 30px;
 }
 
-.card-hover-active:hover .card-hover, .card-hover:hover .card-hover, .suggestions .card-hover-usercard:hover .card-hover{
+.card-hover-active:hover .card-hover, .card-hover:hover .card-hover {
     display: block;
-
 }
-
+.suggestions .card-hover-usercard:hover + .card-hover{
+    display: block;
+}
 .card-hover-info{
     display:flex;
     padding: 5px 0;

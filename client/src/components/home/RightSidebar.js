@@ -4,6 +4,7 @@ import UserCard from '../UserCard'
 import FollowBtn from '../FollowBtn'
 import LoadIcon from "../../images/loading.gif"
 import { getSuggestions } from '../../redux/actions/suggestionsAcion'
+import CardHover from './post_card/CardHover'
 const RightSidebar = () => {
     const {auth, suggestions} = useSelector(state => state)
     // console.log(suggestions)
@@ -29,10 +30,13 @@ const RightSidebar = () => {
             : <div className="suggestions">
                 {
                     suggestions.users.map(user => (
-                        <UserCard key={user._id} user={user}>
-                            <FollowBtn user={user}/>
-                        </UserCard>
-                        
+                        <>
+                            <UserCard key={user._id} user={user}>
+                                <CardHover user={user}/>
+                                <FollowBtn user={user}/>
+                                
+                            </UserCard>
+                        </>
                     ))
                 }
             </div>
