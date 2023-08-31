@@ -6,6 +6,7 @@ import LoadIcon from "../../images/loading.gif"
 import { getSuggestions } from '../../redux/actions/suggestionsAcion'
 const RightSidebar = () => {
     const {auth, suggestions} = useSelector(state => state)
+    // console.log(suggestions)
     const dispatch = useDispatch()
     return ( 
     <div className="mt-3" style={{ maxWidth: '380px'}}>

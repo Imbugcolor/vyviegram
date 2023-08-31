@@ -25,7 +25,10 @@
     top: 35px; 
 }
 
-a.card-hover-active{}
+a.card-hover-usercard .card-hover{
+    top: 576px!important;
+    left: 16px!important;
+}
 a.card-hover-active .card-hover{
     top: 576px!important;
     left: 16px!important;
@@ -43,7 +46,7 @@ a.card-hover-active .card-hover{
     height: 30px;
 }
 
-.card-hover-active:hover .card-hover, .card-hover:hover .card-hover{
+.card-hover-active:hover .card-hover, .card-hover:hover .card-hover, .suggestions .card-hover-usercard:hover .card-hover{
     display: block;
 
 }
