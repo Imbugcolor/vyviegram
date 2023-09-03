@@ -3,7 +3,6 @@ import Avatar from './Avatar'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { SiAdguard } from 'react-icons/si'
-import CardHover from './home/post_card/CardHover'
 
 const UserCard = ({children, user, border, handleClose, setShowFollowers, setShowFollowing, setShowLikes, msg}) => {
   
@@ -55,7 +54,7 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
   }
 
   return (
-    <div className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}>
+    <div className={`user_card d-flex p-2 align-items-center justify-content-between w-100 ${border}`}>
         <div className="card-hover-usercard">
           <Link to={`/profile/${user._id}`} className="d-flex align-items-center"  onClick={handleCloseAll} style={{textDecoration: 'none'}}>
             <Avatar src={user.avatar} size="big-avatar"/>

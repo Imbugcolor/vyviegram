@@ -54,7 +54,7 @@ const notifyCtrl = {
         try {
             
             const notifies = await Notifies.findOneAndUpdate({_id: req.params.id}, {
-                isRead: true
+                $push: {isRead: req.user._id}
             })
            
             return res.json({notifies})
@@ -65,8 +65,13 @@ const notifyCtrl = {
     },
     deleteAllNotifies: async (req, res) => {
         try {
-            
-            const notifies = await Notifies.deleteMany({recipients: req.user._id})
+
+            const notifies = await Notifies.updateMany({recipients: req.user._id}, {
+                $pull: {recipients: req.user._id}
+            })
+
+            // clear notifies has no recipents.
+            await Notifies.deleteMany({recipients: []})
            
             return res.json({notifies})
 

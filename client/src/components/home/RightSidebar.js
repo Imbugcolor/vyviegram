@@ -30,13 +30,11 @@ const RightSidebar = () => {
             : <div className="suggestions">
                 {
                     suggestions.users.map(user => (
-                        <>
-                            <UserCard key={user._id} user={user}>
-                                <CardHover user={user}/>
-                                <FollowBtn user={user}/>
-                                
-                            </UserCard>
-                        </>
+                        <UserCard key={user._id} user={user}>
+                            <CardHover user={user}/>
+                            <FollowBtn user={user}/>
+                            
+                        </UserCard>
                     ))
                 }
             </div>

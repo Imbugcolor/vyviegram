@@ -26,6 +26,7 @@ const NotifyModal = () => {
         })
     }
     const handleIsRead = (msg) => {
+        if(msg.isRead.includes(auth.user._id)) return;
         dispatch(isReadNotify({msg, auth}))
     }
     const handleSound = () => {
@@ -102,7 +103,7 @@ const NotifyModal = () => {
                     <small className="text-muted d-flex justify-content-between px-2">
                         {moment(msg.createdAt).fromNow()}
                         {
-                            !msg.isRead && <i className="fas fa-circle text-primary" />
+                            !msg.isRead.includes(auth.user._id) && <i className="fas fa-circle text-primary" />
                         }
                     </small>
                 </div>

@@ -48,9 +48,9 @@ const LeftSidebar = () => {
   const [newMessages, setNewMessages] = useState(0)
 
   useEffect(() => {
-    const new_Noti = notify.data.filter(msg => !msg.isRead)
+    const new_Noti = notify.data.filter(msg => !msg.isRead.includes(auth.user._id))
     setNewNoti(new_Noti.length)
-  },[notify])
+  },[notify, auth.user._id])
 
   useEffect(() => {
     const new_Messages = message.users.filter(user => !user.isRead && user.sender && user.sender !== auth.user._id)
@@ -101,7 +101,7 @@ const LeftSidebar = () => {
                   <Link to='/' 
                   className={`${path === 'message' && 'd-flex justify-content-center'}`}
                   style={{textDecoration: 'none', 
-                  color: '#000',
+                  color: theme ? '#fff' : '#000',
                   fontWeight: path === '' ? '700' : 'normal',
                   filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                   }}>
@@ -115,7 +115,7 @@ const LeftSidebar = () => {
                           <Link to={link.path} 
                           className='d-flex'
                           style={{textDecoration: 'none', 
-                          color: '#000',
+                          color: theme ? '#fff' : '#000',
                           fontWeight: isActive(link.path) ? '700' : 'normal',
                           filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                           }}>
@@ -125,7 +125,7 @@ const LeftSidebar = () => {
                                 {
                                   link.path === 'message' && newMessages > 0 && 
                                   <span className='num__new_messages' 
-                                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '6px'}}>
+                                  style={{right: path !== 'message' ? '-4px' : '6px'}}>
                                     {newMessages}
                                   </span>
                                 }

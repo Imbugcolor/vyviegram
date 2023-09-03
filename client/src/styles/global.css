@@ -21,7 +21,7 @@ code {
 .App {
     width: 100%;
     min-height: 100vh;
-    background: #fafafa;
+    background: #fff;
     overflow-x: clip;
 }
 

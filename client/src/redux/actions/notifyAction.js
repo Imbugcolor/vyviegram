@@ -42,7 +42,7 @@ export const getNotifies = (token) => async (dispatch) => {
     }
 }
 export const isReadNotify = ({msg, auth}) => async (dispatch) => {
-    dispatch({type: NOTIFY_TYPES.UPDATE_NOTIFY, payload: {...msg, isRead: true}})
+    dispatch({type: NOTIFY_TYPES.UPDATE_NOTIFY, payload: {...msg, isRead: [...msg.isRead, auth.user._id]}})
     try {
         await patchDataAPI(`/isReadNotify/${msg._id}`, null, auth.token, dispatch)
     } catch (err) {

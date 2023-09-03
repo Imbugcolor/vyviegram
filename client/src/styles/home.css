@@ -30,10 +30,6 @@
     max-width: 600px;
 }
 
-.posts .card {
-    box-shadow: 0 0 4px #ddd;
-}
-
 .seen__all_posts {
     text-align: center;
     border-top: 1px solid #d5d3d2;
@@ -55,7 +51,7 @@
     cursor: pointer;
     padding: 15px;
     position: relative;
-    z-index: 99;
+    z-index: 1;
 }
 
 .posts .card_header .card_name {

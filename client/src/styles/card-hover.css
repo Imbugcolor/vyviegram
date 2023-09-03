@@ -49,9 +49,11 @@ a.card-hover-active .card-hover{
 .card-hover-active:hover .card-hover, .card-hover:hover .card-hover {
     display: block;
 }
-.suggestions .card-hover-usercard:hover + .card-hover{
+.user_card:hover .card-hover {
     display: block;
 }
+
+
 .card-hover-info{
     display:flex;
     padding: 5px 0;
