@@ -29,9 +29,10 @@ import { getConversations } from './redux/actions/messageAction';
 import Users from './pages/admin/Users';
 import ForgotPassword from './pages/recovery/forgotPassword';
 import ResetPassword from './pages/recovery/resetPassword';
+import ConfirmDeletePost from './components/home/ConfirmDeletePost';
 
 function App() {
-  const { auth, status, modal, call, share, theme } = useSelector(state => state)
+  const { auth, status, modal, call, share, theme, deleteModal } = useSelector(state => state)
   const dispatch = useDispatch()
 
 
@@ -116,6 +117,7 @@ function App() {
             { auth.isLogged && <SocketClient />}
             { call && <CallModal />}
             { share && <ShareModal />}
+            { deleteModal && <ConfirmDeletePost />}
             <Routes>
                 <Route exact path='/' Component={auth.isLogged ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />

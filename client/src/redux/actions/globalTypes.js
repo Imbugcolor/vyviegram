@@ -10,7 +10,8 @@ export const GLOBALTYPES = {
     OFFLINE: 'OFFLINE',
     CALL: 'CALL',
     PEER: 'PEER',
-    SHARE: 'SHARE'
+    SHARE: 'SHARE',
+    ADMIN_DELETE_POST: 'ADMIN_DELETE_POST'
 }
 
 export const EditData = (data, id, post) => {

@@ -66,7 +66,7 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
                     <span><SiAdguard style={{ marginLeft: '5px', fontSize: '14px', color: '#007bff' }}/></span>
                   }
                 </span>
-                <small style={{ color: '#666666'}} >
+                <small className='d-flex align-items-center' style={{ color: '#666666'}} >
                   {
                     user.typing ? <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>{user.fullname} is typing...</div> :
                     msg ? showMsg(user) : user.fullname

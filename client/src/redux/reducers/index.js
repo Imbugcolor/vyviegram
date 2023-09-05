@@ -19,6 +19,8 @@ import share from './shareReducer'
 import users from './usersReducer'
 import recentUsers from './usersRecentReducer'
 import cardHover from './cardHoverReducer'
+import deleteModal from './modalDeleteReducer'
+
 export default combineReducers({
     auth,
     alert,
@@ -40,4 +42,5 @@ export default combineReducers({
     users,
     recentUsers,
     cardHover,
+    deleteModal
 })

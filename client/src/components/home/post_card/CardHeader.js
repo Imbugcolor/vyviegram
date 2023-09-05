@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Avatar from '../../Avatar'
 import { Link, useNavigate } from 'react-router-dom'
 import moment from 'moment'
@@ -7,7 +7,6 @@ import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { deletePost } from '../../../redux/actions/postAction'
 import {BASE_URL} from "../../../utils/config"
 import stylePopUpConfirm from '../../alert/Confirm'
-import ConfirmDeletePost from '../ConfirmDeletePost'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 import { SiAdguard } from 'react-icons/si'
 import CardHover from './CardHover'
@@ -17,8 +16,6 @@ const CardHeader = ({post}) => {
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
-    const [openModal, setOpenModal] = useState(false)
 
     const handleEditPost = () => {
         dispatch({ type: GLOBALTYPES.STATUS, payload: {...post, onEdit: true} })
@@ -40,6 +37,10 @@ const CardHeader = ({post}) => {
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`)
+    }
+
+    const handleDeletePostByAdmin = () => {
+        dispatch({ type: GLOBALTYPES.ADMIN_DELETE_POST, payload: { post }})
     }
 
     return (
@@ -80,7 +81,7 @@ const CardHeader = ({post}) => {
                     }
                     {
                         auth.user.role === 'admin' && auth.user._id !== post.user._id &&
-                        <div className='dropdown-item' onClick={() => setOpenModal(true)}>
+                        <div className='dropdown-item' onClick={handleDeletePostByAdmin}>
                                 <span className='material-icons'>
                                     delete_outline
                                 </span> Remove Post
@@ -92,15 +93,7 @@ const CardHeader = ({post}) => {
                     </div>
                 </div>
             </div>
-            {
-                openModal && 
-                <ConfirmDeletePost 
-                    setOpenPopup={setOpenModal} 
-                    post={post} 
-                    auth={auth} 
-                    socket={socket}
-                />
-            }
+        
         </div>
     )
 }

@@ -1,10 +1,14 @@
 import React from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deletePostByAdmin } from '../../redux/actions/postAction'
 import { useNavigate } from 'react-router-dom'
+import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
-const ConfirmDeletePost = ({setOpenPopup, post, auth, socket}) => {
+const ConfirmDeletePost = () => {
+    const { auth, deleteModal, socket } = useSelector(state => state)
+
+    const { post } = deleteModal
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -68,7 +72,7 @@ const ConfirmDeletePost = ({setOpenPopup, post, auth, socket}) => {
                     <h6>Delete</h6>
                 </div>
                 <div>
-                    <span className='close_btn' onClick={() => setOpenPopup(false)}>X</span>
+                    <span className='close_btn' onClick={() => dispatch({ type: GLOBALTYPES.ADMIN_DELETE_POST, payload: null })}>X</span>
                 </div>
             </div>
             <div className='confirm_delete__body'>

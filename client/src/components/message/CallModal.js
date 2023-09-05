@@ -32,7 +32,7 @@ const CallModal = () => {
         return () => setTotal(0)
     },[])
 
-    // Counting time (mm:ss)
+    // Convert Seconds to Time (hh:mm:ss)
     useEffect(() => {
         setSecond(total%60)
         setMins(parseInt(total/60))

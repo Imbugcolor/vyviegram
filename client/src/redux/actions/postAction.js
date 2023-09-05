@@ -198,6 +198,8 @@ export const deletePostByAdmin = ({message, post, auth, socket, navigate}) => as
 
         dispatch({type: POST_TYPES.DELETE_POST, payload: post})
 
+        dispatch({type: GLOBALTYPES.ADMIN_DELETE_POST, payload: null})
+
         dispatch({type: GLOBALTYPES.ALERT, payload: { success: 'Deleted Post.' }})
 
         navigate('/')

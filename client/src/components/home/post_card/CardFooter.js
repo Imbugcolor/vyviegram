@@ -90,7 +90,7 @@ const CardFooter = ({post}) => {
 
                 {
                     saved 
-                    ?  <i className="fas fa-bookmark text-info"
+                    ?  <i className="fas fa-bookmark" style={{ color: '#000' }}
                     onClick={handleUnSavePost} />
 
                     :  <i className="far fa-bookmark"
