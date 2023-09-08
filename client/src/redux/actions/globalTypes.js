@@ -11,7 +11,8 @@ export const GLOBALTYPES = {
     CALL: 'CALL',
     PEER: 'PEER',
     SHARE: 'SHARE',
-    ADMIN_DELETE_POST: 'ADMIN_DELETE_POST'
+    ADMIN_DELETE_POST: 'ADMIN_DELETE_POST',
+    REPORT_POST: 'REPORT_POST'
 }
 
 export const EditData = (data, id, post) => {

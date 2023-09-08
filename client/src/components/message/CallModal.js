@@ -103,7 +103,10 @@ const CallModal = () => {
     const playStream = (tag, stream) => {
         let video = tag;
         video.srcObject = stream;
-        video.play()
+        //Avoid the Promise Error
+        setTimeout(function () {      
+            video.play();
+        }, 150);
     }
 
     // Answer call

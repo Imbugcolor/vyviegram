@@ -20,6 +20,7 @@ import users from './usersReducer'
 import recentUsers from './usersRecentReducer'
 import cardHover from './cardHoverReducer'
 import deleteModal from './modalDeleteReducer'
+import report from './reportReducer'
 
 export default combineReducers({
     auth,
@@ -42,5 +43,6 @@ export default combineReducers({
     users,
     recentUsers,
     cardHover,
-    deleteModal
+    deleteModal,
+    report
 })

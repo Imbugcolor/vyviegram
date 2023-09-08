@@ -43,6 +43,10 @@ const CardHeader = ({post}) => {
         dispatch({ type: GLOBALTYPES.ADMIN_DELETE_POST, payload: { post }})
     }
 
+    const handleReportPost = () => {
+        dispatch({ type: GLOBALTYPES.REPORT_POST, payload: post})
+    }
+
     return (
         <div className='card_header'>
             <div className='d-flex card-hover-active'>
@@ -90,6 +94,9 @@ const CardHeader = ({post}) => {
 
                     <div className='dropdown-item' onClick={handleCopyLink}> 
                         <span className='material-icons'>content_copy</span> Copy link
+                    </div>
+                    <div className='dropdown-item' onClick={handleReportPost}> 
+                        <span className='material-icons'>content_copy</span> Report
                     </div>
                 </div>
             </div>

@@ -240,3 +240,22 @@ export const unSavePost = ({post, auth}) => async (dispatch) => {
     }
 }
 
+export const reportPost = ({message, post, auth, socket}) => async (dispatch) => {
+    try {
+        dispatch({type: GLOBALTYPES.ALERT, payload: { loading: true }})
+
+        const res = await postDataAPI(`/report/post/${post._id}`, { text: message.msg }, auth.token, dispatch)
+
+        socket.emit('createReport', res.data.report)
+
+        dispatch({type: GLOBALTYPES.REPORT_POST, payload: null})
+
+        dispatch({type: GLOBALTYPES.ALERT, payload: { success: 'Reported.' }})
+
+    } catch (err) {
+        dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: {error: err.response.data.msg}
+        })
+    }
+}

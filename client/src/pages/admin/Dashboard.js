@@ -3,23 +3,25 @@ import Iframe from 'react-iframe'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataAPI } from '../../utils/fetchData'
 import { FaEye, FaUserFriends } from 'react-icons/fa'
-import { BsSignpostSplit } from 'react-icons/bs'
-import { AiOutlineHeart } from 'react-icons/ai'
+import { BsSignpostSplit, BsFlag } from 'react-icons/bs'
 import moment from 'moment'
 import LoadIcon from '../../images/loading.gif'
 import { getUsersRecent } from '../../redux/actions/usersRecentAction'
 import Pagination from '../../utils/pagination'
 import { Link } from 'react-router-dom'
 import UserDetailModal from './common/UserDetailModal'
+import { getReports } from '../../redux/actions/reportAction'
 
 const Dashboard = () => {
-  const { auth, recentUsers, theme } = useSelector(state => state)
+  const { auth, recentUsers, theme, report } = useSelector(state => state)
   const dispatch = useDispatch()
 
   const [totalUsers, setTotalUsers] = useState(0)
   const [totalPosts, setTotalPosts] = useState(0)
+  const [totalReports, setTotalReports] = useState(0)
   const [load, setLoad] = useState(false)
   const [viewDetail, setViewDetail] = useState(null)
+  const [newReports, setNewReports] = useState(0)
 
   useEffect(() => {
     if(auth && auth.user.role === 'admin') {
@@ -27,8 +29,10 @@ const Dashboard = () => {
            setLoad(true)
            const users = await getDataAPI('users', auth.token, dispatch)
            const posts = await getDataAPI('admin/posts', auth.token, dispatch)
+           const reports = await getDataAPI('reports', auth.token, dispatch)
            setTotalUsers(users.data.total)
            setTotalPosts(posts.data.total)
+           setTotalReports(reports.data.total)
            setLoad(false)
         }
         getData()
@@ -38,6 +42,19 @@ const Dashboard = () => {
         setTotalPosts(0)
     }
   },[auth, dispatch])
+
+  useEffect(() => {
+    if(auth && auth.user.role === 'admin') {
+        if(!report.firstLoad){
+            dispatch(getReports(auth.token))
+        }
+    }
+  },[auth, dispatch, report.firstLoad])
+
+  useEffect(() => {
+    const new_Noti = report.data.filter(item => !item.isRead)
+    setNewReports(new_Noti.length)
+  },[report.data])
 
   useEffect(() => {
     if(!recentUsers.firstLoad){
@@ -53,6 +70,12 @@ const Dashboard = () => {
     <div>
       <div className='content-header'>
         <h2>Dashboard</h2>
+        <div className='notification_reports'>
+          <Link to='/admin/reports'>
+            <BsFlag />
+            <span>{newReports}</span>
+          </Link>
+        </div>
       </div>
       <div className="content-wrapper">
         <div className='chart grid-3'>
@@ -81,12 +104,12 @@ const Dashboard = () => {
           <div className='card-total'>
             <div className='chart-item row'>
               <div>
-                <span className='icon-bg warning-bg'><AiOutlineHeart style={{ color: '#664d03' }} /></span>
+                <span className='icon-bg warning-bg'><BsFlag style={{ color: '#664d03' }} /></span>
               </div>
-              <div className='card-content'>
-                <h3>Total Likes</h3>
-                <span>0</span>
-              </div>
+              <Link to='/admin/reports' className='card-content'>
+                <h3>Reports</h3>
+                <span>{ load ? <img src={LoadIcon} alt='loading' className='loading__spinner'/> : totalReports}</span>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
-import { deletePostByAdmin } from '../../redux/actions/postAction'
+import { deletePostByAdmin, reportPost } from '../../redux/actions/postAction'
 import { useNavigate } from 'react-router-dom'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
-const ConfirmDeletePost = () => {
-    const { auth, deleteModal, socket } = useSelector(state => state)
+const ConfirmDeletePost = ({deleted}) => {
+    const { auth, deleteModal, socket, report } = useSelector(state => state)
 
-    const { post } = deleteModal
+    const [post, setPost] = useState('')
+
+    useEffect(() => {
+        if(deleted && deleteModal.post) {
+            setPost(deleteModal.post)
+        } else {
+            setPost(report.post)
+        }
+    },[deleted, deleteModal, report.post])
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -61,7 +69,19 @@ const ConfirmDeletePost = () => {
     ]
 
     const handleDeletePost = (message) => {
-        dispatch(deletePostByAdmin({message, post, auth, socket, navigate}))
+        if(deleted) {
+            dispatch(deletePostByAdmin({message, post, auth, socket, navigate}))
+        } else {
+            dispatch(reportPost({message, post, auth, socket}))
+        }
+    }
+
+    const handleCloseModal = () => {
+        if(deleted) {
+            dispatch({ type: GLOBALTYPES.ADMIN_DELETE_POST, payload: null })
+        } else {
+            dispatch({ type: GLOBALTYPES.REPORT_POST, payload: null })
+        }
     }
 
     return (
@@ -72,7 +92,7 @@ const ConfirmDeletePost = () => {
                     <h6>Delete</h6>
                 </div>
                 <div>
-                    <span className='close_btn' onClick={() => dispatch({ type: GLOBALTYPES.ADMIN_DELETE_POST, payload: null })}>X</span>
+                    <span className='close_btn' onClick={handleCloseModal}>X</span>
                 </div>
             </div>
             <div className='confirm_delete__body'>

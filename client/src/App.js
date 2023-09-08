@@ -30,9 +30,10 @@ import Users from './pages/admin/Users';
 import ForgotPassword from './pages/recovery/forgotPassword';
 import ResetPassword from './pages/recovery/resetPassword';
 import ConfirmDeletePost from './components/home/ConfirmDeletePost';
+import Reports from './pages/admin/Reports';
 
 function App() {
-  const { auth, status, modal, call, share, theme, deleteModal } = useSelector(state => state)
+  const { auth, status, modal, call, share, theme, deleteModal, report } = useSelector(state => state)
   const dispatch = useDispatch()
 
 
@@ -117,7 +118,8 @@ function App() {
             { auth.isLogged && <SocketClient />}
             { call && <CallModal />}
             { share && <ShareModal />}
-            { deleteModal && <ConfirmDeletePost />}
+            { deleteModal && <ConfirmDeletePost deleted={true}/>}
+            { report.post && <ConfirmDeletePost deleted={false}/>}
             <Routes>
                 <Route exact path='/' Component={auth.isLogged ? Home : Login}/>
                 <Route exact path='/register' Component={Register} />
@@ -129,6 +131,7 @@ function App() {
                 <Route exact path='/post/removed/:id' element={<PrivateRouter component={RemovedPost}/>}/>
                 <Route exact path='/admin/dashboard' element={<AdminRouter component={Dashboard}/>}/>
                 <Route exact path='/admin/users' element={<AdminRouter component={Users}/>}/>
+                <Route exact path='/admin/reports' element={<AdminRouter component={Reports}/>}/>
             </Routes>
           </div> 
         </div>

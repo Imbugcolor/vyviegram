@@ -322,3 +322,22 @@
     width: 21px;
     height: 21px;
 }
+
+.notification_reports {
+    position: relative;
+    font-size: 20px;
+}
+
+.notification_reports span {
+    position: absolute;
+    top: -3px;
+    right: -10px;
+    background: crimson;
+    color: #fff;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+}

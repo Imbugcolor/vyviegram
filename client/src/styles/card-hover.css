@@ -49,6 +49,11 @@ a.card-hover-active .card-hover{
 .card-hover-active:hover .card-hover, .card-hover:hover .card-hover {
     display: block;
 }
+
+.user_card {
+    position: relative;
+}
+
 .user_card:hover .card-hover {
     display: block;
 }

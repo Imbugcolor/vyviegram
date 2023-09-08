@@ -58,7 +58,7 @@ const Users = () => {
                 </div>
                 <div className="users-list">
                     <div className='products__count_number'>
-                        <span>Show {users.result} / {users.total} users</span>
+                        <span>Display {users.result} / {users.total} users</span>
                     </div>
                     <table className="users-list-table">
                         <thead className="table-header">
