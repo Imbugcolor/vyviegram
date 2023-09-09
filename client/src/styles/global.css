@@ -118,6 +118,9 @@ button:focus {
 @import url('./active.css');
 /* CARD HOVER */
 @import url('./card-hover.css');
+/* SINGLE POST */
+@import url('./single_post.css');
+
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
   .menu__side_bar .title__menu {
@@ -256,6 +259,22 @@ button:focus {
 
   .status_modal form {
     max-width: 400px;
+  }
+
+  .single_post {
+    margin-right: 0;
+  }
+
+  .single_post_rside {
+      margin: 0px 0px;
+  }
+
+  .single_post .single_post_rside .card_footer {
+    margin: 0px 0px;
+  }
+
+  .single_post .single_post_rside .comment_input {
+    margin: 0 0px;
   }
 }
 

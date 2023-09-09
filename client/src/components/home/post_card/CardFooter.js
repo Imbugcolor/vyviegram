@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Send from '../../../images/send.svg'
 import { Link } from 'react-router-dom'
 import LikeButton from '../../LikeButton'
 import { useDispatch, useSelector } from 'react-redux'
 import { likePost, savePost, unSavePost, unlikePost } from '../../../redux/actions/postAction'
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import Likes from '../Likes'
+import { TbSend } from 'react-icons/tb'
 
 const CardFooter = ({post}) => {
     const [isLike, setIsLike] = useState(false)
@@ -75,7 +75,7 @@ const CardFooter = ({post}) => {
     return (
         <div className='card_footer'>
             <div className='card_icon_menu'>
-                <div>
+                <div className='d-flex align-items-center'>
                    <LikeButton isLike={isLike}
                    handleLike={handleLike}
                    handleUnLike={handleUnLike}
@@ -85,7 +85,7 @@ const CardFooter = ({post}) => {
                         <i className='far fa-comment' />
                     </Link>
 
-                    <img src={Send} alt="Send" onClick={handleSharePost} />
+                    <TbSend onClick={handleSharePost} />
                 </div>
 
                 {

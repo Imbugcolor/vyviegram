@@ -91,11 +91,11 @@
     cursor: pointer;
 }
 
-.posts .card_icon_menu i {
-    font-size: 28px;
+.posts .card_icon_menu i,  .posts .card_icon_menu svg{
+    font-size: 25px;
     margin: 10px;
 }
-.posts .card_icon_menu i:hover{
+.posts .card_icon_menu i:hover, .posts .card_icon_menu svg:hover{
     color: #8f8a8a;
 }
 .posts .card_icon_menu img {
