@@ -9,7 +9,8 @@ export const POST_TYPES = {
     GET_POSTS: 'GET_POSTS',
     UPDATE_POST: 'UPDATE_POST',
     GET_POST: 'GET_POST',
-    DELETE_POST: 'DELETE_POST'
+    DELETE_POST: 'DELETE_POST',
+    GET_RELATED_POSTS: 'GET_RELATED_POSTS'
 }
 
 export const createPost = ({content, images, auth, socket}) => async (dispatch) => {
@@ -54,6 +55,7 @@ export const getPosts = (token) => async (dispatch) => {
             type: POST_TYPES.GET_POSTS, 
             payload: {...res.data, page: 2, total: res.data.total} 
         })
+        
         dispatch({ type: POST_TYPES.LOADING_POST, payload: false })
     } catch (err) {
         dispatch({
@@ -131,11 +133,16 @@ export const unlikePost = ({post, auth, socket}) => async(dispatch) =>{
     }
 }
 
-export const getPost = ({detailPost, id, auth}) => async (dispatch) => {
+export const getPost = ({detailPost, relatedPosts, id, auth}) => async (dispatch) => {
     if(detailPost.every(post => post._id !== id)){
         try {
-            const res = await getDataAPI(`post/${id}`, auth.token, dispatch)
-            dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
+            const postData = await getDataAPI(`post/${id}`, auth.token, dispatch);
+            dispatch({ type: POST_TYPES.GET_POST, payload: postData.data.post })
+
+            if(relatedPosts.every(post => post._id !== postData.data.post.user._id)){
+                const relatedPostsData = await getDataAPI(`/user_posts/${postData.data.post.user._id}`, auth.token, dispatch)
+                dispatch({ type: POST_TYPES.GET_RELATED_POSTS, payload: {...relatedPostsData.data, _id: postData.data.post.user._id} })
+            }
         } catch (err) {
             dispatch({
                 type: GLOBALTYPES.ALERT,

@@ -95,9 +95,13 @@ const CardHeader = ({post}) => {
                     <div className='dropdown-item' onClick={handleCopyLink}> 
                         <span className='material-icons'>content_copy</span> Copy link
                     </div>
-                    <div className='dropdown-item' onClick={handleReportPost}> 
-                        <span className='material-icons'>content_copy</span> Report
-                    </div>
+
+                    {
+                        auth.user.role !== 'admin' && auth.user._id !== post.user._id &&
+                        <div className='dropdown-item' onClick={handleReportPost}> 
+                            <span className='material-icons'>content_copy</span> Report
+                        </div>
+                    }
                 </div>
             </div>
         

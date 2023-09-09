@@ -59,4 +59,26 @@
     background-color: #fff;
 }
 
+.related_posts {
+    margin-top: 100px;
+}
+
+.loading_single_post {
+    height: 700px;
+}
+
+.related_posts .realted_posts_title h6 {
+    color: #666666;
+    font-size: 15px;
+}
+
+.status_caption {
+    padding: 10px 25px;
+}
+
+.status_caption .readMore {
+    color: #666666;
+    cursor: pointer;
+}
+
 
