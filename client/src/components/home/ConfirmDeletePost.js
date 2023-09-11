@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deletePostByAdmin, reportPost } from '../../redux/actions/postAction'
 import { useNavigate } from 'react-router-dom'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
+import { AiOutlineClose } from 'react-icons/ai'
 
 const ConfirmDeletePost = ({deleted}) => {
     const { auth, deleteModal, socket, report } = useSelector(state => state)
@@ -88,15 +89,15 @@ const ConfirmDeletePost = ({deleted}) => {
         <div className='confirm__delete_modal'>
         <div className='confirm_delete__container'>
             <div className='confirm_delete__header'>
-                <div>
-                    <h6>Delete</h6>
+                <div className='modal_title'>
+                    <span>{deleted ? 'Delete' : 'Report'}</span>
                 </div>
-                <div>
-                    <span className='close_btn' onClick={handleCloseModal}>X</span>
+                <div className='modal_close'>
+                    <AiOutlineClose className='close_btn' onClick={handleCloseModal} />
                 </div>
             </div>
             <div className='confirm_delete__body'>
-                <h6>Why are you removing this post?</h6>
+                <h6 className='confirm_title'>Why are you {deleted ? 'removing' : 'reporting'} this post?</h6>
                 {
                     messageDelete.map((item) => (
                         <div key={item.id} className='message__delete_option' onClick={() => handleDeletePost(item)}>

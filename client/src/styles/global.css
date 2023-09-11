@@ -38,6 +38,10 @@ button:focus {
     outline: 0 !important;
 }
 
+.dropdown-item {
+  cursor: pointer;
+}
+
 .message_wrapper {
   margin: 0 0 0 99px !important;
   flex: unset;
@@ -120,6 +124,8 @@ button:focus {
 @import url('./card-hover.css');
 /* SINGLE POST */
 @import url('./single_post.css');
+/* DISCOVER  */
+@import url('./discover.css');
 
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
@@ -275,6 +281,15 @@ button:focus {
 
   .single_post .single_post_rside .comment_input {
     margin: 0 0px;
+  }
+
+  .post_thumb {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .post_thumb_display {
+    min-width: 200px;
+    height: 200px;
   }
 }
 

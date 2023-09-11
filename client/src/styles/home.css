@@ -69,6 +69,11 @@
 .posts .card_header .dropdown-item {
     display: flex;
     margin: 5px 0;
+    align-items: center;
+}
+
+.posts .card_header .dropdown-item svg {
+    font-size: 20px;
 }
 
 /* -------------- POST CARD BODY ------------- */

@@ -7,8 +7,11 @@ import { GLOBALTYPES } from '../../../redux/actions/globalTypes'
 import { deletePost } from '../../../redux/actions/postAction'
 import {BASE_URL} from "../../../utils/config"
 import stylePopUpConfirm from '../../alert/Confirm'
-import { BiDotsHorizontalRounded } from 'react-icons/bi'
+import { BiDotsHorizontalRounded, BiEditAlt } from 'react-icons/bi'
 import { SiAdguard } from 'react-icons/si'
+import { BsFlag } from 'react-icons/bs'
+import { IoMdCopy, IoIosRemoveCircleOutline } from 'react-icons/io'
+import { FiTrash } from 'react-icons/fi'
 import CardHover from './CardHover'
 
 const CardHeader = ({post}) => {
@@ -76,30 +79,28 @@ const CardHeader = ({post}) => {
                         auth.user._id === post.user._id &&
                         <>
                             <div className='dropdown-item' onClick={handleEditPost}>
-                                <span className='material-icons'>create</span> Edit post
+                                <BiEditAlt /> <span className='ml-2'>Edit</span>
                             </div>
                             <div className='dropdown-item' onClick={handleDeletePost}>
-                                <span className='material-icons'>delete_outline</span> Remove post
+                                <FiTrash /> <span className='ml-2'>Remove</span>
                             </div>
                         </>
                     }
                     {
                         auth.user.role === 'admin' && auth.user._id !== post.user._id &&
                         <div className='dropdown-item' onClick={handleDeletePostByAdmin}>
-                                <span className='material-icons'>
-                                    delete_outline
-                                </span> Remove Post
+                                <IoIosRemoveCircleOutline /> <span className='ml-2'>Remove</span>
                         </div>
                     }
 
                     <div className='dropdown-item' onClick={handleCopyLink}> 
-                        <span className='material-icons'>content_copy</span> Copy link
+                        <IoMdCopy /> <span className='ml-2'>Copy Link</span>
                     </div>
 
                     {
                         auth.user.role !== 'admin' && auth.user._id !== post.user._id &&
                         <div className='dropdown-item' onClick={handleReportPost}> 
-                            <span className='material-icons'>content_copy</span> Report
+                            <BsFlag /> <span className='ml-2'>Report</span>
                         </div>
                     }
                 </div>

@@ -16,9 +16,9 @@ const PostBody = ({post}) => {
     const [readMore, setReadMore] = useState(false)
 
     useEffect(() => {
-        const newCm = post.comments.filter(cm => !cm.reply)
-        setComments(newCm)
-        setShowComments(newCm.length - next > 0 ? newCm.slice(newCm.length - next) : newCm)
+        const newCm = post.comments.filter(cm => !cm.reply).reverse()
+        setComments(newCm.reverse())
+        setShowComments(newCm.length - next > 0 ? newCm.slice(newCm.length - next).reverse() : newCm.reverse())
     },[post.comments, next])
   
     useEffect(()=> {

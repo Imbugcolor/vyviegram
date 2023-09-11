@@ -50,6 +50,14 @@ a.card-hover-active .card-hover{
     display: block;
 }
 
+.single_post_comments .comment_card .card-hover-active {
+    position: unset !important;
+}
+
+.single_post_comments .comment_card .card-hover {
+    top: 70px !important;
+}
+
 .user_card {
     position: relative;
 }

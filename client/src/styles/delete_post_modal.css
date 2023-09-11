@@ -8,17 +8,37 @@
     z-index: 4;
 }
 
-.confirm_delete__container  {
+.confirm_delete__container {
     width: 422px;
-    border: 1px solid #222;
-    border-radius: 5px;
+    border-radius: 10px;
     background: white;
-    padding: 20px 10px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: auto;
+}
+
+.confirm_delete__container .confirm_delete__header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #d5d3d2;
+}
+
+.confirm_delete__header .modal_title {
+    flex: 2 1;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 500;
+}
+
+.confirm_delete__header .modal_close {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.confirm__delete_modal .confirm_title {
+    padding: 15px 15px 5px 15px;
 }
 
 .message__delete_option {
@@ -27,5 +47,8 @@
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    border-top: 1px solid #d5d3d2;
+    padding: 0 15px;
+    cursor: pointer;
 }
 

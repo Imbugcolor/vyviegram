@@ -3,7 +3,8 @@ import { DISCOVER_TYPES } from '../actions/discoverAction'
 const initialState = {
     loading: false,
     posts: [],
-    result: 9,
+    result: 12,
+    totalResults: 0,
     page: 2,
     firstLoad: false
 }
@@ -19,6 +20,7 @@ const discoverReducer = (state = initialState, action) => {
                 ...state,
                 posts: action.payload.posts,
                 result: action.payload.result,
+                totalResults: action.payload.totalResults,
                 firstLoad: true
             };
         case DISCOVER_TYPES.UPDATE_POST:
@@ -26,6 +28,7 @@ const discoverReducer = (state = initialState, action) => {
                 ...state,
                 posts: action.payload.posts,
                 result: action.payload.result,
+                totalResults: action.payload.totalResults,
                 page: state.page + 1
             };
         default:

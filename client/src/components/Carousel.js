@@ -22,6 +22,28 @@ const Carousel = ({images, id}) => {
         }
     },[search])
 
+    // const load = (img) => {
+    //     const url = img.getAttribute('lazy-src')
+
+    //     img.setAttribute('src', url)
+    // }
+
+    // useEffect(() => {
+    //     const lazyImgs = document.querySelectorAll('[lazy-src]')
+
+    //     let observer = new IntersectionObserver((entries) => {
+    //         entries.forEach(entry => {
+    //             if(entry.isIntersecting) {
+    //                 load(entry.target)
+    //             }
+    //         })
+    //     }, { threshold: 0.1 })
+
+    //     lazyImgs.forEach(img => {
+    //         observer.observe(img)
+    //     })
+    // },[])
+
     return (
         <div id={`image${id}`} className="carousel" data-interval="false">
             {
@@ -53,7 +75,8 @@ const Carousel = ({images, id}) => {
                                 img.url.match(/video/i) ?
                                 <Video public_id={img.public_id}/> 
                                 :
-                                <img src={img.url} 
+                                <img 
+                                    src={img.url}
                                     className="d-block w-100" 
                                     alt={img.url}
                                     style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
