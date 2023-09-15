@@ -126,7 +126,8 @@ button:focus {
 @import url('./single_post.css');
 /* DISCOVER  */
 @import url('./discover.css');
-
+/* qr */
+@import url('./qr.css');
 /*------------- RESPONSIVE ------------*/
 @media (max-width: 1499px) {
   .menu__side_bar .title__menu {

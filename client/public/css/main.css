@@ -482,5 +482,9 @@ textarea:-ms-input-placeholder { color: #adadad;} */
   .wrap-login100 {
     padding-left: 15px;
     padding-right: 15px;
+    border-radius: 0 !important;
+  }
+  .container-login100{
+    padding: 0 15px;
   }
 } 
