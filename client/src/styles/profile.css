@@ -39,9 +39,13 @@
     flex: 3 1;
     font-size: 20px;
 }
-
+.info_content_title a{
+    text-decoration: none;
+    margin: 2px;
+}
 .info_content_title button {
     flex: 2;
+    margin: 2px;
 }
 
 .btn_user {
@@ -94,6 +98,7 @@
     padding: 17px 25px;
     display: flex;
     align-items: center;
+    width: 120px;
 }
 
 
@@ -234,3 +239,99 @@
     border-top: 1px solid #000;
     opacity: 0.8;
 }
+/* ABOUT ACCOUNT */
+.close-user-about{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px;
+    cursor: pointer;
+    opacity: 0.8;
+    color: #f00d0d;
+}
+.close-user-about i{
+    font-size: 24px;
+}
+.close-user-about i:hover{
+    opacity: 0.5;
+}
+.user-about{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+}
+.user-about-content{
+    background: #fff;
+    border-radius: 8px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    max-width: calc(100% - 32px);
+    min-height: 200px;
+    animation: modalFadeIn ease 0.5s;
+    padding: 10px;
+    position: relative;
+}
+.user-about-content img{
+    width: 100px;
+    height: 100px;
+}
+.user-about-content h2{
+    margin: 1rem;
+   
+}
+.user-about-content h6{
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    text-align: center;
+}
+.user-about-content p.text-content{
+    padding:5px 30px;
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+
+}
+.user-joined{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:0 30px;
+}
+.user-joined-date{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.8rem;
+}
+.user-joined i{
+    font-size: 28px;
+    font-weight: 300;
+}
+.user-joined-date p{
+    margin-bottom: 0;
+    font-size: 17px;
+}
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-140px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

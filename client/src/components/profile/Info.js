@@ -10,8 +10,9 @@ import { SiAdguard } from 'react-icons/si'
 import { AiOutlineLink } from 'react-icons/ai'
 
 const Info = ({auth,profile,dispatch, id}) => {
+  console.log({profile})
+  const [showAbout, setShowAbout] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
-
   const [userData, setUserData] = useState([]);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
@@ -24,7 +25,7 @@ const Info = ({auth,profile,dispatch, id}) => {
     }else{
       const newData = profile.users.filter(user => user._id === id)
       setUserData(newData)
-
+      
       let followByUser = []
         if(newData) {
             auth.user.following.forEach(following => {
@@ -53,7 +54,13 @@ const Info = ({auth,profile,dispatch, id}) => {
       dispatch({type: GLOBALTYPES.MODAL, payload:false})
     }
   }, [showFollowers, showFollowing, onEdit, dispatch]);
-
+  
+  const handleAbout = () => {
+    setShowAbout(!showAbout);
+    console.log(showAbout);
+  }
+  // const modal1 = document.querySelector('.user-about')
+  // modal1.addEventListener('click', handleAbout);
   return (
     <div className="info">
     {
@@ -69,10 +76,47 @@ const Info = ({auth,profile,dispatch, id}) => {
                         </h2>
                           {
                               user._id === auth.user._id ? 
-                              <Link className='edit__profile_btn' to={'/edit'}>
-                                  Edit profile
-                              </Link> :
-                              <FollowBtn user={user}/>
+                              <>
+                                <Link className='edit__profile_btn' to={'/edit'}>
+                                    Edit profile
+                                </Link> 
+                                
+                                <Link className='edit__profile_btn' to={'/qr'}>
+                                    QR Code
+                                </Link> 
+                              </>
+                              :
+                              <>
+                                <FollowBtn user={user}/>
+                                <button className="edit__profile_btn" onClick={handleAbout}>About this accout</button>
+                                
+                                    {showAbout && (
+                                      <div className="user-about">
+                                        <div className="user-about-content">
+                                          <div className="close-user-about" onClick={handleAbout}>
+                                          <i class="fas fa-times"></i>
+                                          </div>
+                                         <h6>About this accout</h6>
+                                          <Avatar src={user.avatar} size="supper-avatar" />
+                                          <h2 className='d-flex align-items-center'>
+                                            { user.username } 
+                                            { user.role === 'admin' && <SiAdguard style={{ marginLeft: '10px', fontSize: '15px', color: '#007bff' }}/> }
+                                          </h2>
+                                          <p className="text-content" style={{ color: "rgb(115, 115, 115)"}}>To help keep our community authentic, we’re showing information about accounts on Instagram. </p>
+                                          <div className="user-joined">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <div className="user-joined-date">
+                                              <p>Date joined</p>
+                                              {user.createdAt.slice(0,10)}
+                                            </div>
+                                          </div>
+                                          {/* Thêm các thông tin cá nhân khác ở đây */}
+
+                                        </div>
+                                      </div>
+                                    )}
+                                
+                              </>
                           }
                     </div>
 
