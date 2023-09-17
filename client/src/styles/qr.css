@@ -9,6 +9,9 @@
     height: 320px;
     border-radius: 10px;
 }
+.box-qrCode svg{
+    width: 100%;
+}
 .box-qrText{
     width:500px;
 }

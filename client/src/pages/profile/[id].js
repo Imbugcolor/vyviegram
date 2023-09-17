@@ -13,7 +13,7 @@ const Profile = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const [saveTab, setSaveTab] = useState(false);
-
+  
   useEffect(() => {
     if(profile.ids.every(item => item !== id)){
         dispatch(getProfileUsers({id, auth}))

@@ -60,6 +60,9 @@ a.card-hover-active .card-hover{
 
 .user_card {
     position: relative;
+    /* max-width: 380px; */
+    /* border: 1px solid #d5d2d3; */
+    /* border-radius: 2px; */
 }
 
 .user_card:hover .card-hover {

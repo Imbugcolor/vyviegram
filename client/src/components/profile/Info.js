@@ -10,7 +10,7 @@ import { SiAdguard } from 'react-icons/si'
 import { AiOutlineLink } from 'react-icons/ai'
 
 const Info = ({auth,profile,dispatch, id}) => {
-  console.log({profile})
+  // console.log(profile)
   const [showAbout, setShowAbout] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
   const [userData, setUserData] = useState([]);

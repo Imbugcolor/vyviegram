@@ -84,3 +84,42 @@
     color: #000;
     font-weight: 700;
 }
+.suggest-follower{
+    display:flex;
+}
+.suggest-follower .swiper-slide{
+    /* width:25%; */
+    margin-right: 15px;
+    border: 1px solid #d5d2d3;
+    border-radius: 5px;
+   
+}
+.suggest-follower .swiper-slide button{
+    margin-top: 6px;
+}
+/* @media (max-width: 999px) {
+    .suggest-follower .swiper-slide{
+        width: 50% !important;;
+       
+    }
+} */
+.suggest-follower .user_card{
+    /* display: inline !important; */
+    flex-direction: column!important;
+}
+.text-center-seeAll{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin:8px 0;
+    font-weight: 500;
+    
+}
+.text-center-seeAll span{
+    color: #6c757d;
+}
+.see-allUser{
+    cursor: pointer;
+    
+    color: #0095f6;
+}

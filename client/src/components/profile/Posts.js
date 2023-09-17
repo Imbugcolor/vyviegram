@@ -11,7 +11,6 @@ const Posts = ({auth,id,dispatch,profile}) => {
   const [page, setPage] = useState(0)
   const [total, setTotal] = useState(0)
   const [load,setLoad] = useState(false)
-  
   useEffect(() => {
     profile.posts.forEach(data => {
         if(data._id === id){
@@ -55,7 +54,7 @@ const Posts = ({auth,id,dispatch,profile}) => {
 
     return (
       <div>
-        <PostThumb posts={posts} result={result} />
+        <PostThumb id={id} auth={auth} posts={posts} result={result} profile={profile} />
         {
           load && <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
         }    
