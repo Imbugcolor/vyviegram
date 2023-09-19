@@ -15,13 +15,13 @@ import Followers from './profile/Followers'
 
 const PostThumb = ({id, auth, posts, result, profile}) => {
     const { theme } = useSelector(state => state)
-    console.log(profile)
-    console.log(auth)
     SwiperCore.use([Navigation]);
+
     const swiperRef = useRef(null);
     const [userData, setUserData] = useState([]);
     const [followedBy, setFollowedBy] = useState([])
     const [showFollowers, setShowFollowers] = useState(false);
+
     useEffect(() => {
         //   const newData = profile.users.filter(user => user._id === id && user._id !== auth.user._id)
         //   setUserData(newData)
@@ -52,7 +52,7 @@ const PostThumb = ({id, auth, posts, result, profile}) => {
         }
       }, [id, profile.users, auth.user.following, auth.user._id]);
     
-      console.log(followedBy)
+
     if(result === 0) 
     return (
         <div className='no_posts'>
@@ -70,30 +70,33 @@ const PostThumb = ({id, auth, posts, result, profile}) => {
                             </div>
                         </div>
                         
-                        <div className='suggest-follower'>
-                            <Swiper
-                                modules={[Navigation]}
-                                navigation
-                                onSwiper={(swiper) => {
-                                    swiperRef.current = swiper;
-                                }}
-                                grabCursor={true}
-                                spaceBetween={10}
-                                slidesPerView={'4'}
-                                >
-                                {
-                                
-                                    followedBy.map((user,i) => (
-                                        <SwiperSlide key={i}>
-                                            <UserCard key={user._id} user={user}>
-                                                <FollowBtn user={user}/>
-                                            </UserCard> 
-                                        </SwiperSlide>
-                                    ))
-                                }
+                        {
+                            followedBy.length > 3 &&
+                            <div className='suggest-follower'>
+                                <Swiper
+                                    modules={[Navigation]}
+                                    navigation
+                                    onSwiper={(swiper) => {
+                                        swiperRef.current = swiper;
+                                    }}
+                                    grabCursor={true}
+                                    spaceBetween={10}
+                                    slidesPerView={'4'}
+                                    >
+                                    {
+                                    
+                                        followedBy.map((user,i) => (
+                                            <SwiperSlide key={i}>
+                                                <UserCard key={user._id} user={user}>
+                                                    <FollowBtn user={user}/>
+                                                </UserCard> 
+                                            </SwiperSlide>
+                                        ))
+                                    }
 
-                            </Swiper>
-                        </div>
+                                </Swiper>
+                            </div>
+                        }
                           
                     </div>
                 )

@@ -57,7 +57,6 @@ const Info = ({auth,profile,dispatch, id}) => {
   
   const handleAbout = () => {
     setShowAbout(!showAbout);
-    console.log(showAbout);
   }
   // const modal1 = document.querySelector('.user-about')
   // modal1.addEventListener('click', handleAbout);
@@ -94,7 +93,7 @@ const Info = ({auth,profile,dispatch, id}) => {
                                       <div className="user-about">
                                         <div className="user-about-content">
                                           <div className="close-user-about" onClick={handleAbout}>
-                                          <i class="fas fa-times"></i>
+                                          <i className="fas fa-times"></i>
                                           </div>
                                          <h6>About this accout</h6>
                                           <Avatar src={user.avatar} size="supper-avatar" />
@@ -104,7 +103,7 @@ const Info = ({auth,profile,dispatch, id}) => {
                                           </h2>
                                           <p className="text-content" style={{ color: "rgb(115, 115, 115)"}}>To help keep our community authentic, we’re showing information about accounts on Instagram. </p>
                                           <div className="user-joined">
-                                            <i class="fas fa-calendar-alt"></i>
+                                            <i className="fas fa-calendar-alt"></i>
                                             <div className="user-joined-date">
                                               <p>Date joined</p>
                                               {user.createdAt.slice(0,10)}
