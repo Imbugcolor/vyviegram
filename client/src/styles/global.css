@@ -292,6 +292,20 @@ button:focus {
     min-width: 200px;
     height: 200px;
   }
+
+  .qrCode {
+    display: block;
+    padding-top: 15px;
+  }
+
+  .box-qrCode {
+    margin: auto;
+  }
+
+  .box-qrText {
+    margin: auto;
+    padding-top: 15px;
+  }
 }
 
 .mode {
