@@ -4,7 +4,7 @@ import { BASE_URL } from '../utils/config';
 import { useSelector } from 'react-redux';
 const Qr = () => {
     const {auth} = useSelector(state=>state)
-    const value= `${BASE_URL}/${auth.user._id}`;
+    const value= `${BASE_URL}/profile/${auth.user._id}`;
     console.log(auth)
     const downloadQRCode = () => {
         // Generate download with use canvas and stream
