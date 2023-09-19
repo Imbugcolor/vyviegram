@@ -1,16 +1,17 @@
 import axios from 'axios'
 import { checkTokenExp } from './refreshToken'
+import { SERVER_URL } from './config';
 
 export const getDataAPI = async (url, token, dispatch) => {
     let res;
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.get(`https://vyviegramserver.onrender.com/api/${url}`, {
+        res = await axios.get(`${SERVER_URL}/api/${url}`, {
             headers: { Authorization: access_token }
         })
     } else {
-        res = await axios.get(`https://vyviegramserver.onrender.com/api/${url}`, {
+        res = await axios.get(`${SERVER_URL}/api/${url}`, {
             headers: { Authorization: token }
         })
     }
@@ -22,11 +23,11 @@ export const postDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.post(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.post(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.post(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.post(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -38,11 +39,11 @@ export const putDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.put(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.put(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.put(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.put(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -54,11 +55,11 @@ export const patchDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.patch(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.patch(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.patch(`https://vyviegramserver.onrender.com/api/${url}`, post, {
+        res = await axios.patch(`${SERVER_URL}/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -70,11 +71,11 @@ export const deleteDataAPI = async (url, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.delete(`https://vyviegramserver.onrender.com/api/${url}`, {
+        res = await axios.delete(`${SERVER_URL}/api/${url}`, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.delete(`https://vyviegramserver.onrender.com/api/${url}`, {
+        res = await axios.delete(`${SERVER_URL}/api/${url}`, {
             headers: {Authorization: token}
         })
     }
