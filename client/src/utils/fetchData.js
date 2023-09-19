@@ -6,11 +6,11 @@ export const getDataAPI = async (url, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.get(`/api/${url}`, {
+        res = await axios.get(`https://vyviegramserver.onrender.com/api/${url}`, {
             headers: { Authorization: access_token }
         })
     } else {
-        res = await axios.get(`/api/${url}`, {
+        res = await axios.get(`https://vyviegramserver.onrender.com/api/${url}`, {
             headers: { Authorization: token }
         })
     }
@@ -22,11 +22,11 @@ export const postDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.post(`/api/${url}`, post, {
+        res = await axios.post(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.post(`/api/${url}`, post, {
+        res = await axios.post(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -38,11 +38,11 @@ export const putDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.put(`/api/${url}`, post, {
+        res = await axios.put(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.put(`/api/${url}`, post, {
+        res = await axios.put(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -54,11 +54,11 @@ export const patchDataAPI = async (url, post, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.patch(`/api/${url}`, post, {
+        res = await axios.patch(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.patch(`/api/${url}`, post, {
+        res = await axios.patch(`https://vyviegramserver.onrender.com/api/${url}`, post, {
             headers: {Authorization: token}
         })
     }
@@ -70,11 +70,11 @@ export const deleteDataAPI = async (url, token, dispatch) => {
     if (token) {
         const result = await checkTokenExp(token, dispatch)
         const access_token = result ? result  : token
-        res = await axios.delete(`/api/${url}`, {
+        res = await axios.delete(`https://vyviegramserver.onrender.com/api/${url}`, {
             headers: {Authorization: access_token}
         })
     } else {
-        res = await axios.delete(`/api/${url}`, {
+        res = await axios.delete(`https://vyviegramserver.onrender.com/api/${url}`, {
             headers: {Authorization: token}
         })
     }
