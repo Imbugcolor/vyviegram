@@ -42,7 +42,7 @@ function App() {
     dispatch(refreshToken())
 
     // create new socket 
-    const socket = io()
+    const socket = io('https://vyviegramnetwork.onrender.com')
     dispatch({type: GLOBALTYPES.SOCKET, payload: socket})
     return () => socket.close()
   },[dispatch])
