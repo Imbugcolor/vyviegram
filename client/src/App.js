@@ -31,7 +31,6 @@ import ForgotPassword from './pages/recovery/forgotPassword';
 import ResetPassword from './pages/recovery/resetPassword';
 import ConfirmDeletePost from './components/home/ConfirmDeletePost';
 import Reports from './pages/admin/Reports';
-import { BASE_URL } from './utils/config';
 
 function App() {
   const { auth, status, modal, call, share, theme, deleteModal, report } = useSelector(state => state)
