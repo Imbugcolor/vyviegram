@@ -9,6 +9,7 @@ export const login = (data) => async (dispatch) => {
     try {
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
         const res = await postDataAPI('login', data)
+
         dispatch({ 
             type: GLOBALTYPES.AUTH, 
             payload: {
@@ -18,6 +19,8 @@ export const login = (data) => async (dispatch) => {
         })
 
         localStorage.setItem("firstLogin", true)
+        localStorage.setItem("rf_token", res.data.refresh_token)
+
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
             payload: {
@@ -50,6 +53,7 @@ export const googleLogin = (code) => async(dispatch) => {
         })
 
         localStorage.setItem('firstLogin', true)
+        localStorage.setItem("rf_token", res.data.refresh_token)
 
         dispatch({
             type: GLOBALTYPES.ALERT, 
@@ -84,6 +88,7 @@ export const githubLogin = (code) => async(dispatch) => {
         })
 
         localStorage.setItem('firstLogin', true)
+        localStorage.setItem("rf_token", res.data.refresh_token)
 
         dispatch({
             type: GLOBALTYPES.ALERT, 
@@ -104,11 +109,13 @@ export const githubLogin = (code) => async(dispatch) => {
 
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
+    const rf_token = localStorage.getItem("rf_token")
+
     if(firstLogin){
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
 
         try {
-            const res = await getDataAPI('refresh_token')
+            const res = await postDataAPI('refresh_token', { rf_token })
             dispatch({ 
                 type: GLOBALTYPES.AUTH, 
                 payload: {
@@ -158,6 +165,8 @@ export const register = (data) => async (dispatch) => {
 export const logout = (token) => async (dispatch) => {
     try {
         localStorage.removeItem("firstLogin")
+        localStorage.removeItem("rf_token")
+
         await getDataAPI('logout', token, dispatch)
         window.location.href = "/"
     } catch (err) {

@@ -187,9 +187,9 @@ const authCtrl = {
     },
     logout: async(req, res) => {
         try {
-            res.clearCookie('refreshtoken', {
-                path: '/api/refresh_token'
-            })
+            // res.clearCookie('refreshtoken', {
+            //     path: '/api/refresh_token'
+            // })
 
             const user = await Users.findById(req.user._id);
 
@@ -204,7 +204,8 @@ const authCtrl = {
     },
     generateAccessToken: async(req, res) => {
         try {
-            const rf_token = req.cookies.refreshtoken
+            // const rf_token = req.cookies.refreshtoken
+            const { rf_token } = req.body
             if(!rf_token) return res.status(400).json({msg: 'Please login now.'})
             
             jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, async(err, result) => {
@@ -356,11 +357,11 @@ const loginUser = async (user, password, res) => {
     const access_token = createAccessToken({id: user._id})
     const refresh_token = createRefreshToken({id: user._id}, res)
 
-    res.cookie('refreshtoken', refresh_token, {
-        httpOnly: true,
-        path: `/api/refresh_token`,
-        maxAge: 30*24*60*60*1000 //30days
-    })
+    // res.cookie('refreshtoken', refresh_token, {
+    //     httpOnly: true,
+    //     path: `/api/refresh_token`,
+    //     maxAge: 30*24*60*60*1000 //30days
+    // })
 
     // Update rf_token in db
     await updateRefreshToken(user, refresh_token)
@@ -368,6 +369,7 @@ const loginUser = async (user, password, res) => {
     res.json({
         msg: 'Login Success!',
         access_token, 
+        refresh_token,
         user: {
             ...user._doc,
             password: '',
