@@ -164,10 +164,11 @@ export const register = (data) => async (dispatch) => {
 
 export const logout = (token) => async (dispatch) => {
     try {
+        await getDataAPI('logout', token, dispatch)
+
         localStorage.removeItem("firstLogin")
         localStorage.removeItem("rf_token")
 
-        await getDataAPI('logout', token, dispatch)
         window.location.href = "/"
     } catch (err) {
         dispatch({ 

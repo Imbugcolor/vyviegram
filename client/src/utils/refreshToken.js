@@ -1,10 +1,18 @@
 import axios from 'axios'
-import jwt_decode from 'jwt-decode'
 import { GLOBALTYPES } from '../redux/actions/globalTypes'
 
-export const checkTokenExp = async (token, dispatch) => {
-    const decode = jwt_decode(token)
+const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+};
 
+export const checkTokenExp = async (token, dispatch) => {
+    // const decode = jwt_decode(token)
+    const decode = parseJwt(token)
+    console.log(decode.exp >= Date.now() / 1000)
     if(decode.exp >= Date.now() / 1000) return;
 
     const rf_token = localStorage.getItem("rf_token")

@@ -86,7 +86,7 @@ const Reports = () => {
                             <span>Status</span>
                             <select value={filterInput} onChange={handleFilter}>
                                 <option value="">ALL STATUS</option>
-                                <option value="PENDING">PEDING</option>
+                                <option value="PENDING">PENDING</option>
                                 <option value="EXECUTED">EXECUTED</option>
                                 <option value="REJECTED">REJECTED</option>
                             </select>
