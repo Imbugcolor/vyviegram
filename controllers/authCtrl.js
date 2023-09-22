@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const fetch = require('node-fetch')
 const { OAuth2Client } = require("google-auth-library")
 const sendMail = require('../config/sendMail')
+const { createActiveToken, createAccessToken, createRefreshToken } = require('../helpers/generateToken')
 
 const client = new OAuth2Client(
     `${process.env.GOOGLE_CLIENT_ID}`,
@@ -40,7 +41,7 @@ const authCtrl = {
             
             sendMail(email, url, 'Active your Vyviegram account.')
 
-            return res.json({ msg: 'Register Success! Please check your email to active your account.' })
+            return res.status(200).json({ msg: 'Register Success! Please check your email to active your account.' })
 
         } catch (err) {
             return res.status(500).json({msg: err.message})
@@ -310,18 +311,6 @@ const authCtrl = {
           }
         } else return res.status(400).json({ msg: 'Invalid Token' })
     }
-}
-
-const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
-}   
-
-const createRefreshToken = (payload) => {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30d'})
-}
-
-const createActiveToken = (payload) => {
-    return jwt.sign(payload, process.env.ACTIVE_TOKEN_SECRET, {expiresIn: '5m'})
 }
 
 const updateRefreshToken = async(user, refreshToken) => {
