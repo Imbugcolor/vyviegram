@@ -14,6 +14,7 @@ import { MdFavoriteBorder, MdOutlineExplore, MdExplore } from 'react-icons/md'
 import { RiMessengerLine, RiMessengerFill } from 'react-icons/ri'
 import SearchBar from './SearchBar'
 import useComponentVisible from '../../hooks/useComponentVisible'
+import { changeTheme } from '../../redux/actions/themeAction'
 
 const LeftSidebar = () => {
   const { auth, notify, theme, message } = useSelector(state => state)
@@ -198,7 +199,7 @@ const LeftSidebar = () => {
                   <Link className="dropdown-item" to={'/admin/dashboard'}>Dashboard</Link>
                 }
                 <label htmlFor='theme' className="dropdown-item" 
-                        onClick={() => dispatch({type: GLOBALTYPES.THEME, payload: !theme})}>
+                        onClick={() => dispatch(changeTheme(!theme))}>
                     {theme ? 'Light mode' : 'Dark mode'}
                 </label>
                 <div className="dropdown-divider"></div>

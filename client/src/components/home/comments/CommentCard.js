@@ -12,7 +12,7 @@ import CardHover from '../post_card/CardHover'
 
 const CommentCard = ({children, comment, post, commentId}) => {
   const dispatch = useDispatch()
-  const {auth} = useSelector(state => state)
+  const {auth, theme} = useSelector(state => state)
   const [content, setContent] = useState('')
   const [readMore, setReadMore] = useState(false)
   const [isLike, setIsLike] = useState(false);
@@ -94,7 +94,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
                       @{comment.tag.username}
                   </Link>
                 }
-                <span>
+                <span style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? '#fff' : '#000' }}>
                   {
                     content.length < 100 ? content :
                     readMore ? content + '' : content.slice(0,100) + '...'

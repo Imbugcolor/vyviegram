@@ -11,7 +11,7 @@ import { ImWarning } from 'react-icons/im'
 
 const Notifications = ({setOpenNoti}) => {
 
-    const { auth, notify } = useSelector(state => state)
+    const { auth, notify, theme } = useSelector(state => state)
     const dispatch = useDispatch()
   
     const handleIsRead = (msg) => {
@@ -46,10 +46,10 @@ const Notifications = ({setOpenNoti}) => {
                 {
                     notify.sound ? 
                     <i className='fas fa-bell text-danger' 
-                       style={{fontSize: '1.2rem', cursor: 'pointer'}} 
+                       style={{fontSize: '1.2rem', cursor: 'pointer', filter: theme ? 'invert(1)' : 'invert(0)'}} 
                        onClick={handleSound}
                     />
-                    : <i className='fas fa-bell-slash text-danger' style={{fontSize: '1.2rem', cursor: 'pointer'}}
+                    : <i className='fas fa-bell-slash text-danger' style={{fontSize: '1.2rem', cursor: 'pointer', filter: theme ? 'invert(1)' : 'invert(0)'}}
                     onClick={handleSound}/>
                 }
             </div>
@@ -92,7 +92,7 @@ const Notifications = ({setOpenNoti}) => {
                                                 <span>{msg.text}</span>
                                             </div>
                                             {
-                                                msg.content&& <small>{msg.content.slice(0.20)}...</small>
+                                                msg.content&& <small style={{filter: theme ? 'invert(1)' : 'invert(0)'}}>{msg.content.slice(0.20)}...</small>
                                             }
                                         </div>
                                     </>

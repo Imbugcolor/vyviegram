@@ -20,6 +20,7 @@ export const login = (data) => async (dispatch) => {
 
         localStorage.setItem("firstLogin", true)
         localStorage.setItem("rf_token", res.data.refresh_token)
+        localStorage.setItem("theme", false)
 
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
@@ -168,6 +169,7 @@ export const logout = (token) => async (dispatch) => {
 
         localStorage.removeItem("firstLogin")
         localStorage.removeItem("rf_token")
+        localStorage.removeItem("theme")
 
         window.location.href = "/"
     } catch (err) {

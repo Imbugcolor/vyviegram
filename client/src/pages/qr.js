@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import html2canvas from 'html2canvas'
 
 const Qr = () => {
-    const {auth} = useSelector(state=>state)
+    const { auth, theme } = useSelector(state=>state)
     const value= `${BASE_URL}/profile/${auth.user._id}`;
 
     const exportRef = useRef();
@@ -26,7 +26,12 @@ const Qr = () => {
     };
     
   return (
-    <div className="qrCode" style={{background: 'url("/images/bg-01.jpg")', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}>
+    <div className="qrCode" 
+      style={{
+        background: theme ? '#000' : 'url("/images/bg-01.jpg")', 
+        backgroundRepeat: theme ? 'unset' : 'round', 
+        filter: theme ? 'invert(1)' : 'invert(0)'
+      }}>
        <div className="box-qrCode" 
        ref={exportRef}
        style={{ padding: '16px',  background: 'white' }}>
