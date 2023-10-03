@@ -23,7 +23,7 @@ export const createComment = ({post, newComment, auth, socket}) => async (dispat
             text: newComment.reply ? 'mentioned you in a comment.' : 'has commented on your post.',
             recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
             url: `/post/${post._id}`,
-            content: post.content, 
+            content: newComment.content, 
             image: post.images[0].url
         }
         dispatch(createNotify({msg, auth, socket}))
@@ -46,7 +46,7 @@ export const updateComment = ({comment, post, content, auth}) => async (dispatch
      }
  }
 
-export const likeComment = ({comment, post, auth}) => async (dispatch) => {
+export const likeComment = ({comment, post, auth, socket}) => async (dispatch) => {
      const newComment = {...comment, likes: [...comment.likes, auth.user]}
 
      const newComments = EditData(post.comments, comment._id, newComment)
@@ -56,12 +56,27 @@ export const likeComment = ({comment, post, auth}) => async (dispatch) => {
      dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
  
      try {
-         await patchDataAPI(`comment/${comment._id}/like`, null, auth.token, dispatch)
+        // Socket
+        socket.emit('LikeComment', newPost)
+
+        // Notify
+        const msg = {
+            id: comment._id,
+            text: 'like your comment in a post.',
+            recipients: [comment.user._id],
+            url: `/post/${post._id}?comment=${comment._id}`,
+            content: newComment.content, 
+            image: post.images[0].url
+        }
+
+        dispatch(createNotify({msg, auth, socket}))
+
+        await patchDataAPI(`comment/${comment._id}/like`, null, auth.token, dispatch)
      } catch (err) {
          dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
      }
 }
-export const unLikeComment = ({comment, post, auth}) => async (dispatch) => {
+export const unLikeComment = ({comment, post, auth, socket}) => async (dispatch) => {
 
      const newComment = {...comment, likes: DeleteData(comment.likes, auth.user._id)}
  
@@ -73,6 +88,19 @@ export const unLikeComment = ({comment, post, auth}) => async (dispatch) => {
  
      try {
          await patchDataAPI(`comment/${comment._id}/unlike`, null, auth.token, dispatch)
+
+         // Socket
+        socket.emit('UnLikeComment', newPost)
+
+        // Notify
+        const msg = {
+            id: comment._id,
+            text: 'like your comment in a post.',
+            recipients: [comment.user._id],
+            url: `/post/${post._id}?comment=${comment._id}`,
+        }
+
+        dispatch(removeNotify({msg, auth, socket}))
      } catch (err) {
          dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
      }

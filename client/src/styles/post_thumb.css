@@ -84,9 +84,7 @@
     color: #000;
     font-weight: 700;
 }
-.suggest-follower{
-    display:flex;
-}
+
 .suggest-follower .swiper-slide{
     /* width:25%; */
     margin-right: 15px;

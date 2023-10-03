@@ -371,7 +371,7 @@ const sendMail = async(to, url, txt) => {
                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tr>
                                     <td>
-                                        <p>Congratulations! You're almost set to start using Vyviegram</p>
+                                        <p>Hello! You're almost ${txt}</p>
                                         <p>Just click the button below to validate your email address</p>
                                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                                         <tbody>
@@ -380,7 +380,7 @@ const sendMail = async(to, url, txt) => {
                                                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                                 <tbody>
                                                     <tr>
-                                                    <td> <a href=${url} target="_blank">Active</a> </td>
+                                                    <td> <a href=${url} target="_blank">Confirm</a> </td>
                                                     </tr>
                                                 </tbody>
                                                 </table>

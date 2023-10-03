@@ -91,6 +91,13 @@ const userCtrl = {
                 })
             })
 
+            if (req.user.following.length === 0) {
+                const users = await Users.find().limit(10)
+                users.map(user => {
+                    sugesstions.push(user._id)
+                })
+            }
+
             const num = req.query.num || 10
 
             const users = await Users.aggregate([

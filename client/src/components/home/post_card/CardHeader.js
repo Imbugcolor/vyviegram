@@ -71,7 +71,7 @@ const CardHeader = ({post}) => {
                 </div>
             </div>
             <div className='nav-item dropdown'>
-                <span className='material-icons' id='moreLink' data-toggle='dropdown'>
+                <span className='material-icons' id='moreLink' data-toggle='dropdown' style={{ cursor: 'pointer' }}>
                     <BiDotsHorizontalRounded />
                 </span>
                 <div className='dropdown-menu'>

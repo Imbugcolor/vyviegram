@@ -17,14 +17,10 @@ const SocketServer = (socket) => {
     // get user disconnect
     const data = users.find(user => user.socketId === socket.id)
     if(data) {
-      // get followers user above is connecting (online) 
-      const clients = users.filter(user => 
-        data.followers.find(item => item._id === user.id)
-      )
 
       // send response to clients
-      if(clients.length > 0) {
-        clients.forEach(client => {
+      if(users.length > 0) {
+        users.forEach(client => {
           socket.to(`${client.socketId}`).emit('checkUserOffline', data.id)
         })
       }
@@ -43,26 +39,12 @@ const SocketServer = (socket) => {
 
   //Likes
   socket.on("likePost", (newPost) => {
-    const ids = [...newPost.user.followers, newPost.user._id];
-    const clients = users.filter((user) => ids.includes(user.id));
-
-    if (clients.length > 0) {
-      clients.forEach((client) => {
-        socket.to(`${client.socketId}`).emit("likeToClient", newPost);
-      });
-    }
+    socket.broadcast.emit("likeToClient", newPost);
   });
 
   //unlikes
   socket.on("unLikePost", (newPost) => {
-    const ids = [...newPost.user.followers, newPost.user._id];
-    const clients = users.filter((user) => ids.includes(user.id));
-
-    if (clients.length > 0) {
-      clients.forEach((client) => {
-        socket.to(`${client.socketId}`).emit("unLikeToClient", newPost);
-      });
-    }
+    socket.broadcast.emit("unLikeToClient", newPost);
   });
 
   //Comments
@@ -88,6 +70,16 @@ const SocketServer = (socket) => {
       });
     }
   });
+
+  //Like Comment
+  socket.on('LikeComment', newPost => {
+    socket.broadcast.emit('LikeCommentToClient', newPost)
+  })
+
+  // Unlike Comment
+  socket.on('UnLikeComment', newPost => {
+    socket.broadcast.emit('UnLikeCommentToClient', newPost)      
+  })
 
   //Follow
   socket.on("follow", (newUser) => {
@@ -137,15 +129,11 @@ const SocketServer = (socket) => {
   // Check User Online / Offline
   socket.on('checkUserOnline', data => {
     //only check following users online/offline
-    const following = users.filter(user => data.following.find(item => item._id === user.id))
-    socket.emit('checkUserOnlineToMe', following)
-
+    socket.emit('checkUserOnlineToMe', users)
+    
     //only request my online to followers
-    const clients = users.filter(user => 
-      data.followers.find(item => item._id === user.id)
-    )
-    if(clients.length > 0) {
-      clients.forEach(client => {
+    if(users.length > 0) {
+      users.forEach(client => {
         socket.to(`${client.socketId}`).emit('checkUserOnlineToClient', data._id)
       })
     }

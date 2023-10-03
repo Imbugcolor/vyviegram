@@ -13,7 +13,7 @@ import UserDetailModal from './common/UserDetailModal'
 import { getReports } from '../../redux/actions/reportAction'
 
 const Dashboard = () => {
-  const { auth, recentUsers, theme, report } = useSelector(state => state)
+  const { auth, recentUsers, theme, report, online } = useSelector(state => state)
   const dispatch = useDispatch()
 
   const [totalUsers, setTotalUsers] = useState(0)
@@ -86,7 +86,7 @@ const Dashboard = () => {
               </div>
               <Link to='/admin/users' className='card-content'>
                 <h3>Users</h3>
-                <span>{ load ? <img src={LoadIcon} alt='loading' className='loading__spinner'/> : totalUsers}</span>
+                <span>{ load ? <img src={LoadIcon} alt='loading' className='loading__spinner'/> : `${totalUsers} (Online: ${online.length})`}</span>
               </Link>
             </div>
           </div>

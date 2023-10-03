@@ -7,7 +7,8 @@ const initialState = {
     result: 0,
     page: 2,
     total: 0,
-    relatedPosts: [] 
+    relatedPosts: [],
+    suggestion: false,
 }
 
 const postReducer = (state = initialState, action) => {
@@ -28,7 +29,8 @@ const postReducer = (state = initialState, action) => {
                 posts: action.payload.posts,
                 result: action.payload.result,
                 page: action.payload.page,
-                total: action.payload.total
+                total: action.payload.total,
+                suggestion: action.payload.suggestion
             }
         case POST_TYPES.GET_RELATED_POSTS:
             return {

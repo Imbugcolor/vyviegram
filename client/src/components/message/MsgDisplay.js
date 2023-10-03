@@ -6,6 +6,7 @@ import { deleteMessages } from '../../redux/actions/messageAction'
 import { Link } from 'react-router-dom'
 import Times from './Times'
 import Video from '../Video'
+import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 
 const MsgDisplay = ({user, msg, theme, data}) => {
   const { auth, socket } = useSelector(state => state)
@@ -24,6 +25,7 @@ const MsgDisplay = ({user, msg, theme, data}) => {
         } 
     })
   }
+
   return (
     <>
         <div className={`chat_title ${user._id === auth.user._id && 'flex-row-reverse'}`}>
@@ -51,10 +53,11 @@ const MsgDisplay = ({user, msg, theme, data}) => {
                           item.url.match(/video/i) ?
                           <video controls src={item.url} alt='images'  
                               className='img-thumbnail'
-                              style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px'}}
+                              style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px', cursor: 'pointer'}}
                           /> :
                           <img src={item.url} alt='images'  className='img-thumbnail'
-                          style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px'}}
+                          style={{filter:  theme ? 'invert(1)' : 'invert(0)', maxWidth: '300px', cursor: 'pointer'}}
+                          onClick={() => dispatch({type: GLOBALTYPES.MEDIA_VIEW, payload: item.url})}
                           />
                         }
                       </div>

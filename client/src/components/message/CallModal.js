@@ -100,6 +100,7 @@ const CallModal = () => {
         
     }
 
+    // show Stream on video 
     const playStream = (tag, stream) => {
         let video = tag;
         video.srcObject = stream;
@@ -130,8 +131,11 @@ const CallModal = () => {
     }
 
     useEffect(() => {
+        // Lắng nghe sự kiện có peer gọi đến
         peer.on('call', newCall => {
+            // Open Stream
             openStream(call.video).then(stream => {
+                // Show stream on local Video 
                 if(youVideo.current) {
                     playStream(youVideo.current, stream)
                 }
@@ -140,6 +144,8 @@ const CallModal = () => {
 
                 // Answer the call, providing our mediaStream
                 newCall.answer(stream)
+
+                // Listen stream open then show stream on remote Video
                 newCall.on('stream', function(remoteStream) {
                     if(otherVideo.current) {
                         // `stream` is the MediaStream of the remote peer.

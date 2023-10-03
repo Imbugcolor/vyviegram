@@ -8,9 +8,10 @@ import { USERS_TYPES, getUsers, updateRoles } from '../../redux/actions/usersAct
 import LoadIcon from '../../images/loading.gif'
 import Pagination from '../../utils/pagination'
 import UserDetailModal from './common/UserDetailModal'
+import { IoReturnUpBackSharp } from 'react-icons/io5'
 
 const Users = () => {
-    const { auth, users } = useSelector(state => state)
+    const { auth, users, online } = useSelector(state => state)
     const dispatch = useDispatch()
 
     const [searchValue, setSearchValue] = useState(users.search)
@@ -48,6 +49,9 @@ const Users = () => {
         <div>
             <div className='content-header'>
                 <h2>ACCOUNTS MANAGEMENT</h2>
+                <Link to='/admin/dashboard' className='text-dark'>
+                    <IoReturnUpBackSharp /> Back
+                </Link>
             </div>
 
             <div className="content-wrapper">
@@ -57,8 +61,9 @@ const Users = () => {
                     <span onClick={handleSearch}>Search</span>
                 </div>
                 <div className="users-list">
-                    <div className='products__count_number'>
+                    <div className='d-flex justify-content-between products__count_number'>
                         <span>Display {users.result} / {users.total} users</span>
+                        <span>Online: {online.length} users</span>
                     </div>
                     <table className="users-list-table">
                         <thead className="table-header">
@@ -74,9 +79,9 @@ const Users = () => {
                         <tbody className="table-body">
                             {
                                 users.loading ?  
-                                <tr>
-                                    <td>
-                                    <img src={LoadIcon} alt='loading' className='loading__spinner'/>
+                                <tr style={{ textAlign: 'center', height: '610px' }}> 
+                                    <td colSpan="6">
+                                        <img src={LoadIcon} alt='loading' className='loading__spinner'/>
                                     </td>
                                 </tr> :
                                 users.data.length > 0 ? users.data.map(user => (
@@ -145,7 +150,7 @@ const Users = () => {
                     }
 
                     {
-                        viewDetail && <UserDetailModal user={viewDetail} setViewDetail={setViewDetail}/>
+                        viewDetail && <UserDetailModal user={viewDetail} setViewDetail={setViewDetail} online={online}/>
                     }
                 </div>
             </div>

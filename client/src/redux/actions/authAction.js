@@ -1,6 +1,8 @@
 import { GLOBALTYPES } from './globalTypes'
 import { getDataAPI, postDataAPI } from '../../utils/fetchData'
 import valid from '../../utils/valid'
+import Message from '../../components/alert/Message'
+import MailImg from '../../images/mail.png'
 
 export const TYPES = {
     AUTH: 'AUTH'
@@ -145,14 +147,14 @@ export const register = (data) => async (dispatch) => {
     
     try {
         dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}})
-        const res = await postDataAPI('register', data)
+        await postDataAPI('register', data)
 
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
-            payload: {
-                success: res.data.msg
-            } 
+            payload: {} 
         })
+
+        Message('Check your mail', 'We have seen a verify mail to active your account.', MailImg)
     } catch (err) {
         dispatch({ 
             type: GLOBALTYPES.ALERT, 

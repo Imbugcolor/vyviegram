@@ -1,7 +1,7 @@
 import React from 'react'
 import * as FaIcons from 'react-icons/fa'
 
-const UserDetailModal = ({ user, setViewDetail }) => {
+const UserDetailModal = ({ user, setViewDetail, online }) => {
     return (
     <div className='user-view-detail-box'>
         <div className="view-detail-user-modal">
@@ -78,6 +78,23 @@ const UserDetailModal = ({ user, setViewDetail }) => {
                                 <label>Joining date: </label>
                             </div>
                             <div className='user-text-field'>{new Date(user.createdAt).toLocaleDateString()}</div>
+                        </div>
+
+                        <div className="user-details-field">
+                            <div className='user-name-field'>
+                                <label>Status: </label>
+                            </div>
+                            <div className='user-text-field'>
+                                {
+                                    online.find(id => id === user._id) ? 
+                                    <>
+                                        <i className='fas fa-circle text-success mr-2'/><span>Online</span>
+                                    </>
+                                    : <>
+                                        <i className='fas fa-circle mr-2'/><span>Offline</span>
+                                    </>
+                                }
+                            </div>
                         </div>
 
                     </div>

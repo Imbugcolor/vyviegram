@@ -12,7 +12,7 @@ import CardHover from '../post_card/CardHover'
 
 const CommentCard = ({children, comment, post, commentId}) => {
   const dispatch = useDispatch()
-  const {auth, theme} = useSelector(state => state)
+  const {auth, theme, socket} = useSelector(state => state)
   const [content, setContent] = useState('')
   const [readMore, setReadMore] = useState(false)
   const [isLike, setIsLike] = useState(false);
@@ -43,7 +43,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
   const handleLike = async () => {
     if(loadLike) return;
     setIsLike(true)
-    await dispatch(likeComment({comment, post, auth}))
+    await dispatch(likeComment({comment, post, auth, socket}))
     setLoadLike(false)
   }
 
@@ -52,7 +52,7 @@ const CommentCard = ({children, comment, post, commentId}) => {
     setIsLike(false)
 
     setLoadLike(true)
-    await dispatch(unLikeComment({comment, post, auth}))
+    await dispatch(unLikeComment({comment, post, auth, socket}))
     setLoadLike(false)
   }
 

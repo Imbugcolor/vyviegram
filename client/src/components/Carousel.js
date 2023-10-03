@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Video from './Video';
 import { useParams } from 'react-router-dom';
+import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
 const Carousel = ({images, id}) => {
     const search = useParams()
 
     const [idParams, setIdParams] = useState('')
     const [page, setPage] = useState('')
+
+    const dispatch = useDispatch()
 
     const isActive = index => {
         if(index === 0) return 'active';
@@ -73,13 +76,14 @@ const Carousel = ({images, id}) => {
                         >
                             {
                                 img.url.match(/video/i) ?
-                                <Video public_id={img.public_id}/> 
+                                <Video public_id={img.public_id} url={img.url}/> 
                                 :
                                 <img 
                                     src={img.url}
                                     className="d-block w-100" 
                                     alt={img.url}
                                     style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
+                                    onClick={() => dispatch({type: GLOBALTYPES.MEDIA_VIEW, payload: img.url })}
                                 />
                             }
                             

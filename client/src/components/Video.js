@@ -1,13 +1,15 @@
 import React, { useRef } from 'react'
 import { AdvancedVideo, lazyload } from '@cloudinary/react';
 import { Cloudinary } from "@cloudinary/url-gen";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaPlay } from 'react-icons/fa'
 import { v4 as uuidv4 } from 'uuid'
+import { GLOBALTYPES } from '../redux/actions/globalTypes';
 
-const Video = ({ public_id }) => {
+const Video = ({ public_id, url }) => {
   const { theme } = useSelector(state => state)
 
+  const dispatch = useDispatch()
   const videoId = uuidv4()
 
   const advancedVideoRef = useRef(null)
@@ -41,6 +43,11 @@ const Video = ({ public_id }) => {
     playBtn.classList.add('play-btn-active')
   }
 
+  const handleView = () => {
+    if(!url) return;
+    dispatch({ type: GLOBALTYPES.MEDIA_VIEW, payload: url }) 
+  }
+
   return (
     <div className='video_player'>
         <AdvancedVideo 
@@ -53,6 +60,7 @@ const Video = ({ public_id }) => {
           onClick={handleVideoToggle}
           onPlay={handleOnPlay}
           onPause={handleOnPause}
+          onDoubleClick={handleView}
         />
         <FaPlay 
           id={videoId} 

@@ -22,8 +22,8 @@ const SuggestedUser = ({id, auth, profile}) => {
         if (newData) {
           const followingIds = auth.user.following.map(user => user._id);
       
-          const notFollowedByUser = newData.followers.filter(follower => !followingIds.includes(follower._id));
-      
+          const notFollowedByUser = newData.followers.filter(follower => !followingIds.includes(follower._id) && follower._id !== auth.user._id);
+    
           setFollowedBy(notFollowedByUser);
         }
     }, [id, profile.users, auth.user.following, auth.user._id]);
@@ -41,7 +41,7 @@ const SuggestedUser = ({id, auth, profile}) => {
                         </div>
                         
                         {
-                            followedBy.length > 3 &&
+                            followedBy.length > 0 &&
                             <div className='suggest-follower'>
                                 <Swiper
                                     modules={[Navigation]}

@@ -12,7 +12,8 @@ export const GLOBALTYPES = {
     PEER: 'PEER',
     SHARE: 'SHARE',
     ADMIN_DELETE_POST: 'ADMIN_DELETE_POST',
-    REPORT_POST: 'REPORT_POST'
+    REPORT_POST: 'REPORT_POST',
+    MEDIA_VIEW: 'MEDIA_VIEW'
 }
 
 export const EditData = (data, id, post) => {
