@@ -21,7 +21,6 @@ export const login = (data) => async (dispatch) => {
         })
 
         localStorage.setItem("firstLogin", true)
-        localStorage.setItem("rf_token", res.data.refresh_token)
         localStorage.setItem("theme", false)
 
         dispatch({ 
@@ -56,7 +55,6 @@ export const googleLogin = (code) => async(dispatch) => {
         })
 
         localStorage.setItem('firstLogin', true)
-        localStorage.setItem("rf_token", res.data.refresh_token)
 
         dispatch({
             type: GLOBALTYPES.ALERT, 
@@ -91,7 +89,6 @@ export const githubLogin = (code) => async(dispatch) => {
         })
 
         localStorage.setItem('firstLogin', true)
-        localStorage.setItem("rf_token", res.data.refresh_token)
 
         dispatch({
             type: GLOBALTYPES.ALERT, 
@@ -112,13 +109,12 @@ export const githubLogin = (code) => async(dispatch) => {
 
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
-    const rf_token = localStorage.getItem("rf_token")
 
     if(firstLogin){
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
 
         try {
-            const res = await postDataAPI('refresh_token', { rf_token })
+            const res = await getDataAPI('refresh_token')
             dispatch({ 
                 type: GLOBALTYPES.AUTH, 
                 payload: {
@@ -170,7 +166,6 @@ export const logout = (token) => async (dispatch) => {
         await getDataAPI('logout', token, dispatch)
 
         localStorage.removeItem("firstLogin")
-        localStorage.removeItem("rf_token")
         localStorage.removeItem("theme")
 
         window.location.href = "/"

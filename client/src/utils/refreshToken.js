@@ -7,9 +7,7 @@ export const checkTokenExp = async (token, dispatch) => {
 
     if(decode.exp >= Date.now() / 1000) return;
 
-    const rf_token = localStorage.getItem("rf_token")
-
-    const res = await axios.post('/api/refresh_token', { rf_token })
+    const res = await axios.get('/api/refresh_token')
 
     dispatch({ type: GLOBALTYPES.UPDATE_TOKEN, payload: res.data.access_token })
     

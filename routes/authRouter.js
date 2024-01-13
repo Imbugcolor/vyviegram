@@ -15,7 +15,7 @@ router.post('/github_login', authCtrl.githubLogin)
 
 router.get('/logout', auth, authCtrl.logout)
 
-router.post('/refresh_token', authCtrl.generateAccessToken)
+router.get('/refresh_token', authCtrl.generateAccessToken)
 
 router.post('/forgotpassword', authCtrl.forgotPassword)
 
