@@ -205,6 +205,7 @@ const authCtrl = {
     generateAccessToken: async(req, res) => {
         try {
             const rf_token = req.cookies.refreshtoken
+
             if(!rf_token) return res.status(400).json({msg: 'Please login now.'})
             
             jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, async(err, result) => {
@@ -312,7 +313,7 @@ const authCtrl = {
 }
 
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
 }   
 
 const createRefreshToken = (payload) => {
@@ -367,7 +368,7 @@ const loginUser = async (user, password, res) => {
 
     res.json({
         msg: 'Login Success!',
-        access_token, 
+        access_token,
         user: {
             ...user._doc,
             password: '',

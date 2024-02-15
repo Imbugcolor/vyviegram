@@ -1,0 +1,31 @@
+.media_view_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background: #0008;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.media_view_modal .video_media, .photo_media {
+    max-height: 900px;
+}
+
+.media_view_modal .video_media {
+    padding: 0.25rem;
+    background-color: #fff;
+}
+
+.close_view_modal_btn {
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    z-index: 10;
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+}

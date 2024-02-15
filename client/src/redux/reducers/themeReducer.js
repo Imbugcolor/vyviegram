@@ -1,6 +1,7 @@
 import { GLOBALTYPES } from '../actions/globalTypes'
 
-const initialState = false
+const theme = localStorage.getItem('theme')
+const initialState = JSON.parse(theme)
 
 const themeReducer = (state = initialState, action) => {
     switch (action.type){

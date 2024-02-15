@@ -14,6 +14,7 @@ import { MdFavoriteBorder, MdOutlineExplore, MdExplore } from 'react-icons/md'
 import { RiMessengerLine, RiMessengerFill } from 'react-icons/ri'
 import SearchBar from './SearchBar'
 import useComponentVisible from '../../hooks/useComponentVisible'
+import { changeTheme } from '../../redux/actions/themeAction'
 
 const LeftSidebar = () => {
   const { auth, notify, theme, message } = useSelector(state => state)
@@ -25,7 +26,7 @@ const LeftSidebar = () => {
 
   useEffect(() => {
     setPath(pathname.split('/')[1])
-    if (pathname.split('/')[1] === 'message') {
+    if (pathname.split('/')[1] === 'message' || pathname.split('/')[1] === 'qr') {
       document.getElementById('main').classList.add('message_wrapper')
     } else {
       document.getElementById('main').classList.remove('message_wrapper')
@@ -83,14 +84,14 @@ const LeftSidebar = () => {
   }
 
   return (
-    <div ref={ref} className='side_bar_container' style={{ width: path === 'message' ? '50px' : '250px'}}>
+    <div ref={ref} className='side_bar_container' style={{ width: path === 'message' || path === 'qr' ? '50px' : '250px'}}>
         <div className='header__side_bar'>
             <Link to='/'>
-              <div className={`text__brand ${(openNoti || openSearch || path === 'message') && ' d-none'}`}>
+              <div className={`text__brand ${(openNoti || openSearch || path === 'message' || path === 'qr') && ' d-none'}`}>
                 <img src={textLogo} style={styleImg} alt='logobrand'/>
               </div>
 
-              <div className={`logo__brand ${(openNoti || openSearch || path === 'message') && ' d-block'}`}>
+              <div className={`logo__brand ${(openNoti || openSearch || path === 'message' || path === 'qr') && ' d-block'}`}>
                 <img src={iconLogo} style={styleImg} alt='logobrand'/>
               </div>
             </Link>
@@ -99,14 +100,14 @@ const LeftSidebar = () => {
             <ul className='menu__ul'>
               <li className='menu__li' onClick={handleCloseAll}>
                   <Link to='/' 
-                  className={`${path === 'message' && 'd-flex justify-content-center'}`}
+                  className={`${(path === 'message' || path === 'qr') && 'd-flex justify-content-center'}`}
                   style={{textDecoration: 'none', 
                   color: theme ? '#fff' : '#000',
                   fontWeight: path === '' ? '700' : 'normal',
                   filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                   }}>
                       { path === '' ? <AiFillHome style={styleIcon}/> : <AiOutlineHome style={styleIcon}/> }
-                      <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'} ml-3`}>Home</span>
+                      <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'} ml-3`}>Home</span>
                   </Link>
               </li>
               {
@@ -119,68 +120,68 @@ const LeftSidebar = () => {
                           fontWeight: isActive(link.path) ? '700' : 'normal',
                           filter: theme ? 'invert(1)' : 'invert(0)', width: '100%'
                           }}>
-                              <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
-                              style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
+                              <div className={`menu__icon ${(path === 'message' || path === 'qr') && 'd-flex justify-content-center'}`} 
+                              style={{ width: path !== 'message' && path !== 'qr' ? '30px' : '50px', marginRight:  path !== 'message' && path !== 'qr' ? '15px' : '0'}}>
                                 { isActive(link.path) ? link.iconSolid : link.iconRegular }          
                                 {
                                   link.path === 'message' && newMessages > 0 && 
                                   <span className='num__new_messages' 
-                                  style={{right: path !== 'message' ? '-4px' : '6px'}}>
+                                  style={{right: path !== 'message' && path !== 'qr' ? '-4px' : '6px'}}>
                                     {newMessages}
                                   </span>
                                 }
                               </div>
-                              <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`}>{link.label}</span>
+                              <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'}`}>{link.label}</span>
                           </Link>
                       </li>
                   ))
               }
               <li className='menu__li'  onClick={handleOpenSearch}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
-                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
+                  <div className={`menu__icon ${(path === 'message' || path === 'qr') && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' && path !== 'qr' ? '30px' : '50px', marginRight:  path !== 'message' && path !== 'qr' ? '15px' : '0'}}>
                     <IoSearchOutline style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`} 
+                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'}`} 
                   style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Search
                   </span>
               </li>
 
               <li className='menu__li'  onClick={handleOpenNoti}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
-                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
+                  <div className={`menu__icon ${(path === 'message' || path === 'qr') && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' && path !== 'qr' ? '30px' : '50px', marginRight:  path !== 'message' && path !== 'qr' ? '15px' : '0'}}>
                     <MdFavoriteBorder style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>
                     {
                       newNoti > 0 && 
                       <span className='numNotifications' 
-                      style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' ? '-4px' : '6px'}}>
+                      style={{ filter: theme ? 'invert(1)' : 'invert(0)', right: path !== 'message' && path !== 'qr' ? '-4px' : '6px'}}>
                         {newNoti}
                       </span>
                     }
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`} 
+                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'}`} 
                   style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Notifications
                   </span>
               </li>
 
               <li className='menu__li' onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true})}>
-                  <div className={`menu__icon ${path === 'message' && 'd-flex justify-content-center'}`} 
-                  style={{ width: path !== 'message' ? '30px' : '50px', marginRight:  path !== 'message' ? '15px' : '0'}}>
+                  <div className={`menu__icon ${(path === 'message' || path === 'qr') && 'd-flex justify-content-center'}`} 
+                  style={{ width: path !== 'message' && path !== 'qr' ? '30px' : '50px', marginRight:  path !== 'message' && path !== 'qr' ? '15px' : '0'}}>
                     <FiPlusSquare style={{fontSize: '30px', color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)'}}/>            
                   </div>
-                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`} 
+                  <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'}`} 
                   style={{ color: theme ? '#fff' : '#000', filter: theme ? 'invert(1)' : 'invert(0)', fontWeight: 'normal', width: '100%'}}>
                     Create
                   </span>
               </li>
 
               <li className='menu__li'  onClick={handleCloseAll}>
-                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666', width: '100%', textAlign: path !== 'message' ? 'start' : 'center'}}>
-                    <span style={{ marginRight: path !== 'message' ? '15px' : '0px' }}>
+                  <Link to={`/profile/${auth.user._id}`} style={{textDecoration: 'none', color: '#666666', width: '100%', textAlign: path !== 'message' && path !== 'qr' ? 'start' : 'center'}}>
+                    <span style={{ marginRight: path !== 'message' && path !== 'qr' ? '15px' : '0px' }}>
                         <Avatar src={auth.user.avatar} size='medium-avatar'/>
                     </span>
-                    <span className={`title__menu ${(openNoti || openSearch ||path === 'message') && ' d-none'}`}>Profile</span>
+                    <span className={`title__menu ${(openNoti || openSearch ||path === 'message' || path === 'qr') && ' d-none'}`}>Profile</span>
                   </Link>
               </li>
             </ul>
@@ -198,7 +199,7 @@ const LeftSidebar = () => {
                   <Link className="dropdown-item" to={'/admin/dashboard'}>Dashboard</Link>
                 }
                 <label htmlFor='theme' className="dropdown-item" 
-                        onClick={() => dispatch({type: GLOBALTYPES.THEME, payload: !theme})}>
+                        onClick={() => dispatch(changeTheme(!theme))}>
                     {theme ? 'Light mode' : 'Dark mode'}
                 </label>
                 <div className="dropdown-divider"></div>

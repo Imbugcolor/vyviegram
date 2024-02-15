@@ -25,7 +25,7 @@
 }
 
 /* --------------- POSTS ------------- */
-.posts {
+.posts, .title_suggest_posts {
     margin: auto auto 25px auto;
     max-width: 600px;
 }
@@ -48,7 +48,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     padding: 15px;
     position: relative;
     z-index: 1;
@@ -115,4 +114,16 @@
 }
 .posts .card-footer .nav-item svg:hover{
     color: #8f8a8a;
+}
+
+/*-----------SUGGEST POSTS ---------------*/
+.title_suggest_posts {
+    border-top: 1px solid #666666;
+    padding-top: 15px;
+}
+
+.title_suggest_posts h4 {
+    font-size: 17px;
+    color: #666666;
+    font-weight: 500;
 }

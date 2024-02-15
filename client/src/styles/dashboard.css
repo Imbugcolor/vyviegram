@@ -341,3 +341,49 @@
     text-align: center;
     font-weight: 500;
 }
+
+.search-user-input {
+    appearance: none;
+    border: none;
+    outline: none;
+    border: 1px solid #000000;
+    padding: 0.4em;
+    width: 300px;
+}
+
+.content-wrapper .search-user span {
+    border: 1px solid #000;
+    padding: 8px;
+    border-left: none;
+    cursor: pointer;
+    background: #d5d2d3;
+}
+
+.products__count_number {
+    margin: 10px 0;
+    margin-top: 20px;
+    color: #666666;
+}
+
+.filter_right_side {
+    display: flex;
+    align-items: center;
+}
+
+.sort-date select {
+    width: 100px;
+    height: 35px;
+    border: 1px solid #000;
+    margin-left: 10px;
+}
+
+.status-filter {
+    margin-left: 50px;
+}
+
+.status-filter select {
+    width: 120px;
+    height: 35px;
+    border: 1px solid #000;
+    margin-left: 10px;
+}

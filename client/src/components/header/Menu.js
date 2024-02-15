@@ -2,9 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { logout } from '../../redux/actions/authAction'
-import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import Avatar from '../Avatar'
 import NotifyModal from '../NotifyModal'
+import { changeTheme } from '../../redux/actions/themeAction'
 
 const Menu = () => {
     const navLinks = [
@@ -67,9 +67,7 @@ const Menu = () => {
                     }
                     
                     <label htmlFor="theme" className="dropdown-item"
-                    onClick={() => dispatch({
-                        type: GLOBALTYPES.THEME, payload: !theme
-                    })}>
+                    onClick={() => dispatch(changeTheme(!theme))}>
 
                         {theme ? 'Light mode' : 'Dark mode'}
                     </label>

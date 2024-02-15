@@ -5,6 +5,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const SocketServer = require('./socketServer')
 const { ExpressPeerServer } = require('peer')
+const path = require('path')
 
 const app = express()
 
@@ -14,17 +15,18 @@ app.use(cookieParser())
 
 
 app.get('/', (req, res) => {
-    res.json({msg: 'Hello'})
+    res.json({msg: 'Vyviegram Server (ExpressJS)'})
 })
 
 //Socket
 const http = require('http').createServer(app)
-const io = require('socket.io')(http)
-
-// const users = []
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "*"
+    }
+})
 
 io.on('connection', socket => {
-    // console.log(socket.id)
     SocketServer(socket)
 })
 
@@ -51,6 +53,13 @@ mongoose.connect(URI, {
     if(err) throw err;
     console.log('Connected to MongoDB.')
 })
+
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'))
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 const port = process.env.PORT || 5000
 http.listen(port, () => {

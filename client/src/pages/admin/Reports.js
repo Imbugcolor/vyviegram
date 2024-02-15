@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import * as FaIcons from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import LoadIcon from '../../images/loading.gif'
 import Pagination from '../../utils/pagination'
 import { REPORTS_TYPES, executeReport, filterReports, getReports, readNotifyReports, rejectReport } from '../../redux/actions/reportAction'
+import stylePopUpConfirm from '../../components/alert/Confirm'
+import * as FaIcons from 'react-icons/fa'
 import { TiTick, TiTimes } from 'react-icons/ti'
 import { FcCheckmark } from 'react-icons/fc'
 import { AiOutlineClose } from 'react-icons/ai'
+import { IoReturnUpBackSharp } from 'react-icons/io5'
 
 const Reports = () => {
     const { auth, report, socket } = useSelector(state => state)
@@ -31,12 +33,32 @@ const Reports = () => {
 
     const handleExecute = async (report) => {
         if(!report.post_id || report.status === 'EXECUTED') return;
-        dispatch(executeReport({ report, auth, socket }))
+
+        stylePopUpConfirm.fire({
+            text: "Are you sure you want to execute this report?",
+            showCancelButton: true,
+            confirmButtonText: "OK",
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(executeReport({ report, auth, socket }))
+            } 
+        })
     }
 
     const handleReject = async (report) => {
-        if(!report.post_id || report.status === 'REJECTED') return;
-        dispatch(rejectReport({ report, auth, socket }))
+        if(!report.post_id || report.status === 'REJECTED' || report.status === 'EXECUTED') return;
+
+        stylePopUpConfirm.fire({
+            text: "Are you sure you want to reject this report?",
+            showCancelButton: true,
+            confirmButtonText: "OK",
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(rejectReport({ report, auth, socket }))
+            } 
+        })
     }
 
     const handleChangePage = (num) => {
@@ -68,6 +90,9 @@ const Reports = () => {
         <div>
             <div className='content-header'>
                 <h2>REPORTS MANAGEMENT</h2>
+                <Link to='/admin/dashboard' className='text-dark'>
+                    <IoReturnUpBackSharp /> Back
+                </Link>
             </div>
 
             <div className="content-wrapper">
@@ -86,7 +111,7 @@ const Reports = () => {
                             <span>Status</span>
                             <select value={filterInput} onChange={handleFilter}>
                                 <option value="">ALL STATUS</option>
-                                <option value="PENDING">PEDING</option>
+                                <option value="PENDING">PENDING</option>
                                 <option value="EXECUTED">EXECUTED</option>
                                 <option value="REJECTED">REJECTED</option>
                             </select>
@@ -112,9 +137,9 @@ const Reports = () => {
                         <tbody className="table-body">
                             {
                                 report.loading ?  
-                                <tr>
-                                    <td>
-                                    <img src={LoadIcon} alt='loading' className='loading__spinner'/>
+                                <tr style={{ textAlign: 'center', height: '500px' }}> 
+                                    <td colSpan="6">
+                                        <img src={LoadIcon} alt='loading' className='loading__spinner'/>
                                     </td>
                                 </tr> :
                                 report?.data?.length > 0 ? report.data.map(post => (

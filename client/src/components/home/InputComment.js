@@ -33,6 +33,7 @@ const InputComment = ({children, post, onReply, setOnReply}) => {
       <Icons setContent={setContent} content={content} theme={theme}/>
       <input type="text" placeholder="Add your comments..."
       value={content} onChange={e => setContent(e.target.value)}
+      style={{ filter: theme ? 'invert(1)' : 'invert(0)', background: theme ? '#000' : '#fff', color: theme ? '#fff' : '#000'}}
       />
       <button type='submit' className='postBtn' style={{ opacity: content.length > 0 ? '1' : '0.5'}}>
         Post

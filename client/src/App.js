@@ -31,9 +31,11 @@ import ForgotPassword from './pages/recovery/forgotPassword';
 import ResetPassword from './pages/recovery/resetPassword';
 import ConfirmDeletePost from './components/home/ConfirmDeletePost';
 import Reports from './pages/admin/Reports';
+import { SERVER_URL } from './utils/config';
+import MediaViewModal from './components/MediaViewModal';
 
 function App() {
-  const { auth, status, modal, call, share, theme, deleteModal, report } = useSelector(state => state)
+  const { auth, status, modal, call, share, theme, deleteModal, report, view } = useSelector(state => state)
   const dispatch = useDispatch()
 
 
@@ -42,7 +44,7 @@ function App() {
     dispatch(refreshToken())
 
     // create new socket 
-    const socket = io()
+    const socket = io(SERVER_URL)
     dispatch({type: GLOBALTYPES.SOCKET, payload: socket})
     return () => socket.close()
   },[dispatch])
@@ -118,6 +120,7 @@ function App() {
             { auth.isLogged && <SocketClient />}
             { call && <CallModal />}
             { share && <ShareModal />}
+            { view && <MediaViewModal media={view} theme={theme}/>}
             { deleteModal && <ConfirmDeletePost deleted={true}/>}
             { report.post && <ConfirmDeletePost deleted={false}/>}
             <Routes>

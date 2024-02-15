@@ -1,6 +1,8 @@
 import { GLOBALTYPES } from './globalTypes'
 import { getDataAPI, postDataAPI } from '../../utils/fetchData'
 import valid from '../../utils/valid'
+import Message from '../../components/alert/Message'
+import MailImg from '../../images/mail.png'
 
 export const TYPES = {
     AUTH: 'AUTH'
@@ -9,6 +11,7 @@ export const login = (data) => async (dispatch) => {
     try {
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
         const res = await postDataAPI('login', data)
+
         dispatch({ 
             type: GLOBALTYPES.AUTH, 
             payload: {
@@ -18,6 +21,8 @@ export const login = (data) => async (dispatch) => {
         })
 
         localStorage.setItem("firstLogin", true)
+        localStorage.setItem("theme", false)
+
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
             payload: {
@@ -104,6 +109,7 @@ export const githubLogin = (code) => async(dispatch) => {
 
 export const refreshToken = () => async (dispatch) => {
     const firstLogin = localStorage.getItem("firstLogin")
+
     if(firstLogin){
         dispatch({ type: GLOBALTYPES.ALERT, payload: {loading: true} })
 
@@ -137,14 +143,14 @@ export const register = (data) => async (dispatch) => {
     
     try {
         dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}})
-        const res = await postDataAPI('register', data)
+        await postDataAPI('register', data)
 
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
-            payload: {
-                success: res.data.msg
-            } 
+            payload: {} 
         })
+
+        Message('Check your mail', 'We have seen a verify mail to active your account.', MailImg)
     } catch (err) {
         dispatch({ 
             type: GLOBALTYPES.ALERT, 
@@ -157,8 +163,11 @@ export const register = (data) => async (dispatch) => {
 
 export const logout = (token) => async (dispatch) => {
     try {
-        localStorage.removeItem("firstLogin")
         await getDataAPI('logout', token, dispatch)
+
+        localStorage.removeItem("firstLogin")
+        localStorage.removeItem("theme")
+
         window.location.href = "/"
     } catch (err) {
         dispatch({ 

@@ -299,6 +299,41 @@ const postCtrl = {
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
+    },
+    suggestPosts: async (req, res) => {
+        try {
+            const admins = await Users.find({
+                role: 'admin'
+            })
+
+            let users = [];
+
+            if (admins.length > 0) {
+                admins.map(user => users.push(user._id));
+            }
+
+            const posts = await Posts.find({
+                user: { $in: users } 
+            }).sort('-createdAt').limit(5)
+            .populate('user likes', 'avatar username fullname followers following role')
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user likes',
+                    select: '-password'
+                }
+            })
+
+            res.json({
+                msg: 'Success!',
+                result: posts.length,
+                posts,
+                total: posts.length
+            })
+
+        } catch (err) {
+            return res.status(500).json({ msg: err.message })
+        }
     }
 }
 

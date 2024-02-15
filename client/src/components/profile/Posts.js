@@ -4,6 +4,7 @@ import LoadIcon from '../../images/loading.gif'
 import { getDataAPI } from '../../utils/fetchData'
 import { PROFILE_TYPES } from '../../redux/actions/profileAction'
 import { GLOBALTYPES } from '../../redux/actions/globalTypes'
+import SuggestedUser from './SuggestedUser'
 
 const Posts = ({auth,id,dispatch,profile}) => {
   const [posts, setPosts] = useState([])
@@ -54,10 +55,14 @@ const Posts = ({auth,id,dispatch,profile}) => {
 
     return (
       <div>
-        <PostThumb id={id} auth={auth} posts={posts} result={result} profile={profile} />
+        <PostThumb posts={posts} result={result} />
         {
           load && <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
         }    
+
+        {
+          result === 0 && <SuggestedUser id={id} auth={auth} profile={profile}/>
+        }
       </div>
 
     )

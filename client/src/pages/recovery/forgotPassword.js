@@ -5,6 +5,9 @@ import { GLOBALTYPES } from '../../redux/actions/globalTypes'
 import { postDataAPI } from '../../utils/fetchData'
 import LoadIcon from '../../images/loading.gif'
 import TextBrand from '../../images/text-logo.png'
+import Message from '../../components/alert/Message'
+import MailImg from '../../images/mail.png'
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
   const [load, setLoad] = useState(false)
@@ -16,9 +19,9 @@ const ForgotPassword = () => {
 
     try {
       setLoad(true)
-      const res = await postDataAPI('forgotpassword', {email})
+      await postDataAPI('forgotpassword', {email})
       setLoad(false) 
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { success: res.data.msg }})
+      Message('Check your mail', 'We have seen a verify mail to recovery your account password.', MailImg)
     } catch (err) {
       setLoad(false)
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg }})

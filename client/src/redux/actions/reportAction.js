@@ -95,7 +95,6 @@ export const readNotifyReports = (token) => async (dispatch) => {
 }
 
 export const filterReports = (token, page = 1, limit = 10, sort = '', status = '') => async (dispatch) => {
-    console.log(sort, status);
     try {
         dispatch({ type: REPORTS_TYPES.LOADING, payload: true })
 
