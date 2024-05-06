@@ -124,7 +124,7 @@ export const shareToMess = ({post, usersShare, auth, shareMsg, socket}) => async
 export const handleReadMessage = ({auth, id, socket}) => async(dispatch) => { 
     dispatch({type: MESS_TYPES.UPDATE_READ_MESSAGE, payload: { _id: id, isRead: true }})
     try {
-        await patchDataAPI(`conversation/read/${id}`, null, auth.token, dispatch)
+        await patchDataAPI(`conversation/read/${id}`, {}, auth.token, dispatch)
 
         socket.emit('readMessage', { readUser: auth.user._id, sendUser: id })
     } catch (err) {

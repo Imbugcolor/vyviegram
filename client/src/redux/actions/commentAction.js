@@ -71,7 +71,7 @@ export const likeComment = ({comment, post, auth, socket}) => async (dispatch) =
 
         dispatch(createNotify({msg, auth, socket}))
 
-        await patchDataAPI(`comment/${comment._id}/like`, null, auth.token, dispatch)
+        await patchDataAPI(`comment/${comment._id}/like`, {}, auth.token, dispatch)
      } catch (err) {
          dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err.response.data.msg} })
      }
@@ -87,7 +87,7 @@ export const unLikeComment = ({comment, post, auth, socket}) => async (dispatch)
      dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost })
  
      try {
-         await patchDataAPI(`comment/${comment._id}/unlike`, null, auth.token, dispatch)
+         await patchDataAPI(`comment/${comment._id}/unlike`, {}, auth.token, dispatch)
 
          // Socket
         socket.emit('UnLikeComment', newPost)
