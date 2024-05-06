@@ -313,7 +313,7 @@ const authCtrl = {
 }
 
 const createAccessToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})
 }   
 
 const createRefreshToken = (payload) => {
@@ -360,6 +360,8 @@ const loginUser = async (user, password, res) => {
     res.cookie('refreshtoken', refresh_token, {
         httpOnly: true,
         path: `/api/refresh_token`,
+        sameSite: 'none',
+        secure: true,
         maxAge: 30*24*60*60*1000 //30days
     })
 
