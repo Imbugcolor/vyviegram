@@ -11,13 +11,7 @@ const app = express()
 
 app.use(express.json())
 
-const corsOptions = { 
-    origin: process.env.CLIENT_URL,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",   
-    allowedHeaders: "Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Origin,Cache-Control,Content-Type,X-Token,X-Refresh-Token",   
-    credentials: true,   
-}
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(cookieParser())
 
 
@@ -39,6 +33,14 @@ io.on('connection', socket => {
 
 // Create peer server
 ExpressPeerServer(http, { path: '/' })
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Credentials", "true")
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
 
 //Routes
 app.use('/api', require('./routes/authRouter'))
