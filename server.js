@@ -13,8 +13,13 @@ app.use(express.json())
 
 app.use(cors({
     origin: process.env.CLIENT_URL,
-    credentials: true,
-}))
+    credentials: true, // Enable credentials support
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Specify allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+}));
+  
+// Define your routes
+app.options('*', cors()); // Enable preflight requests for all routes
 app.use(cookieParser())
 
 
