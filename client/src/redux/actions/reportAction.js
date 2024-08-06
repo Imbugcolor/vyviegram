@@ -84,7 +84,7 @@ export const rejectReport = ({ report, auth, socket }) => async (dispatch) => {
 
 export const readNotifyReports = (token) => async (dispatch) => {
     try {
-        await patchDataAPI('reports/read', null, token, dispatch)
+        await patchDataAPI('reports/read', {}, token, dispatch)
 
         dispatch({type: REPORTS_TYPES.UPDATE_READ, payload: true })
 
