@@ -43,6 +43,9 @@
     margin-bottom: 15px;
 }
 
+form label {
+    font-weight: 500;
+}
 /* -------------- POST CARD HEADER ------------- */
 .posts .card_header {
     display: flex;

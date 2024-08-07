@@ -40,7 +40,7 @@ const ForgotPassword = () => {
                 <form onSubmit={forgotpasswordSubmit} className="form-forgot-pasword">
                   <div className='heading_form'>
                     <div className='heading'>
-                      <h2 className='active'>Forgot your password?</h2>
+                      <h5 className='active'>Forgot your password?</h5>
                     </div>
                   </div>
                   { load && 

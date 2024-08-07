@@ -8,11 +8,14 @@
 
 .side_bar_container {
     margin: 25px;
-    margin-top: 35px;
+    margin-top: 25px;
+}
+
+.menu__side_bar {
+    margin-top: 10px;
 }
 
 .header__side_bar {
-    padding-bottom: 35px;
     font-size: 25px;
     font-weight: 500;
     text-transform: capitalize;
@@ -72,17 +75,7 @@
 
 .menu__footer {
     position: absolute;
-    bottom: 25px;
     font-size: 30px;
+    transform: translateX(7px);
     cursor: pointer;
-}
-
-.menu__footer:hover{
-    background-color:#f2f2f2;
-    border-radius: 8px;
-    transform: scale(1.1);
-}
-
-.menu__footer{
-    transition: transform 0.3s ease;
 }
